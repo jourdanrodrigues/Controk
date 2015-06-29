@@ -105,23 +105,15 @@
 		}
 	}
 	function enderecos($rua,$numero,$compl,$cep,$bairro,$cidade,$estado){
-		switch($acao){
-			case 'cadastrar':
-				$cadEndereco='insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values ("'.$rua.'",'.$numero.',"'.$compl.'","'.$cep.'","'.$bairro.'","'.$cidade.'","'.$estado.'");';
-				if(!mysql_query($cadEndereco)){
-					die ('Não foi possível cadastrar o endereço: '.mysql_error());
-				}
-				break;
+		$cadEndereco='insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values ("'.$rua.'",'.$numero.',"'.$compl.'","'.$cep.'","'.$bairro.'","'.$cidade.'","'.$estado.'");';
+		if(!mysql_query($cadEndereco)){
+			die ('Não foi possível cadastrar o endereço: '.mysql_error());
 		}
 	}
 	function contatos($email,$telCel,$telFixo){
-		switch($acao){
-			case 'cadastrar':
-				$cadContato='insert into contato(email,telCel,telFixo) values ("'.$email.'","'.$telCel.'","'.$telFixo.'");';
-				if(!mysql_query($cadContato)){
-					die ('Não foi possível cadastrar o contato: '.mysql_error());
-				}
-				break;
+		$cadContato='insert into contato(email,telCel,telFixo) values ("'.$email.'","'.$telCel.'","'.$telFixo.'");';
+		if(!mysql_query($cadContato)){
+			die ('Não foi possível cadastrar o contato: '.mysql_error());
 		}
 	}
 	function conexao(){
