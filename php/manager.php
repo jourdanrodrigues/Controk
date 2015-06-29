@@ -9,7 +9,6 @@
 			require_once('db-queries.php');
 			$acao=$_POST['acao'];
 			$alvo=$_POST['alvo'];
-			conexao();
 			switch($alvo){
 				case 'fornecedor':
 					$nomeFantasia=$_POST['nomeFantasia'];
