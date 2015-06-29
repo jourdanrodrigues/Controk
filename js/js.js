@@ -147,12 +147,6 @@ function dbManage(item,proc){
 					$('#produto p').css('display','none').find('input,textarea').removeAttr('required');
 					$('#campoIdProduto').css('display','block').find('input').attr('required',true);
 					break;
-				case 'Exclusão':
-					escondeTudo();
-					$('#produto').css('display','block');
-					$('#produto p').css('display','none').find('input,textarea').removeAttr('required');
-					$('#campoIdProduto').css('display','block').find('input').attr('required',true);
-					break;
 			}
 			break;
 		case 'estoque':

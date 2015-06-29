@@ -14,7 +14,7 @@
 				if(!mysql_query($cadFornecedor)){
 					die ('Não foi possível cadastrar o fornecedor: '.mysql_error());
 				}else{
-					echo '<script>alert("Cadastro de fornecedor finalizado com sucesso!");location.href="/trabalhos/GTI/bda1/";</script>';
+					echo '<script>alert("Cadastro de fornecedor finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 				break;
 		}
@@ -34,7 +34,7 @@
 				if(!mysql_query($cadFuncionario)){
 					die ('Não foi possível cadastrar o funcionário: '.mysql_error());
 				}else{
-					echo '<script>alert("Cadastro de funcionário finalizado com sucesso!");location.href="/trabalhos/GTI/bda1/";</script>';
+					echo '<script>alert("Cadastro de funcionário finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 				break;
 		}
@@ -54,7 +54,7 @@
 				if(!mysql_query($cadCliente)){
 					die ('Não foi possível cadastrar o cliente: '.mysql_error());
 				}else{
-					echo '<script>alert("Cadastro de cliente finalizado com sucesso!");location.href="/trabalhos/GTI/bda1/";</script>';
+					echo '<script>alert("Cadastro de cliente finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 				break;
 		}
@@ -67,7 +67,7 @@
 				if(!mysql_query($cadRemessa)){
 					die ('Não foi possível cadastrar a remessa: '.mysql_error());
 				}else{
-					echo '<script>alert("Cadastro de remessa finalizado com sucesso!");location.href="/trabalhos/GTI/bda1/";</script>';
+					echo '<script>alert("Cadastro de remessa finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 				break;
 		}
@@ -84,7 +84,7 @@
 				if(!mysql_query($cadProduto)){
 					die ('Não foi possível cadastrar o produto: '.mysql_error());
 				}else{
-					echo '<script>alert("Cadastro de produto finalizado com sucesso!");location.href="/trabalhos/GTI/bda1/";</script>';
+					echo '<script>alert("Cadastro de produto finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 				break;
 		}
@@ -97,7 +97,7 @@
 				if(!mysql_query($insEstoque)){
 					die ('Não foi possível inserir o produto no estoque: '.mysql_error());
 				}else{
-					echo '<script>alert("Produto inserido no estoque com sucesso!");location.href="/trabalhos/GTI/bda1/";</script>';
+					echo '<script>alert("Produto inserido no estoque com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 				break;
 			case 'retirar':
