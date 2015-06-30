@@ -27,14 +27,23 @@
 					$cidade=$_POST['cidade'];
 					$estado=$_POST['estado'];
 					//Funções
-					if($acao=='cadastrar'){
-						enderecos($rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-						contatos($email,$telCel,$telFixo);
-						fornecedores($acao,'',$nomeFantasia,$cnpj);
-					}elseif($acao=='editar'){
-						fornecedores($acao,$idFornecedor);
-					}elseif($acao=='excluir'){
-						fornecedores($acao,$idFornecedor);
+					switch($acao){
+						case 'cadastrar':
+							enderecos($acao,'','',$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
+							contatos($acao,'','',$email,$telCel,$telFixo);
+							fornecedores($acao,'',$nomeFantasia,$cnpj);
+							break;
+						case 'atualizar':
+							enderecos($acao,'fornecedor',$idFornecedor,$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
+							contatos($acao,'fornecedor',$idFornecedor,$email,$telCel,$telFixo);
+							fornecedores($acao,$idFornecedor,$nomeFantasia,$cnpj);
+							break;
+						case 'editar':
+							fornecedores($acao,$idFornecedor);
+							break;
+						case 'excluir':
+							fornecedores($acao,$idFornecedor);
+							break;
 					}
 					break;
 				case 'cliente':
@@ -56,9 +65,14 @@
 					$estado=$_POST['estado'];
 					switch($acao){
 						case 'cadastrar':
-							enderecos($rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-							contatos($email,$telCel,$telFixo);
+							enderecos($acao,'','',$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
+							contatos($acao,'','',$email,$telCel,$telFixo);
 							clientes($acao,'',$nomeCliente,$cpfCliente,$obsCliente);
+							break;
+						case 'atualizar':
+							enderecos($acao,'cliente',$idCliente,$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
+							contatos($acao,'cliente',$idCliente,$email,$telCel,$telFixo);
+							clientes($acao,$idCliente,$nomeCliente,$cpfCliente,$obsCliente);
 							break;
 						case 'editar':
 							clientes($acao,$idCliente);
@@ -88,12 +102,17 @@
 					$estado=$_POST['estado'];
 					switch($acao){
 						case 'cadastrar':
-							enderecos($rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-							contatos($email,$telCel,$telFixo);
+							enderecos($acao,'','',$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
+							contatos($acao,'','',$email,$telCel,$telFixo);
 							funcionarios($acao,'',$nomeFunc,$cpfFuncionario,$cargo,$obsFuncionario);
 							break;
 						case 'editar':
 							funcionarios($acao,$idFuncionario);
+							break;
+						case 'atualizar':
+							enderecos($acao,'funcionario',$idFuncionario,$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
+							contatos($acao,'funcionario',$idFuncionario,$email,$telCel,$telFixo);
+							funcionarios($acao,$idFuncionario,$nomeFunc,$cpfFuncionario,$cargo,$obsFuncionario);
 							break;
 						case 'excluir':
 							funcionarios($acao,$idFuncionario);
@@ -121,6 +140,9 @@
 					switch($acao){
 						case 'cadastrar':
 							produtos($acao,'',$idRemessa,$descrProd,$nomeProd,$custoProd,$valorVenda);
+							break;
+						case 'atualizar':
+							produtos($acao,$idProduto,$idRemessa,$descrProd,$nomeProd,$custoProd,$valorVenda);
 							break;
 						case 'editar':
 							produtos($acao,$idProduto);

@@ -92,6 +92,7 @@
 			echo "<script>
 			$(document).ready(function (){
 			$('input[name=\"acao\"]').val('atualizar');
+			$('input[name=\"alvo\"]').val('produto');
 			$('button').html('Editar');
 			$('#idProduto').val('".$idProduto."');
 			$('#idRemessa').val('".$idRemessa."');
