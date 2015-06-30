@@ -207,7 +207,7 @@
 				</div>
 				<input type="hidden" name="acao" value="">
 				<input type="hidden" name="alvo" value="">
-				<button type="submit"></button>
+				<button></button>
 			</form>
 		</div><!-- Direita -->
 		<div id="creditos">
