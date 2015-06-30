@@ -323,12 +323,12 @@
 			case 'cadastrar':
 			// Algoritmo
 				// Pegando ID do endereço e contato
-				$getIdEndereco='select id from endereco where id = (select max(id) from endereco);';
-				$idEndereco=mysqli_query($mysqli,$getIdEndereco);
-				$getIdContato='select id from contato where id = (select max(id) from contato);';
-				$idContato=mysqli_query($mysqli,$getIdContato);
-				$endereco=mysqli_fetch_row($idEndereco);
-				$contato=mysqli_fetch_row($idContato);
+				$queryIdEndereco='select id from endereco where id = (select max(id) from endereco);';
+				$getIdEndereco=mysqli_query($mysqli,$queryIdEndereco);
+				$endereco=mysqli_fetch_row($getIdEndereco);
+				$queryIdContato='select id from contato where id = (select max(id) from contato);';
+				$getIdContato=mysqli_query($mysqli,$queryIdContato);
+				$contato=mysqli_fetch_row($getIdContato);
 				// Iniciando inserção de cliente
 				$cadCliente='insert into cliente(nome,cpf,obs,endereco,contato) values ("'.$nomeCliente.'","'.$cpfCliente.'","'.$obsCliente.'","'.$endereco[0].'","'.$contato[0].'");';
 				if(!mysqli_query($mysqli,$cadCliente)){
@@ -559,7 +559,7 @@
 				break;
 		}
 	}
-	function estoques($acao,$id="-",$idProdutoEstq="-",$qtdProdEstq="-",$idFuncionarioEstq="-",$dataSaida="-"){
+	function estoques($acao,$idProdutoEstq="-",$qtdProdEstq="-",$idFuncionarioEstq="-",$dataSaida="-"){
 	// Inicia a conexão
 		$mysqli=mysqli_connect('mysql.hostinger.com.br', 'u398318873_tj', 'Knowledge1', 'u398318873_bda');
 		if (mysqli_connect_errno()) {
@@ -588,6 +588,36 @@
 				mysqli_close($mysqli);
 				break;
 			case 'retirar':
+			// Algoritmo
+				$queryQtdEstoque='select qtdProd from estoque where produto='.$idProdutoEstq.';';
+				$getQtdEstoque=mysqli_query($mysqli,$queryQtdEstoque);
+				$qtdEstoque=mysqli_fetch_row($getQtdEstoque);
+				if($qtdProdEstq>$qtdEstoque[0]){
+					echo '
+					<script>
+						alert("Retirada não pode ser realizada porque não há essa quantidade do produto no estoque!");
+						location.href="/trabalhos/gti/bda1/";
+					</script>';
+				}
+				$valQtdEstq=$qtdEstoque[0]-$qtdProdEstq;
+				$newQtdEstoque='update estoque set qtdProd='.$valQtdEstq.' where produto='.$idProdutoEstq.';';
+				if(!mysqli_query($mysqli,$newQtdEstoque)){
+					die ('
+					<script>
+						alert("Não foi possível retirar o produto do estoque:\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}
+				$insHistorico='insert into historico(produtoEstq,funcionario,qtdRetProd,dataSaida) values ("'.$idProdutoEstq.'","'.$idFuncionarioEstq.'","'.$qtdProdEstq.'","'.$dataSaida.'");';
+				if(!mysqli_query($mysqli,$insHistorico)){
+					die ('
+					<script>
+						alert("Não foi possível cadastrar o histórico:\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}else{
+					echo '<script>alert("Produto retirado do estoque com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
 				break;

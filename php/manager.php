@@ -127,17 +127,18 @@
 							break;
 					}
 					break;
-					}
 				case 'estoque':
 					$idFuncionarioEstq=$_POST['idFuncionarioEstq'];
 					$idProdutoEstq=$_POST['idProdutoEstq'];
 					$qtdProdEstq=$_POST['qtdProdEstq'];
 					$dataSaida=$_POST['dataSaida'];
-					if($acao=='inserir'){
-						estoques($acao,'',$idProdutoEstq,$qtdProdEstq);
-					}else{
-						historicos($idProdutoEstq,$idFuncionarioEstq,$dataSaida);
-						estoques($acao,$idEstoque);
+					switch($acao){
+						case 'inserir':
+							estoques($acao,$idProdutoEstq,$qtdProdEstq);
+							break;
+						case 'retirar':
+							estoques($acao,$idProdutoEstq,$qtdProdEstq,$idFuncionarioEstq,$dataSaida);
+							break;
 					}
 					break;
 			}

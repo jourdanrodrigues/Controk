@@ -13,7 +13,7 @@
 			$telFixo=$_POST['telFixo'];
 			echo "<script>
 			$(document).ready(function (){
-			$('input[name=\"acao\"]').val('editarNoBanco');
+			$('input[name=\"acao\"]').val('atualizar');
 			$('button').html('Editar');
 			$('#email').val('".$email."');
 			$('#telFixo').val('".$telFixo."');
@@ -91,7 +91,7 @@
 			$valorVenda=$_POST['valorVenda'];
 			echo "<script>
 			$(document).ready(function (){
-			$('input[name=\"acao\"]').val('editarNoBanco');
+			$('input[name=\"acao\"]').val('atualizar');
 			$('button').html('Editar');
 			$('#idProduto').val('".$idProduto."');
 			$('#idRemessa').val('".$idRemessa."');

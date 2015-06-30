@@ -33,7 +33,7 @@ function dbManage(item,proc){
 			break;
 		case 'Edição':
 			$('input[name="acao"]').val('editar');
-			$('button').html('Editar');
+			$('button').html('Buscar dados');
 			break;
 		case 'Exclusão':
 			$('input[name="acao"]').val('excluir');
