@@ -11,6 +11,7 @@
 			$alvo=$_POST['alvo'];
 			switch($alvo){
 				case 'fornecedor':
+					$idFornecedor=$_POST['idFornecedor'];
 					$nomeFantasia=$_POST['nomeFantasia'];
 					$cnpj=$_POST['cnpj'];
 					//Contatos
@@ -30,16 +31,14 @@
 						enderecos($rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
 						contatos($email,$telCel,$telFixo);
 						fornecedores($acao,'',$nomeFantasia,$cnpj);
-					}else{
-						if($acao=='editar'){
-							fornecedores($acao,$idFornecedor);
-						}
-						if($acao=='excluir'){
-							fornecedores($acao,$idFornecedor);
-						}
+					}elseif($acao=='editar'){
+						fornecedores($acao,$idFornecedor);
+					}elseif($acao=='excluir'){
+						fornecedores($acao,$idFornecedor);
 					}
 					break;
 				case 'cliente':
+					$idCliente=$_POST['idCliente'];
 					$nomeCliente=$_POST['nomeCliente'];
 					$cpfCliente=$_POST['cpfCliente'];
 					$obsCliente=$_POST['obsCliente'];
@@ -69,6 +68,7 @@
 					}
 					break;
 				case 'funcionario':
+					$idFuncionario=$_POST['idFuncionario'];
 					$nomeFunc=$_POST['nomeFunc'];
 					$cpfFuncionario=$_POST['cpfFuncionario'];
 					$cargo=$_POST['cargo'];
@@ -110,6 +110,7 @@
 					}
 					break;
 				case 'produto':
+					$idProduto=$_POST['idProduto'];
 					$idRemessa=$_POST['idRemessa'];
 					$descrProd=$_POST['descrProd'];
 					$nomeProd=$_POST['nomeProd'];

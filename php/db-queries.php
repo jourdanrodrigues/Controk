@@ -16,23 +16,65 @@
 				// Pegando ID do endereço e contato
 				$getIdEndereco='select id from endereco where id = (select max(id) from endereco);';
 				$idEndereco=mysqli_query($mysqli,$getIdEndereco);
+				$endereco=mysqli_fetch_row($idEndereco);
 				$getIdContato='select id from contato where id = (select max(id) from contato);';
 				$idContato=mysqli_query($mysqli,$getIdContato);
-				$endereco=mysqli_fetch_row($idEndereco);
 				$contato=mysqli_fetch_row($idContato);
 				// Iniciando inserção de fornecedor
 				$cadFornecedor='insert into fornecedor(nomeFantasia,cnpj,endereco,contato) values ("'.$nomeFantasia.'","'.$cnpj.'","'.$endereco[0].'","'.$contato[0].'");';
 				if(!mysqli_query($mysqli,$cadFornecedor)){
-					die ('<script>alert("Não foi possível cadastrar o fornecedor: '.mysqli_error($mysqli).'");</script>');
+					die ('
+					<script>
+						alert("Não foi possível cadastrar o fornecedor: '.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
 				}else{
-					echo '<script>alert("Cadastro de fornecedor finalizado com sucesso!");</script>';
+					echo '<script>alert("Cadastro de fornecedor finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
-				echo '<script>location.href="/trabalhos/gti/bda1/";</script>';
 			// Finaliza a conexão
 				mysqli_close($mysqli);
 				break;
 			case 'excluir':
 			// Algoritmo
+				//Pega ID do endereco
+				$getIdEndereco='select endereco from fornecedor where id='.$id.';';
+				$idEndereco=mysqli_query($mysqli,$getIdEndereco);
+				$endereco=mysqli_fetch_row($idEndereco);
+				//Pega ID do contato
+				$getIdContato='select endereco from fornecedor where id='.$id.';';
+				$idContato=mysqli_query($mysqli,$getIdContato);
+				$contato=mysqli_fetch_row($idContato);
+				//Pega Nome do fornecedor
+				$getNome='select nome from fornecedor where id='.$id.';';
+				$nomeFunc=mysqli_query($mysqli,$getNome);
+				$nome=mysqli_fetch_row($nomeFunc);
+				//Estabelece funções de exclusão
+				$delFornecedor='delete from fornecedor where id='.$id.';';
+				$delEndereco='delete from endereco where id='.$endereco[0].';';
+				$delContato='delete from contato where id='.$contato[0].';';
+				if(!mysqli_query($mysqli,$delContato)){
+					die ('
+					<script>
+						alert("Não foi possível excluir o contato fornecedor: '.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}
+				if(!mysqli_query($mysqli,$delEndereco)){
+					die ('
+					<script>
+						alert("Não foi possível excluir o endereço fornecedor: '.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}
+				if(!mysqli_query($mysqli,$delFornecedor)){
+					die ('
+					<script>
+						alert("Não foi possível excluir o fornecedor: '.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}else{
+					echo '<script>alert("Exclusão do fornecedor \"'.$nome[0].'\" finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
 				break;
@@ -52,23 +94,69 @@
 		switch($acao){
 			case 'cadastrar':
 			// Algoritmo
-				// Pegando ID do endereço e contato
+				// Pega ID do endereço
 				$getIdEndereco='select id from endereco where id = (select max(id) from endereco);';
 				$idEndereco=mysqli_query($mysqli,$getIdEndereco);
+				$endereco=mysqli_fetch_row($idEndereco);
+				// Pega ID do contato
 				$getIdContato='select id from contato where id = (select max(id) from contato);';
 				$idContato=mysqli_query($mysqli,$getIdContato);
-				$endereco=mysqli_fetch_row($idEndereco);
 				$contato=mysqli_fetch_row($idContato);
 				// Iniciando inserção de fornecedor
 				$cadFuncionario='insert into funcionario(nome,cpf,cargo,obs,endereco,contato) values ("'.$nomeFunc.'","'.$cpfFuncionario.'","'.$cargo.'","'.$obsFuncionario.'","'.$endereco[0].'","'.$contato[0].'");';
 				if(!mysqli_query($mysqli,$cadFuncionario)){
-					die (echo '<script>alert("Não foi possível cadastrar o funcionário: '.mysqli_error($mysqli).'");</script>');
+					die ('
+					<script>
+						alert("Não foi possível cadastrar o funcionário:\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
 				}else{
-					echo '<script>alert("Cadastro de funcionário finalizado com sucesso!");</script>';
+					echo '<script>alert("Cadastro de funcionário finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
-				echo '<script>location.href="/trabalhos/gti/bda1/";</script>';
 			// Finaliza a conexão
 				mysqli_close($mysqli);
+				break;
+			case 'excluir':
+			// Algoritmo
+				//Pega ID do endereco
+				$getIdEndereco='select endereco from funcionario where id='.$id.';';
+				$idEndereco=mysqli_query($mysqli,$getIdEndereco);
+				$endereco=mysqli_fetch_row($idEndereco);
+				//Pega ID do contato
+				$getIdContato='select endereco from funcionario where id='.$id.';';
+				$idContato=mysqli_query($mysqli,$getIdContato);
+				$contato=mysqli_fetch_row($idContato);
+				//Pega Nome do funcionário
+				$getNome='select nome from funcionario where id='.$id.';';
+				$nomeFunc=mysqli_query($mysqli,$getNome);
+				$nome=mysqli_fetch_row($nomeFunc);
+				//Estabelece funções de exclusão
+				$delFuncionario='delete from funcionario where id='.$id.';';
+				$delEndereco='delete from endereco where id='.$endereco[0].';';
+				$delContato='delete from contato where id='.$contato[0].';';
+				if(!mysqli_query($mysqli,$delEndereco)){
+					die ('
+					<script>
+						alert("Não foi possível excluir o endereço do funcionário:\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}
+				if(!mysqli_query($mysqli,$delContato)){
+					die ('
+					<script>
+						alert("Não foi possível excluir o contato do funcionário:\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}
+				if(!mysqli_query($mysqli,$delFuncionario)){
+					die ('
+					<script>
+						alert("Não foi possível excluir o funcionário:\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}else{
+					echo '<script>alert("Exclusão do funcionário \"'.$nome[0].'\" finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+				}
 				break;
 		}
 	}
@@ -96,17 +184,58 @@
 				// Iniciando inserção de cliente
 				$cadCliente='insert into cliente(nome,cpf,obs,endereco,contato) values ("'.$nomeCliente.'","'.$cpfCliente.'","'.$obsCliente.'","'.$endereco[0].'","'.$contato[0].'");';
 				if(!mysqli_query($mysqli,$cadCliente)){
-					die (echo '<script>alert("Não foi possível cadastrar o cliente: '.mysqli_error($mysqli).'");</script>');
+					die ('
+					<script>
+						alert("Não foi possível cadastrar o cliente:\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
 				}else{
-					echo '<script>alert("Cadastro de cliente finalizado com sucesso!");</script>';
+					echo '<script>alert("Cadastro de cliente finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
-				echo '<script>location.href="/trabalhos/gti/bda1/";</script>';
 			// Finaliza a conexão
 				mysqli_close($mysqli);
 				break;
 			case 'excluir':
-			// Finaliza a conexão
-				mysqli_close($mysqli);
+			// Algoritmo
+				//Pega ID do endereco
+				$getIdEndereco='select endereco from cliente where id='.$id.';';
+				$idEndereco=mysqli_query($mysqli,$getIdEndereco);
+				$endereco=mysqli_fetch_row($idEndereco);
+				//Pega ID do contato
+				$getIdContato='select endereco from cliente where id='.$id.';';
+				$idContato=mysqli_query($mysqli,$getIdContato);
+				$contato=mysqli_fetch_row($idContato);
+				//Pega Nome do cliente
+				$getNome='select nome from cliente where id='.$id.';';
+				$nomeFunc=mysqli_query($mysqli,$getNome);
+				$nome=mysqli_fetch_row($nomeFunc);
+				//Estabelece funções de exclusão
+				$delCliente='delete from cliente where id='.$id.';';
+				$delEndereco='delete from endereco where id='.$endereco[0].';';
+				$delContato='delete from contato where id='.$contato[0].';';
+				if(!mysqli_query($mysqli,$delEndereco)){
+					die ('
+					<script>
+						alert("Não foi possível excluir o endereço cliente:\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}
+				if(!mysqli_query($mysqli,$delContato)){
+					die ('
+					<script>
+						alert("Não foi possível excluir o contato cliente:\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}
+				if(!mysqli_query($mysqli,$delCliente)){
+					die ('
+					<script>
+						alert("Não foi possível excluir o cliente:\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
+				}else{
+					echo '<script>alert("Exclusão do cliente \"'.$nome[0].'\" finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+				}
 				break;
 		}
 	}
@@ -127,11 +256,14 @@
 				$cadRemessa='insert into remessa(produto,fornecedor,dataEntrega,dataPagamento,dataPedido,qtdProd) 
 				values ("'.$idProdutoRem.'","'.$idFornecedorRem.'","'.$dataEntrega.'","'.$dataPagamento.'","'.$dataPedido.'","'.$qtdProdRem.'");';
 				if(!mysqli_query($mysqli,$cadRemessa)){
-					die (echo '<script>alert("Não foi possível cadastrar a remessa: '.mysqli_error($mysqli).'");</script>');
+					die ('
+					<script>
+						alert("Não foi possível cadastrar a remessa: '.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
 				}else{
-					echo '<script>alert("Cadastro de remessa finalizado com sucesso!");</script>';
+					echo '<script>alert("Cadastro de remessa finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
-				echo '<script>location.href="/trabalhos/gti/bda1/";</script>';
 			// Finaliza a conexão
 				mysqli_close($mysqli);
 				break;
@@ -158,11 +290,14 @@
 				$cadProduto='insert into produto(remessa,descricao,nome,custo,valorVenda) 
 				values ("'.$idRemessa.'","'.$descrProd.'","'.$nomeProd.'","'.$newCustoProd.'","'.$newValorVenda.'");';
 				if(!mysqli_query($mysqli,$cadProduto)){
-					die (echo '<script>alert("Não foi possível cadastrar o produto: '.mysqli_error($mysqli).'");</script>');
+					die ('
+					<script>
+						alert("Não foi possível cadastrar o produto: '.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
 				}else{
-					echo '<script>alert("Cadastro de produto finalizado com sucesso!");</script>';
+					echo '<script>alert("Cadastro de produto finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
-				echo '<script>location.href="/trabalhos/gti/bda1/";</script>';
 			// Finaliza a conexão
 				mysqli_close($mysqli);
 				break;
@@ -185,11 +320,14 @@
 				$insEstoque='insert into estoque(produto,qtdProd) 
 				values ("'.$idProdutoEstq.'","'.$qtdProdEstq.'");';
 				if(!mysqli_query($mysqli,$insEstoque)){
-					die (echo '<script>alert("Não foi possível inserir o produto no estoque: '.mysqli_error($mysqli).'");</script>');
+					die ('
+					<script>
+						alert("Não foi possível inserir o produto no estoque:\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
 				}else{
-					echo '<script>alert("Produto inserido no estoque com sucesso!");</script>';
+					echo '<script>alert("Produto inserido no estoque com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
-				echo '<script>location.href="/trabalhos/gti/bda1/";</script>';
 			// Finaliza a conexão
 				mysqli_close($mysqli);
 				break;
@@ -213,7 +351,7 @@
 	// Algoritmo
 		$cadEndereco='insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values ("'.$rua.'",'.$numero.',"'.$compl.'","'.$cep.'","'.$bairro.'","'.$cidade.'","'.$estado.'");';
 		if(!mysqli_query($mysqli,$cadEndereco)){
-			die (echo '
+			die ('
 			<script>
 				alert("Não foi possível cadastrar o endereço: '.mysqli_error($mysqli).'");
 				location.href="/trabalhos/gti/bda1/";
@@ -236,7 +374,7 @@
 	// Algoritmo
 		$cadContato='insert into contato(email,telCel,telFixo) values ("'.$email.'","'.$telCel.'","'.$telFixo.'");';
 		if(!mysqli_query($mysqli,$cadContato)){
-			die (echo '
+			die ('
 			<script>
 				alert("Não foi possível cadastrar o contato: '.mysqli_error($mysqli).'");
 				location.href="/trabalhos/gti/bda1/";
