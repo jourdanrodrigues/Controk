@@ -819,7 +819,7 @@
 						$queryConForn='select contato from fornecedor where id='.$id.';';
 						$getConForn=mysqli_query($mysqli,$queryConForn);
 						$conForn=mysqli_fetch_row($getConForn);
-						$updContato='update contato set email='.$email.',telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$conForn[0].';';
+						$updContato='update contato set email="'.$email.'",telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$conForn[0].';';
 						if(!mysqli_query($mysqli,$updContato)){
 							die ('
 							<script>
@@ -835,7 +835,7 @@
 						$queryConCli='select contato from cliente where id='.$id.';';
 						$getConCli=mysqli_query($mysqli,$queryConCli);
 						$conCli=mysqli_fetch_row($getConCli);
-						$updContato='update contato set email='.$email.',telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$conCli[0].';';
+						$updContato='update contato set email="'.$email.'",telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$conCli[0].';';
 						if(!mysqli_query($mysqli,$updContato)){
 							die ('
 							<script>
@@ -851,7 +851,7 @@
 						$queryConFunc='select contato from funcionario where id='.$id.';';
 						$getConFunc=mysqli_query($mysqli,$queryConFunc);
 						$conFunc=mysqli_fetch_row($getConFunc);
-						$updContato='update contato set email='.$email.',telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$conFunc[0].';';
+						$updContato='update contato set email="'.$email.'",telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$conFunc[0].';';
 						if(!mysqli_query($mysqli,$updContato)){
 							die ('
 							<script>
