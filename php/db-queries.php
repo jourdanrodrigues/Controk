@@ -34,6 +34,76 @@
 			// Finaliza a conexão
 				mysqli_close($mysqli);
 				break;
+			case 'editar':
+				echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
+			//Fornecedor
+				echo '<input type="hidden" name="idFornecedor" value="'.$id.'">';
+				//Pega Nome do fornecedor
+				$queryNome='select nomeFantasia from fornecedor where id='.$id.';';
+				$getNome=mysqli_query($mysqli,$queryNome);
+				$nome=mysqli_fetch_row($getNome);
+				echo '<input type="hidden" name="nomeFantasia" value="'.$nome[0].'">';
+				//Pega CNPJ do fornecedor
+				$queryCNPJ='select cnpj from fornecedor where id='.$id.';';
+				$getCNPJ=mysqli_query($mysqli,$queryCNPJ);
+				$cnpj=mysqli_fetch_row($getCNPJ);
+				echo '<input type="hidden" name="cnpj" value="'.$cnpj[0].'">';
+			//Endereço
+				//Pega ID do endereco
+				$queryIdEndereco='select endereco from fornecedor where id='.$id.';';
+				$getIdEndereco=mysqli_query($mysqli,$queryIdEndereco);
+				$endereco=mysqli_fetch_row($getIdEndereco);
+				//Rua
+				$queryRua='select rua from endereco where id='.$endereco[0].';';
+				$getRua=mysqli_query($mysqli,$queryRua); $rua=mysqli_fetch_row($getRua);
+				echo '<input type="hidden" name="rua" value="'.$rua[0].'">';
+				//Numero
+				$queryNumero='select numero from endereco where id='.$endereco[0].';';
+				$getNumero=mysqli_query($mysqli,$queryNumero); $numero=mysqli_fetch_row($getNumero);
+				echo '<input type="hidden" name="numero" value="'.$numero[0].'">';
+				//Complemento
+				$queryComplemento='select complemento from endereco where id='.$endereco[0].';';
+				$getComplemento=mysqli_query($mysqli,$queryComplemento); $complemento=mysqli_fetch_row($getComplemento);
+				echo '<input type="hidden" name="compl" value="'.$complemento[0].'">';
+				//CEP
+				$queryCEP='select cep from endereco where id='.$endereco[0].';';
+				$getCEP=mysqli_query($mysqli,$queryCEP); $cep=mysqli_fetch_row($getCEP);
+				echo '<input type="hidden" name="cep" value="'.$cep[0].'">';
+				//Bairro
+				$queryBairro='select bairro from endereco where id='.$endereco[0].';';
+				$getBairro=mysqli_query($mysqli,$queryBairro); $bairro=mysqli_fetch_row($getBairro);
+				echo '<input type="hidden" name="bairro" value="'.$bairro[0].'">';
+				//Cidade
+				$queryCidade='select cidade from endereco where id='.$endereco[0].';';
+				$getCidade=mysqli_query($mysqli,$queryCidade); $cidade=mysqli_fetch_row($getCidade);
+				echo '<input type="hidden" name="cidade" value="'.$cidade[0].'">';
+				//Estado
+				$queryEstado='select estado from endereco where id='.$endereco[0].';';
+				$getEstado=mysqli_query($mysqli,$queryEstado); $estado=mysqli_fetch_row($getEstado);
+				echo '<input type="hidden" name="estado" value="'.$estado[0].'">';
+			//Contato
+				//Pega ID do endereco
+				$queryIdContato='select contato from fornecedor where id='.$id.';';
+				$getIdContato=mysqli_query($mysqli,$queryIdContato);
+				$contato=mysqli_fetch_row($getIdContato);
+				//Email
+				$queryEmail='select email from contato where id='.$contato[0].';';
+				$getEmail=mysqli_query($mysqli,$queryEmail); $email=mysqli_fetch_row($getEmail);
+				echo '<input type="hidden" name="email" value="'.$email[0].'">';
+				//Celular
+				$queryTelCel='select telCel from contato where id='.$contato[0].';';
+				$getTelCel=mysqli_query($mysqli,$queryTelCel); $telCel=mysqli_fetch_row($getTelCel);
+				echo '<input type="hidden" name="telCel" value="'.$telCel[0].'">';
+				//Fixo
+				$queryTelFixo='select telFixo from contato where id='.$contato[0].';';
+				$getTelFixo=mysqli_query($mysqli,$queryTelFixo); $telFixo=mysqli_fetch_row($getTelFixo);
+				echo '<input type="hidden" name="telFixo" value="'.$telFixo[0].'">';
+				echo '</form>';
+				echo '<script src="/trabalhos/gti/bda1/js/jQuery.js"></script>';
+				echo "<script>$('#phpForm').submit();</script>";
+				// Finaliza a conexão
+				mysqli_close($mysqli);
+				break;
 			case 'excluir':
 			// Algoritmo
 				//Pega ID do endereco
@@ -116,6 +186,84 @@
 			// Finaliza a conexão
 				mysqli_close($mysqli);
 				break;
+			case 'editar':
+				echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
+			//Funcionário
+				echo '<input type="hidden" name="idFuncionario" value="'.$id.'">';
+				//Pega Nome do funcionário
+				$queryNome='select nome from funcionario where id='.$id.';';
+				$getNome=mysqli_query($mysqli,$queryNome);
+				$nome=mysqli_fetch_row($getNome);
+				echo '<input type="hidden" name="nomeFunc" value="'.$nome[0].'">';
+				//Pega CPF do funcionário
+				$queryCPF='select cpf from funcionario where id='.$id.';';
+				$getCPF=mysqli_query($mysqli,$queryCPF);
+				$cpf=mysqli_fetch_row($getCPF);
+				echo '<input type="hidden" name="cpf" value="'.$cpf[0].'">';
+				//Pega Cargo do funcionário
+				$queryCargo='select cargo from funcionario where id='.$id.';';
+				$getCargo=mysqli_query($mysqli,$queryCargo);
+				$cargo=mysqli_fetch_row($getCargo);
+				echo '<input type="hidden" name="cargo" value="'.$cargo[0].'">';
+				//Pega Observação do funcionário
+				$queryObs='select obs from funcionario where id='.$id.';';
+				$getObs=mysqli_query($mysqli,$queryObs);
+				$obs=mysqli_fetch_row($getObs);
+				echo '<input type="hidden" name="obs" value="'.$obs[0].'">';
+			//Endereço
+				//Pega ID do endereco
+				$queryIdEndereco='select endereco from funcionario where id='.$id.';';
+				$getIdEndereco=mysqli_query($mysqli,$queryIdEndereco);
+				$endereco=mysqli_fetch_row($getIdEndereco);
+				//Rua
+				$queryRua='select rua from endereco where id='.$endereco[0].';';
+				$getRua=mysqli_query($mysqli,$queryRua); $rua=mysqli_fetch_row($getRua);
+				echo '<input type="hidden" name="rua" value="'.$rua[0].'">';
+				//Numero
+				$queryNumero='select numero from endereco where id='.$endereco[0].';';
+				$getNumero=mysqli_query($mysqli,$queryNumero); $numero=mysqli_fetch_row($getNumero);
+				echo '<input type="hidden" name="numero" value="'.$numero[0].'">';
+				//Complemento
+				$queryComplemento='select complemento from endereco where id='.$endereco[0].';';
+				$getComplemento=mysqli_query($mysqli,$queryComplemento); $complemento=mysqli_fetch_row($getComplemento);
+				echo '<input type="hidden" name="compl" value="'.$complemento[0].'">';
+				//CEP
+				$queryCEP='select cep from endereco where id='.$endereco[0].';';
+				$getCEP=mysqli_query($mysqli,$queryCEP); $cep=mysqli_fetch_row($getCEP);
+				echo '<input type="hidden" name="cep" value="'.$cep[0].'">';
+				//Bairro
+				$queryBairro='select bairro from endereco where id='.$endereco[0].';';
+				$getBairro=mysqli_query($mysqli,$queryBairro); $bairro=mysqli_fetch_row($getBairro);
+				echo '<input type="hidden" name="bairro" value="'.$bairro[0].'">';
+				//Cidade
+				$queryCidade='select cidade from endereco where id='.$endereco[0].';';
+				$getCidade=mysqli_query($mysqli,$queryCidade); $cidade=mysqli_fetch_row($getCidade);
+				echo '<input type="hidden" name="cidade" value="'.$cidade[0].'">';
+				//Estado
+				$queryEstado='select estado from endereco where id='.$endereco[0].';';
+				$getEstado=mysqli_query($mysqli,$queryEstado); $estado=mysqli_fetch_row($getEstado);
+				echo '<input type="hidden" name="estado" value="'.$estado[0].'">';
+			//Contato
+				//Pega ID do endereco
+				$queryIdContato='select contato from funcionario where id='.$id.';';
+				$getIdContato=mysqli_query($mysqli,$queryIdContato);
+				$contato=mysqli_fetch_row($getIdContato);
+				//Email
+				$queryEmail='select email from contato where id='.$contato[0].';';
+				$getEmail=mysqli_query($mysqli,$queryEmail); $email=mysqli_fetch_row($getEmail);
+				echo '<input type="hidden" name="email" value="'.$email[0].'">';
+				//Celular
+				$queryTelCel='select telCel from contato where id='.$contato[0].';';
+				$getTelCel=mysqli_query($mysqli,$queryTelCel); $telCel=mysqli_fetch_row($getTelCel);
+				echo '<input type="hidden" name="telCel" value="'.$telCel[0].'">';
+				//Fixo
+				$queryTelFixo='select telFixo from contato where id='.$contato[0].';';
+				$getTelFixo=mysqli_query($mysqli,$queryTelFixo); $telFixo=mysqli_fetch_row($getTelFixo);
+				echo '<input type="hidden" name="telFixo" value="'.$telFixo[0].'">';
+				echo '</form>';
+				echo '<script src="/trabalhos/gti/bda1/js/jQuery.js"></script>';
+				echo "<script>$('#phpForm').submit();</script>";
+				break;
 			case 'excluir':
 			// Algoritmo
 				//Pega ID do endereco
@@ -194,6 +342,79 @@
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
+				break;
+			case 'editar':
+				echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
+			//Cliente
+				echo '<input type="hidden" name="idCliente" value="'.$id.'">';
+				//Pega Nome do cliente
+				$queryNome='select nome from cliente where id='.$id.';';
+				$getNome=mysqli_query($mysqli,$queryNome);
+				$nome=mysqli_fetch_row($getNome);
+				echo '<input type="hidden" name="nomeCliente" value="'.$nome[0].'">';
+				//Pega CPF do funcionário
+				$queryCPF='select cpf from cliente where id='.$id.';';
+				$getCPF=mysqli_query($mysqli,$queryCPF);
+				$cpf=mysqli_fetch_row($getCPF);
+				echo '<input type="hidden" name="cpf" value="'.$cpf[0].'">';
+				//Pega Observação do funcionário
+				$queryObs='select obs from cliente where id='.$id.';';
+				$getObs=mysqli_query($mysqli,$queryObs);
+				$obs=mysqli_fetch_row($getObs);
+				echo '<input type="hidden" name="obs" value="'.$obs[0].'">';
+			//Endereço
+				//Pega ID do endereco
+				$queryIdEndereco='select endereco from cliente where id='.$id.';';
+				$getIdEndereco=mysqli_query($mysqli,$queryIdEndereco);
+				$endereco=mysqli_fetch_row($getIdEndereco);
+				//Rua
+				$queryRua='select rua from endereco where id='.$endereco[0].';';
+				$getRua=mysqli_query($mysqli,$queryRua); $rua=mysqli_fetch_row($getRua);
+				echo '<input type="hidden" name="rua" value="'.$rua[0].'">';
+				//Numero
+				$queryNumero='select numero from endereco where id='.$endereco[0].';';
+				$getNumero=mysqli_query($mysqli,$queryNumero); $numero=mysqli_fetch_row($getNumero);
+				echo '<input type="hidden" name="numero" value="'.$numero[0].'">';
+				//Complemento
+				$queryComplemento='select complemento from endereco where id='.$endereco[0].';';
+				$getComplemento=mysqli_query($mysqli,$queryComplemento); $complemento=mysqli_fetch_row($getComplemento);
+				echo '<input type="hidden" name="compl" value="'.$complemento[0].'">';
+				//CEP
+				$queryCEP='select cep from endereco where id='.$endereco[0].';';
+				$getCEP=mysqli_query($mysqli,$queryCEP); $cep=mysqli_fetch_row($getCEP);
+				echo '<input type="hidden" name="cep" value="'.$cep[0].'">';
+				//Bairro
+				$queryBairro='select bairro from endereco where id='.$endereco[0].';';
+				$getBairro=mysqli_query($mysqli,$queryBairro); $bairro=mysqli_fetch_row($getBairro);
+				echo '<input type="hidden" name="bairro" value="'.$bairro[0].'">';
+				//Cidade
+				$queryCidade='select cidade from endereco where id='.$endereco[0].';';
+				$getCidade=mysqli_query($mysqli,$queryCidade); $cidade=mysqli_fetch_row($getCidade);
+				echo '<input type="hidden" name="cidade" value="'.$cidade[0].'">';
+				//Estado
+				$queryEstado='select estado from endereco where id='.$endereco[0].';';
+				$getEstado=mysqli_query($mysqli,$queryEstado); $estado=mysqli_fetch_row($getEstado);
+				echo '<input type="hidden" name="estado" value="'.$estado[0].'">';
+			//Contato
+				//Pega ID do endereco
+				$queryIdContato='select contato from cliente where id='.$id.';';
+				$getIdContato=mysqli_query($mysqli,$queryIdContato);
+				$contato=mysqli_fetch_row($getIdContato);
+				//Email
+				$queryEmail='select email from contato where id='.$contato[0].';';
+				$getEmail=mysqli_query($mysqli,$queryEmail); $email=mysqli_fetch_row($getEmail);
+				echo '<input type="hidden" name="email" value="'.$email[0].'">';
+				//Celular
+				$queryTelCel='select telCel from contato where id='.$contato[0].';';
+				$getTelCel=mysqli_query($mysqli,$queryTelCel); $telCel=mysqli_fetch_row($getTelCel);
+				echo '<input type="hidden" name="telCel" value="'.$telCel[0].'">';
+				//Fixo
+				$queryTelFixo='select telFixo from contato where id='.$contato[0].';';
+				$getTelFixo=mysqli_query($mysqli,$queryTelFixo); $telFixo=mysqli_fetch_row($getTelFixo);
+				echo '<input type="hidden" name="telFixo" value="'.$telFixo[0].'">';
+				echo '</form>';
+				echo '<script src="/trabalhos/gti/bda1/js/jQuery.js"></script>';
+				echo "<script>$('#phpForm').submit();</script>";
 				break;
 			case 'excluir':
 			// Algoritmo
@@ -300,6 +521,41 @@
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
+				break;
+			case 'editar':
+				echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
+			//Cliente
+				echo '<input type="hidden" name="idProduto" value="'.$id.'">';
+				//Pega Nome do produto
+				$queryNome='select nome from produto where id='.$id.';';
+				$getNome=mysqli_query($mysqli,$queryNome);
+				$nome=mysqli_fetch_row($getNome);
+				echo '<input type="hidden" name="nomeProd" value="'.$nome[0].'">';
+				//Pega ID da remessa
+				$queryIdRemessa='select remessa from produto where id='.$id.';';
+				$getIdRemessa=mysqli_query($mysqli,$queryIdRemessa);
+				$remessa=mysqli_fetch_row($getIdRemessa);
+				echo '<input type="hidden" name="idRemessa" value="'.$remessa[0].'">';
+				//Pega Descrição do produto
+				$queryDescr='select descricao from produto where id='.$id.';';
+				$getDescr=mysqli_query($mysqli,$queryDescr);
+				$descr=mysqli_fetch_row($getDescr);
+				echo '<input type="hidden" name="descrProd" value="'.$descr[0].'">';
+				//Pega Custo do produto
+				$queryCusto='select custo from produto where id='.$id.';';
+				$getCusto=mysqli_query($mysqli,$queryCusto);
+				$custo=mysqli_fetch_row($getCusto);
+				$valorCusto=str_replace('.',',',$custo[0]);
+				echo '<input type="hidden" name="custoProd" value="R$ '.$valorCusto.'">';
+				//Pega Valor de Venda do produto
+				$queryValorV='select valorVenda from produto where id='.$id.';';
+				$getValorV=mysqli_query($mysqli,$queryValorV);
+				$valorV=mysqli_fetch_row($getValorV);
+				$valorVenda=str_replace('.',',',$valorV[0]);
+				echo '<input type="hidden" name="valorVenda" value="R$ '.$valorVenda.'">';
+				echo '</form>';
+				echo '<script src="/trabalhos/gti/bda1/js/jQuery.js"></script>';
+				echo "<script>$('#phpForm').submit();</script>";
 				break;
 		}
 	}

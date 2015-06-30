@@ -54,17 +54,18 @@
 					$bairro=$_POST['bairro'];
 					$cidade=$_POST['cidade'];
 					$estado=$_POST['estado'];
-					if($acao=='cadastrar'){
-						enderecos($rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-						contatos($email,$telCel,$telFixo);
-						clientes($acao,'',$nomeCliente,$cpfCliente,$obsCliente);
-					}else{
-						if($acao=='editar'){
+					switch($acao){
+						case 'cadastrar':
+							enderecos($rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
+							contatos($email,$telCel,$telFixo);
+							clientes($acao,'',$nomeCliente,$cpfCliente,$obsCliente);
+							break;
+						case 'editar':
 							clientes($acao,$idCliente);
-						}
-						if($acao=='excluir'){
+							break;
+						case 'excluir':
 							clientes($acao,$idCliente);
-						}
+							break;
 					}
 					break;
 				case 'funcionario':
@@ -85,17 +86,18 @@
 					$bairro=$_POST['bairro'];
 					$cidade=$_POST['cidade'];
 					$estado=$_POST['estado'];
-					if($acao=='editar'||$acao=='cadastrar'){
-						enderecos($rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-						contatos($email,$telCel,$telFixo);
-						funcionarios($acao,'',$nomeFunc,$cpfFuncionario,$cargo,$obsFuncionario);
-					}else{
-						if($acao=='editar'){
+					switch($acao){
+						case 'cadastrar':
+							enderecos($rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
+							contatos($email,$telCel,$telFixo);
+							funcionarios($acao,'',$nomeFunc,$cpfFuncionario,$cargo,$obsFuncionario);
+							break;
+						case 'editar':
 							funcionarios($acao,$idFuncionario);
-						}
-						if($acao=='excluir'){
+							break;
+						case 'excluir':
 							funcionarios($acao,$idFuncionario);
-						}
+							break;
 					}
 					break;
 				case 'remessa':
@@ -116,12 +118,16 @@
 					$nomeProd=$_POST['nomeProd'];
 					$custoProd=$_POST['custoProd'];
 					$valorVenda=$_POST['valorVenda'];
-					if($acao=='cadastrar'){
-						produtos($acao,'',$idRemessa,$descrProd,$nomeProd,$custoProd,$valorVenda);
-					}else{
-						produtos($acao,$idProduto);
+					switch($acao){
+						case 'cadastrar':
+							produtos($acao,'',$idRemessa,$descrProd,$nomeProd,$custoProd,$valorVenda);
+							break;
+						case 'editar':
+							produtos($acao,$idProduto);
+							break;
 					}
 					break;
+					}
 				case 'estoque':
 					$idFuncionarioEstq=$_POST['idFuncionarioEstq'];
 					$idProdutoEstq=$_POST['idProdutoEstq'];

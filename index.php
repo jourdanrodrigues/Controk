@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8" />
@@ -9,6 +8,7 @@
 		<script src="js/maskedInput.js"></script>
 		<script src="js/priceFormat.js"></script>
 		<script src="js/js.js"></script>
+		<?php require_once('php/edicao.php'); ?>
 	</head><!-- Head -->
 	<body align="center">
 		<div id="topo">
@@ -151,11 +151,11 @@
 						<label for="idRemessa">ID da remessa</label><br>
 						<input id="idRemessa" name="idRemessa" class="field" type="text">
 					</p><p>
-						<label for="descrProd">Descrição do produto</label><br>
-						<textarea id="descrProd" name="descrProd"></textarea>
-					</p><p>
 						<label for="nomeProd">Nome do produto</label><br>
 						<input id="nomeProd" name="nomeProd" class="field" type="text">
+					</p><p>
+						<label for="descrProd">Descrição do produto</label><br>
+						<textarea id="descrProd" name="descrProd"></textarea>
 					</p><p>
 						<label for="custoProd">Custo do produto</label><br>
 						<input id="custoProd" name="custoProd" class="field" type="text">
