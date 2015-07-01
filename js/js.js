@@ -19,6 +19,15 @@ function opcoes(item){
 		$('#'+item+' ul').css('display','block')
 	};
 }
+function escondeGalera(){
+	if($('#creditos input').val()=='aberto'){
+		$('#creditos').css('margin-top','463.172px');
+		$('#creditos input').val('fechado');
+	}else{
+		$('#creditos').css('margin-top','300px');
+		$('#creditos input').val('aberto');
+	}
+}
 function escondeTudo(){
 	$('#remessa,#produto,#fornecedor,#cliente,#funcionario,#estoque,#contato,#endereco').css('display','none').find('input,textarea').removeAttr('required');
 }

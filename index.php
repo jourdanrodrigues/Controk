@@ -222,14 +222,16 @@
 				<button type="submit"></button>
 			</form>
 		</div><!-- Direita -->
-		<div id="creditos">
-			<ul><li><h3>Equipe Sensacional de BDA</h3>
+		<div id="creditos" align="center">
+			<h4 onclick="escondeGalera();">Equipe de BDA</h4>
+			<input type="hidden" value="aberto">
+			<ul id="galera">
 				<li class="integrante">Jean Rodrigues</li>
 				<li class="integrante">Jéssica Freires</li>
 				<li class="integrante">Joseph Rodrigues</li>
 				<li class="integrante">Rômulo Cordeiro</li>
 				<li class="integrante">Thiago Jourdan</li>
-			</li></ul>
+			</ul>
 		</div>
 	</body><!-- Body -->
 </html>

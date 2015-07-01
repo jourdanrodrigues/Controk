@@ -23,7 +23,8 @@
 		<style>
 			body{
 				padding:2% 0;
-				overflow:hidden}
+				overflow:hidden;
+				background:#CCC}
 			form{
 				font-size:25pt;
 				color:#CCC;}
