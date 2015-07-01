@@ -8,7 +8,19 @@
 		<script src="js/maskedInput.js"></script>
 		<script src="js/priceFormat.js"></script>
 		<script src="js/js.js"></script>
-		<?php require_once('php/edicao.php'); ?>
+		<?php
+			session_start();
+			$usuario=$_SESSION['usuario'];
+			if(empty($_SESSION['usuario'])||!isset($_SESSION['usuario'])){
+				echo '
+					<script>
+						alert("Você não acessou o sistema!\n\nSerá redirecionado para fazê-lo.");
+						location.href="/trabalhos/gti/bda1/login.html"
+					</script>';
+			}else{
+				require_once('php/edicao.php');
+			}
+		?>
 	</head><!-- Head -->
 	<body align="center">
 		<div id="topo">
