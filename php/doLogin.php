@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
+		<title>Software teste de banco de dados de estoque</title>
 		<?php
 			if(isset($_SESSION['usuario'])){
 				if(!empty($_SESSION['usuario'])){
@@ -39,10 +40,10 @@
 									$queryNome='select nome from usuario where id='.$id[0].';';
 									$getNome=mysqli_query($mysqli,$queryNome);
 									$nome=mysqli_fetch_row($getNome);
-									$querySenha='select senha from usuario where id='.$id[0].';';
-									$getSenha=mysqli_query($mysqli,$querySenha);
-									$senha=mysqli_fetch_row($getSenha);
-									if($usuario!=$nome[0]||$senha!=$senha[0]){
+									$queryPw='select senha from usuario where id='.$id[0].';';
+									$getPw=mysqli_query($mysqli,$queryPw);
+									$pw=mysqli_fetch_row($getPw);
+									if($usuario!=$nome[0]||$senha!=$pw[0]){
 										echo '
 										<script>
 											alert("Não foi possível realizar o login.\n\nVerifique se e-mail e senha estão corretos.");
@@ -53,7 +54,7 @@
 										$_SESSION['usuario']=$usuario;
 										echo '
 										<script>
-											alert("Seja bem vindo, '.$_SESSION['usuario'].'.");
+											alert("Seja bem vindo, '.$usuario.'.");
 											location.href="/trabalhos/gti/bda1/";
 										</script>';
 									}
@@ -81,7 +82,7 @@
 										$_SESSION['usuario']=$usuario;
 										echo '
 										<script>
-											alert("Seja bem vindo, '.$_SESSION['usuario'].'.");
+											alert("Seja bem vindo, '.$usuario.'.");
 											location.href="/trabalhos/gti/bda1/";
 										</script>';
 									}
