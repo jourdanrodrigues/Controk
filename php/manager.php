@@ -34,17 +34,23 @@
 							fornecedores($acao,'',$nomeFantasia,$cnpj);
 							break;
 						case 'atualizar':
-							verifyId('fornecedor',$idFornecedor);
+							if(verifyId('fornecedor',$idFornecedor)=="nonEcziste"){
+								break;
+							}
 							enderecos($acao,'fornecedor',$idFornecedor,$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
 							contatos($acao,'fornecedor',$idFornecedor,$email,$telCel,$telFixo);
 							fornecedores($acao,$idFornecedor,$nomeFantasia,$cnpj);
 							break;
 						case 'editar':
-							verifyId('fornecedor',$idFornecedor);
+							if(verifyId('fornecedor',$idFornecedor)=="nonEcziste"){
+								break;
+							}
 							fornecedores($acao,$idFornecedor);
 							break;
 						case 'excluir':
-							verifyId('fornecedor',$idFornecedor);
+							if(verifyId('fornecedor',$idFornecedor)=="nonEcziste"){
+								break;
+							}
 							fornecedores($acao,$idFornecedor);
 							break;
 					}
@@ -73,17 +79,23 @@
 							clientes($acao,'',$nomeCliente,$cpfCliente,$obsCliente);
 							break;
 						case 'atualizar':
-							verifyId('cliente',$idCliente);
+							if(verifyId('cliente',$idCliente)=="nonEcziste"){
+								break;
+							}
 							enderecos($acao,'cliente',$idCliente,$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
 							contatos($acao,'cliente',$idCliente,$email,$telCel,$telFixo);
 							clientes($acao,$idCliente,$nomeCliente,$cpfCliente,$obsCliente);
 							break;
 						case 'editar':
-							verifyId('cliente',$idCliente);
+							if(verifyId('cliente',$idCliente)=="nonEcziste"){
+								break;
+							}
 							clientes($acao,$idCliente);
 							break;
 						case 'excluir':
-							verifyId('cliente',$idCliente);
+							if(verifyId('cliente',$idCliente)=="nonEcziste"){
+								break;
+							}
 							clientes($acao,$idCliente);
 							break;
 					}
@@ -113,17 +125,23 @@
 							funcionarios($acao,'',$nomeFunc,$cpfFuncionario,$cargo,$obsFuncionario);
 							break;
 						case 'editar':
-							verifyId('funcionario',$idFuncionario);
+							if(verifyId('funcionario',$idFuncionario)=="nonEcziste"){
+								break;
+							}
 							funcionarios($acao,$idFuncionario);
 							break;
 						case 'atualizar':
-							verifyId('funcionario',$idFuncionario);
+							if(verifyId('funcionario',$idFuncionario)=="nonEcziste"){
+								break;
+							}
 							enderecos($acao,'funcionario',$idFuncionario,$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
 							contatos($acao,'funcionario',$idFuncionario,$email,$telCel,$telFixo);
 							funcionarios($acao,$idFuncionario,$nomeFunc,$cpfFuncionario,$cargo,$obsFuncionario);
 							break;
 						case 'excluir':
-							verifyId('funcionario',$idFuncionario);
+							if(verifyId('funcionario',$idFuncionario)=="nonEcziste"){
+								break;
+							}
 							funcionarios($acao,$idFuncionario);
 							break;
 					}
@@ -151,11 +169,15 @@
 							produtos($acao,'',$idRemessa,$descrProd,$nomeProd,$custoProd,$valorVenda);
 							break;
 						case 'atualizar':
-							verifyId('produto',$idProduto);
+							if(verifyId('produto',$idProduto)=="nonEcziste"){
+								break;
+							}
 							produtos($acao,$idProduto,$idRemessa,$descrProd,$nomeProd,$custoProd,$valorVenda);
 							break;
 						case 'editar':
-							verifyId('produto',$idProduto);
+							if(verifyId('produto',$idProduto)=="nonEcziste"){
+								break;
+							}
 							produtos($acao,$idProduto);
 							break;
 					}

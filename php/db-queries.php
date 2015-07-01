@@ -884,18 +884,18 @@
 			return null;
 		}
 		$queryCheck='select * from '.$alvo.' where id='.$id.';';
-		$getCheck=mysqli_query($queryCheck);
+		$getCheck=mysqli_query($mysqli,$queryCheck);
 		$check=mysqli_num_rows($getCheck);
 		if($check==0){
 			if($alvo=='funcionario'){
 				$alvo=str_replace('a','á',$alvo);
-				return $alvo;
 			}
 			echo '
 			<script>
 				alert("O '.$alvo.' de ID '.$id.' não existe.");
 				location.href="/trabalhos/gti/bda1/";
 			</script>';
+			return "nonEcziste";
 		}
 	// Finaliza a conexão
 		mysqli_close($mysqli);
