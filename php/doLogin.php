@@ -10,6 +10,7 @@
 				if(isset($_POST)){
 					$usuario=$_POST['usuario'];
 					$senha=$_POST['senha'];
+					$acao=$_POST['acao'];
 					if(!empty($usuario)&&!empty($senha)){
 					// Inicia a conexão
 						$mysqli=mysqli_connect('mysql.hostinger.com.br', 'u398318873_tj', 'Knowledge1', 'u398318873_bda');
@@ -20,40 +21,72 @@
 								location.href="/trabalhos/gti/bda1/";
 							</script>';
 						}
-						$queryId='select id from usuario where nome="'.$usuario.'";';
-						$getId=mysqli_query($mysqli,$queryId);
-						$id=mysqli_fetch_row($getId);
-						$queryCheck='select * from usuario where id='.$id[0].';';
+						$queryCheck='select * from usuario where nome="'.$usuario.'";';
 						$getCheck=mysqli_query($mysqli,$queryCheck);
 						$check=mysqli_num_rows($getCheck);
-						if($check==0){
-							echo '
-							<script>
-								alert("O usuário '.$usuario.' não está cadastrado no sistema.");
-								location.href="/trabalhos/gti/bda1/login.php";
-							</script>';
-						}else{
-							$queryNome='select nome from usuario where id='.$id[0].';';
-							$getNome=mysqli_query($mysqli,$queryNome);
-							$nome=mysqli_fetch_row($getNome);
-							$querySenha='select senha from usuario where id='.$id[0].';';
-							$getSenha=mysqli_query($mysqli,$querySenha);
-							$senha=mysqli_fetch_row($getSenha);
-							if($usuario!=$nome[0]&&$senha!=$senha[0]){
-								echo '
-								<script>
-									alert("Não foi possível realizar o login.\n\nVerifique se e-mail e senha estão corretos.");
-									location.href="/trabalhos/gti/bda1/login.php";
-								</script>';
-							}else{
-								session_start();
-								$_SESSION['usuario']=$usuario;
-								echo '
-								<script>
-									alert("Seja bem vindo, '.$_SESSION['usuario'].'.");
-									location.href="/trabalhos/gti/bda1/";
-								</script>';
-							}
+						switch($acao){
+							case 'login':
+								if($check==0){
+									echo '
+									<script>
+										alert("O usuário '.$usuario.' não está cadastrado no sistema.");
+										location.href="/trabalhos/gti/bda1/login.php";
+									</script>';
+								}else{
+									$queryId='select id from usuario where nome="'.$usuario.'";';
+									$getId=mysqli_query($mysqli,$queryId);
+									$id=mysqli_fetch_row($getId);
+									$queryNome='select nome from usuario where id='.$id[0].';';
+									$getNome=mysqli_query($mysqli,$queryNome);
+									$nome=mysqli_fetch_row($getNome);
+									$querySenha='select senha from usuario where id='.$id[0].';';
+									$getSenha=mysqli_query($mysqli,$querySenha);
+									$senha=mysqli_fetch_row($getSenha);
+									if($usuario!=$nome[0]||$senha!=$senha[0]){
+										echo '
+										<script>
+											alert("Não foi possível realizar o login.\n\nVerifique se e-mail e senha estão corretos.");
+											location.href="/trabalhos/gti/bda1/login.php";
+										</script>';
+									}else{
+										session_start();
+										$_SESSION['usuario']=$usuario;
+										echo '
+										<script>
+											alert("Seja bem vindo, '.$_SESSION['usuario'].'.");
+											location.href="/trabalhos/gti/bda1/";
+										</script>';
+									}
+								}
+								break;
+							case 'cadastrar':
+								if($check!=0){
+									echo '
+									<script>
+										alert("O usuário '.$usuario.' já está cadastrado no sistema.");
+										location.href="/trabalhos/gti/bda1/login.php";
+									</script>';
+								}else{
+									$cadUsuario='insert into usuario(nome,senha) values ("'.$usuario.'","'.$senha.'");';
+									if(!mysqli_query($mysqli,$cadUsuario)){
+										die ('
+										<script>
+											alert("Não foi possível cadastrar o usuário '.$usuario.':\n\n'.mysqli_error($mysqli).'");
+											location.href="/trabalhos/gti/bda1/login.php";
+										</script>');
+									}else{
+										echo '
+										<script>alert("O usuário '.$usuario.' foi cadastrado com sucesso!");</script>';
+										session_start();
+										$_SESSION['usuario']=$usuario;
+										echo '
+										<script>
+											alert("Seja bem vindo, '.$_SESSION['usuario'].'.");
+											location.href="/trabalhos/gti/bda1/";
+										</script>';
+									}
+								}
+								break;
 						}
 					}
 				}
