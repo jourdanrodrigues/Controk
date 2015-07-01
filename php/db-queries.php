@@ -5,7 +5,7 @@
 		if (mysqli_connect_errno()) {
 			echo '
 			<script>
-				alert("Falha ao se conectar ao MySQL:\n('.$mysqli->connect_errno.')\n'.$mysqli->connect_error.'");
+				alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
 				location.href="/trabalhos/gti/bda1/";
 			</script>';
 			return null;
@@ -25,11 +25,11 @@
 				if(!mysqli_query($mysqli,$cadFornecedor)){
 					die ('
 					<script>
-						alert("Não foi possível cadastrar o fornecedor: '.mysqli_error($mysqli).'");
+						alert("Não foi possível cadastrar o fornecedor:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Cadastro de fornecedor finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Cadastro do fornecedor '.$nomeFantasia.', de ID '.mysqli_insert_id($mysqli).', finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -40,11 +40,11 @@
 				if(!mysqli_query($mysqli,$updFornecedor)){
 					die ('
 					<script>
-						alert("Não foi possível atualizar o fornecedor: '.mysqli_error($mysqli).'");
+						alert("Não foi possível atualizar o fornecedor:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Atualização de fornecedor finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Atualização do fornecedor '.$nomeFantasia.', de ID '.$id.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -122,17 +122,17 @@
 			case 'excluir':
 			// Algoritmo
 				//Pega ID do endereco
-				$getIdEndereco='select endereco from fornecedor where id='.$id.';';
-				$idEndereco=mysqli_query($mysqli,$getIdEndereco);
-				$endereco=mysqli_fetch_row($idEndereco);
+				$queryIdEndereco='select endereco from fornecedor where id='.$id.';';
+				$getIdEndereco=mysqli_query($mysqli,$queryIdEndereco);
+				$endereco=mysqli_fetch_row($getIdEndereco);
 				//Pega ID do contato
-				$getIdContato='select endereco from fornecedor where id='.$id.';';
-				$idContato=mysqli_query($mysqli,$getIdContato);
-				$contato=mysqli_fetch_row($idContato);
+				$queryIdContato='select endereco from fornecedor where id='.$id.';';
+				$getIdContato=mysqli_query($mysqli,$queryIdContato);
+				$contato=mysqli_fetch_row($getIdContato);
 				//Pega Nome do fornecedor
-				$getNome='select nome from fornecedor where id='.$id.';';
-				$nomeFunc=mysqli_query($mysqli,$getNome);
-				$nome=mysqli_fetch_row($nomeFunc);
+				$queryNome='select nome from fornecedor where id='.$id.';';
+				$getNome=mysqli_query($mysqli,$queryNome);
+				$nome=mysqli_fetch_row($getNome);
 				//Estabelece funções de exclusão
 				$delFornecedor='delete from fornecedor where id='.$id.';';
 				$delEndereco='delete from endereco where id='.$endereco[0].';';
@@ -140,25 +140,25 @@
 				if(!mysqli_query($mysqli,$delContato)){
 					die ('
 					<script>
-						alert("Não foi possível excluir o contato fornecedor: '.mysqli_error($mysqli).'");
+						alert("Não foi possível excluir o contato fornecedor:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}
 				if(!mysqli_query($mysqli,$delEndereco)){
 					die ('
 					<script>
-						alert("Não foi possível excluir o endereço fornecedor: '.mysqli_error($mysqli).'");
+						alert("Não foi possível excluir o endereço fornecedor:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}
 				if(!mysqli_query($mysqli,$delFornecedor)){
 					die ('
 					<script>
-						alert("Não foi possível excluir o fornecedor: '.mysqli_error($mysqli).'");
+						alert("Não foi possível excluir o fornecedor:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Exclusão do fornecedor \"'.$nome[0].'\" finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Exclusão do fornecedor '.$nome[0].', de ID '.$id.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -171,7 +171,7 @@
 		if (mysqli_connect_errno()) {
 			echo '
 			<script>
-				alert("Falha ao se conectar ao MySQL:\n('.$mysqli->connect_errno.')\n'.$mysqli->connect_error.'");
+				alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
 				location.href="/trabalhos/gti/bda1/";
 			</script>';
 			return null;
@@ -180,13 +180,13 @@
 			case 'cadastrar':
 			// Algoritmo
 				// Pega ID do endereço
-				$getIdEndereco='select id from endereco where id = (select max(id) from endereco);';
-				$idEndereco=mysqli_query($mysqli,$getIdEndereco);
-				$endereco=mysqli_fetch_row($idEndereco);
+				$queryIdEndereco='select id from endereco where id = (select max(id) from endereco);';
+				$getIdEndereco=mysqli_query($mysqli,$queryIdEndereco);
+				$endereco=mysqli_fetch_row($getIdEndereco);
 				// Pega ID do contato
-				$getIdContato='select id from contato where id = (select max(id) from contato);';
-				$idContato=mysqli_query($mysqli,$getIdContato);
-				$contato=mysqli_fetch_row($idContato);
+				$queryIdContato='select id from contato where id = (select max(id) from contato);';
+				$getIdContato=mysqli_query($mysqli,$queryIdContato);
+				$contato=mysqli_fetch_row($getIdContato);
 				// Iniciando inserção de fornecedor
 				$cadFuncionario='insert into funcionario(nome,cpf,cargo,obs,endereco,contato) values ("'.$nomeFunc.'","'.$cpfFuncionario.'","'.$cargo.'","'.$obsFuncionario.'","'.$endereco[0].'","'.$contato[0].'");';
 				if(!mysqli_query($mysqli,$cadFuncionario)){
@@ -196,7 +196,7 @@
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Cadastro de funcionário finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Cadastro do funcionário '.$nomeFunc.', de ID '.mysqli_insert_id($mysqli).', finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -207,11 +207,11 @@
 				if(!mysqli_query($mysqli,$updFuncionario)){
 					die ('
 					<script>
-						alert("Não foi possível atualizar o funcionário: '.mysqli_error($mysqli).'");
+						alert("Não foi possível atualizar o funcionário:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Atualização de funcionário finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Atualização do funcionário '.$nomeFunc.', de ID '.$id.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -297,17 +297,17 @@
 			case 'excluir':
 			// Algoritmo
 				//Pega ID do endereco
-				$getIdEndereco='select endereco from funcionario where id='.$id.';';
-				$idEndereco=mysqli_query($mysqli,$getIdEndereco);
-				$endereco=mysqli_fetch_row($idEndereco);
+				$queryIdEndereco='select endereco from funcionario where id='.$id.';';
+				$getIdEndereco=mysqli_query($mysqli,$queryIdEndereco);
+				$endereco=mysqli_fetch_row($getIdEndereco);
 				//Pega ID do contato
-				$getIdContato='select endereco from funcionario where id='.$id.';';
-				$idContato=mysqli_query($mysqli,$getIdContato);
-				$contato=mysqli_fetch_row($idContato);
+				$queryIdContato='select endereco from funcionario where id='.$id.';';
+				$getIdContato=mysqli_query($mysqli,$queryIdContato);
+				$contato=mysqli_fetch_row($getIdContato);
 				//Pega Nome do funcionário
-				$getNome='select nome from funcionario where id='.$id.';';
-				$nomeFunc=mysqli_query($mysqli,$getNome);
-				$nome=mysqli_fetch_row($nomeFunc);
+				$queryNome='select nome from funcionario where id='.$id.';';
+				$getNome=mysqli_query($mysqli,$queryNome);
+				$nome=mysqli_fetch_row($getNome);
 				//Estabelece funções de exclusão
 				$delFuncionario='delete from funcionario where id='.$id.';';
 				$delEndereco='delete from endereco where id='.$endereco[0].';';
@@ -333,7 +333,7 @@
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Exclusão do funcionário \"'.$nome[0].'\" finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Exclusão do funcionário '.$nome[0].', de ID '.$id.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 				break;
 		}
@@ -344,7 +344,7 @@
 		if (mysqli_connect_errno()) {
 			echo '
 			<script>
-				alert("Falha ao se conectar ao MySQL:\n('.$mysqli->connect_errno.')\n'.$mysqli->connect_error.'");
+				alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
 				location.href="/trabalhos/gti/bda1/";
 			</script>';
 			return null;
@@ -368,7 +368,7 @@
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Cadastro de cliente finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Cadastro do cliente '.$nomeCliente.', de ID '.mysqli_insert_id($mysqli).', finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -379,11 +379,11 @@
 				if(!mysqli_query($mysqli,$updCliente)){
 					die ('
 					<script>
-						alert("Não foi possível atualizar o cliente: '.mysqli_error($mysqli).'");
+						alert("Não foi possível atualizar o cliente:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Atualização de cliente finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Atualização do cliente '.$nomeCliente.', de ID '.$id.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -500,7 +500,7 @@
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Exclusão do cliente \"'.$nome[0].'\" finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Exclusão do cliente '.$nome[0].', de ID '.$id.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 				break;
 		}
@@ -511,7 +511,7 @@
 		if (mysqli_connect_errno()) {
 			echo '
 			<script>
-				alert("Falha ao se conectar ao MySQL:\n('.$mysqli->connect_errno.')\n'.$mysqli->connect_error.'");
+				alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
 				location.href="/trabalhos/gti/bda1/";
 			</script>';
 			return null;
@@ -524,7 +524,7 @@
 				if(!mysqli_query($mysqli,$cadRemessa)){
 					die ('
 					<script>
-						alert("Não foi possível cadastrar a remessa: '.mysqli_error($mysqli).'");
+						alert("Não foi possível cadastrar a remessa:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
@@ -541,7 +541,7 @@
 		if (mysqli_connect_errno()) {
 			echo '
 			<script>
-				alert("Falha ao se conectar ao MySQL:\n('.$mysqli->connect_errno.')\n'.$mysqli->connect_error.'");
+				alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
 				location.href="/trabalhos/gti/bda1/";
 			</script>';
 			return null;
@@ -558,11 +558,11 @@
 				if(!mysqli_query($mysqli,$cadProduto)){
 					die ('
 					<script>
-						alert("Não foi possível cadastrar o produto: '.mysqli_error($mysqli).'");
+						alert("Não foi possível cadastrar o produto:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Cadastro de produto finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Cadastro do produto '.$nomeProd.', de ID '.mysqli_insert_id($mysqli).', finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -577,11 +577,11 @@
 				if(!mysqli_query($mysqli,$updProduto)){
 					die ('
 					<script>
-						alert("Não foi possível atualizar o produto: '.mysqli_error($mysqli).'");
+						alert("Não foi possível atualizar o produto:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Atualização de produto finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("Atualização do produto '.$nomeProd.', de ID '.$id.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -629,7 +629,7 @@
 		if (mysqli_connect_errno()) {
 			echo '
 			<script>
-				alert("Falha ao se conectar ao MySQL:\n('.$mysqli->connect_errno.')\n'.$mysqli->connect_error.'");
+				alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
 				location.href="/trabalhos/gti/bda1/";
 			</script>';
 			return null;
@@ -639,14 +639,17 @@
 			// Algoritmo
 				$insEstoque='insert into estoque(produto,qtdProd) 
 				values ("'.$idProdutoEstq.'","'.$qtdProdEstq.'");';
+				$queryNomeProd='select nome from produto where id="'.$idProdutoEstq.'"';
+				$getNomeProd=mysqli_query($mysqli,$queryNomeProd);
+				$nomeProd=mysqli_fetch_row($getNomeProd);
 				if(!mysqli_query($mysqli,$insEstoque)){
 					die ('
 					<script>
-						alert("Não foi possível inserir o produto no estoque:\n'.mysqli_error($mysqli).'");
+						alert("Não foi possível inserir o produto no estoque:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Produto inserido no estoque com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("O produto '.$nomeProd[0].' foi inserido no estoque com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -656,6 +659,9 @@
 				$queryQtdEstoque='select qtdProd from estoque where produto='.$idProdutoEstq.';';
 				$getQtdEstoque=mysqli_query($mysqli,$queryQtdEstoque);
 				$qtdEstoque=mysqli_fetch_row($getQtdEstoque);
+				$queryNomeProd='select nome from produto where id="'.$idProdutoEstq.'"';
+				$getNomeProd=mysqli_query($mysqli,$queryNomeProd);
+				$nomeProd=mysqli_fetch_row($getNomeProd);
 				if($qtdProdEstq>$qtdEstoque[0]){
 					echo '
 					<script>
@@ -668,7 +674,7 @@
 				if(!mysqli_query($mysqli,$newQtdEstoque)){
 					die ('
 					<script>
-						alert("Não foi possível retirar o produto do estoque:\n'.mysqli_error($mysqli).'");
+						alert("Não foi possível retirar o produto do estoque:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}
@@ -676,11 +682,11 @@
 				if(!mysqli_query($mysqli,$insHistorico)){
 					die ('
 					<script>
-						alert("Não foi possível cadastrar o histórico:\n'.mysqli_error($mysqli).'");
+						alert("Não foi possível cadastrar o histórico:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}else{
-					echo '<script>alert("Produto retirado do estoque com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+					echo '<script>alert("O produto '.$nomeProd[0].' foi retirado do estoque com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 				}
 			// Finaliza a conexão
 				mysqli_close($mysqli);
@@ -693,7 +699,7 @@
 		if (mysqli_connect_errno()) {
 			echo '
 			<script>
-				alert("Falha ao se conectar ao MySQL:\n('.$mysqli->connect_errno.')\n'.$mysqli->connect_error.'");
+				alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
 				location.href="/trabalhos/gti/bda1/";
 			</script>';
 			return null;
@@ -705,7 +711,7 @@
 				if(!mysqli_query($mysqli,$cadEndereco)){
 					die ('
 					<script>
-						alert("Não foi possível cadastrar o endereço: '.mysqli_error($mysqli).'");
+						alert("Não foi possível cadastrar o endereço:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}
@@ -730,7 +736,7 @@
 						if(!mysqli_query($mysqli,$updEndereco)){
 							die ('
 							<script>
-								alert("Não foi possível atualizar o endereço do fornecedor: '.mysqli_error($mysqli).'");
+								alert("Não foi possível atualizar o endereço do fornecedor:\n\n'.mysqli_error($mysqli).'");
 								location.href="/trabalhos/gti/bda1/";
 							</script>');
 						}
@@ -753,7 +759,7 @@
 						if(!mysqli_query($mysqli,$updEndereco)){
 							die ('
 							<script>
-								alert("Não foi possível atualizar o enderecõ do cliente: '.mysqli_error($mysqli).'");
+								alert("Não foi possível atualizar o enderecõ do cliente:\n\n'.mysqli_error($mysqli).'");
 								location.href="/trabalhos/gti/bda1/";
 							</script>');
 						}
@@ -776,7 +782,7 @@
 						if(!mysqli_query($mysqli,$updEndereco)){
 							die ('
 							<script>
-								alert("Não foi possível atualizar o endereço do funcionário: '.mysqli_error($mysqli).'");
+								alert("Não foi possível atualizar o endereço do funcionário:\n\n'.mysqli_error($mysqli).'");
 								location.href="/trabalhos/gti/bda1/";
 							</script>');
 						}
@@ -793,7 +799,7 @@
 		if (mysqli_connect_errno()) {
 			echo '
 			<script>
-				alert("Falha ao se conectar ao MySQL:\n('.$mysqli->connect_errno.')\n'.$mysqli->connect_error.'");
+				alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
 				location.href="/trabalhos/gti/bda1/";
 			</script>';
 			return null;
@@ -805,7 +811,7 @@
 				if(!mysqli_query($mysqli,$cadContato)){
 					die ('
 					<script>
-						alert("Não foi possível cadastrar o contato: '.mysqli_error($mysqli).'");
+						alert("Não foi possível cadastrar o contato:\n\n'.mysqli_error($mysqli).'");
 						location.href="/trabalhos/gti/bda1/";
 					</script>');
 				}
@@ -823,7 +829,7 @@
 						if(!mysqli_query($mysqli,$updContato)){
 							die ('
 							<script>
-								alert("Não foi possível atualizar o contato do fornecedor: '.mysqli_error($mysqli).'");
+								alert("Não foi possível atualizar o contato do fornecedor:\n\n'.mysqli_error($mysqli).'");
 								location.href="/trabalhos/gti/bda1/";
 							</script>');
 						}
@@ -839,7 +845,7 @@
 						if(!mysqli_query($mysqli,$updContato)){
 							die ('
 							<script>
-								alert("Não foi possível atualizar o contato do cliente: '.mysqli_error($mysqli).'");
+								alert("Não foi possível atualizar o contato do cliente:\n\n'.mysqli_error($mysqli).'");
 								location.href="/trabalhos/gti/bda1/";
 							</script>');
 						}
@@ -855,7 +861,7 @@
 						if(!mysqli_query($mysqli,$updContato)){
 							die ('
 							<script>
-								alert("Não foi possível atualizar o contato do funcionário: '.mysqli_error($mysqli).'");
+								alert("Não foi possível atualizar o contato do funcionário:\n\n'.mysqli_error($mysqli).'");
 								location.href="/trabalhos/gti/bda1/";
 							</script>');
 						}
