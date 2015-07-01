@@ -872,4 +872,32 @@
 				break;
 		}
 	}
+	function verifyId($alvo,$id){
+	// Inicia a conexão
+		$mysqli=mysqli_connect('mysql.hostinger.com.br', 'u398318873_tj', 'Knowledge1', 'u398318873_bda');
+		if (mysqli_connect_errno()) {
+			echo '
+			<script>
+				alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
+				location.href="/trabalhos/gti/bda1/";
+			</script>';
+			return null;
+		}
+		$queryCheck='select * from '.$alvo.' where id='.$id.';';
+		$getCheck=mysqli_query($queryCheck);
+		$check=mysqli_num_rows($getCheck);
+		if($check==0){
+			if($alvo=='funcionario'){
+				$alvo=str_replace('a','á',$alvo);
+				return $alvo;
+			}
+			echo '
+			<script>
+				alert("O '.$alvo.' de ID '.$id.' não existe.");
+				location.href="/trabalhos/gti/bda1/";
+			</script>';
+		}
+	// Finaliza a conexão
+		mysqli_close($mysqli);
+	}
 ?>
