@@ -804,7 +804,7 @@
 			</script>';
 			return null;
 		}
-		switch($alvo){
+		switch($acao){
 			case 'cadastrar':
 			// Algoritmo
 				$cadContato='insert into contato(email,telCel,telFixo) values ("'.$email.'","'.$telCel.'","'.$telFixo.'");';
