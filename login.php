@@ -57,10 +57,10 @@
 			<p style="background:#CCC;color:#666;padding:2px 0">Login para SEFUNC BD</p>
 			<p>
 				<label for="usuario">Usuário</label><br>
-				<input type="text" id="usuario" name="usuario" class="field">
+				<input type="text" id="usuario" name="usuario" class="field" required>
 			</p><p>
 				<label for="senha">Senha</label><br>
-				<input type="password" id="senha" name="senha" class="field">
+				<input type="password" id="senha" name="senha" class="field" required>
 			</p>
 			<input type="hidden" id="acao" name="acao" value="login">
 			<input type="button" id="mudaAcao" name="mudaAcao" onclick="mudarAcao();" value="Cadastre-se">
