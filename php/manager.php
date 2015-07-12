@@ -6,6 +6,17 @@
 	</head>
 	<body>
 		<?php
+			function __autoload($class){
+				$libs='./class';
+				$ext='.php';
+				$file=procurarArquivos($libs,$class.$ext);
+			   if ($file!==false ){
+				   require_once $file;
+				}else{
+					$msg='Não foi possível encontrar o arquivo "'.$class.$ext.'".';
+					exit('<script>alert("'.$msg.'");</script>');
+				}
+			}
 			require_once('db-queries.php');
 			$acao=$_POST['acao'];
 			$alvo=$_POST['alvo'];

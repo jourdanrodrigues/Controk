@@ -8,42 +8,45 @@ public class Contato extends Endereco {
 	private $email;
 	private $telCel;
 	private $telFixo;
-	private $rua;
-	private $numero;
-	private $complemento;
-	private $cep;
-	private $bairro;
-	private $cidade;
-	private $estado;
-	//Contatos
 	public function cadastrarContato($email,$telCel,$telFixo){
+		$this->email=$email;
+		$this->telCel=$telCel;
+		$this->telFixo=$telFixo;
 		$mysqli=connect();
-		if($mysqli!="erro"){
-			$cadContato='insert into contato(email,telCel,telFixo) values ("'.$email.'","'.$telCel.'","'.$telFixo.'");';
-			if(!mysqli_query($mysqli,$cadEndereco)){
-				die ('<script>alert("Não foi possível cadastrar o endereço:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
-			}else{
-				mysqli_close($mysqli);
-				return mysqli_insert_id($mysqli);
-			}
+		$cadContato='insert into contato(email,telCel,telFixo) values ("'.$this->email.'","'.$this->telCel.'","'.$this->telFixo.'");';
+		if(!mysqli_query($mysqli,$cadEndereco)){
+			die ('<script>alert("Não foi possível cadastrar o contato:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
+		}else{
+			$this->idContato=mysqli_insert_id($mysqli);
+			return $this->idContato;
 		}
 	}
 	public function buscarDadosContato($id){
-		$mysqli=connect();
-		if($mysqli!="erro"){
-			$email=getValueInBank('email','contato','id',$id);
-			$telCel=getValueInBank('telCel','contato','id',$id);
-			$telFixo=getValueInBank('telFixo','contato','id',$id);
-			echo '<input type="hidden" name="email" value="'.$email.'">';
-			echo '<input type="hidden" name="telCel" value="'.$telCel.'">';
-			echo '<input type="hidden" name="telFixo" value="'.$telFixo.'">';
+		if($this->idContato!=$id){
+			$this->email=getValueInBank('email','contato','id',$id);
+			$this->telCel=getValueInBank('telCel','contato','id',$id);
+			$this->telFixo=getValueInBank('telFixo','contato','id',$id);
+			$this->idContato=$id;
+		}
+		echo '<input type="hidden" name="email" value="'.$this->email.'">';
+		echo '<input type="hidden" name="telCel" value="'.$this->telCel.'">';
+		echo '<input type="hidden" name="telFixo" value="'.$this->telFixo.'">';
+	}
+	public function atualizarContato($id,$alvo,$email,$telCel,$telFixo){
+		$this->idContato=$id;
+		$this->email=$email;
+		$this->telCel=$telCel;
+		$this->telFixo=$telFixo;
+		$updContato='update contato set email="'.$this->email.'",telCel="'.$this->telCel.'",telFixo="'.$this->telFixo.'" where id='.$this->idContato.';';
+		if(!mysqli_query($mysqli,$updContato)){
+			die ('<script>alert("Não foi possível atualizar o contato:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
 		}
 	}
-	public function atualizarContato($email,$telCel,$telFixo){
-		
-	}
 	public function excluirContato($id){
-		
+		$delContato='delete from contato where id='.$id.';';
+		if(!mysqli_query($mysqli,$delContato)){
+			die ('<script>alert("Não foi possível excluir o contato:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
+		}
 	}
 }
 ?>
