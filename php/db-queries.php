@@ -719,77 +719,27 @@
 				mysqli_close($mysqli);
 				break;
 			case 'atualizar':
-				switch($alvo){
-					case 'fornecedor':
-					// Algoritmo
-						$queryEndForn='select endereco from fornecedor where id='.$id.';';
-						$getEndForn=mysqli_query($mysqli,$queryEndForn);
-						$endForn=mysqli_fetch_row($getEndForn);
-						$updEndereco='update endereco set
-						rua="'.$rua.'",
-						numero='.$numero.',
-						complemento="'.$compl.'",
-						cep="'.$cep.'",
-						bairro="'.$bairro.'",
-						cidade="'.$cidade.'",
-						estado="'.$estado.'" where id='.$endForn[0].';';
-						if(!mysqli_query($mysqli,$updEndereco)){
-							die ('
-							<script>
-								alert("Não foi possível atualizar o endereço do fornecedor:\n\n'.mysqli_error($mysqli).'");
-								location.href="/trabalhos/gti/bda1/";
-							</script>');
-						}
-					// Finaliza a conexão
-						mysqli_close($mysqli);
-						break;
-					case 'cliente':
-					// Algoritmo
-						$queryEndCli='select endereco from cliente where id='.$id.';';
-						$getEndCli=mysqli_query($mysqli,$queryEndCli);
-						$endCli=mysqli_fetch_row($getEndCli);
-						$updEndereco='update endereco set
-						rua="'.$rua.'",
-						numero='.$numero.',
-						complemento="'.$compl.'",
-						cep="'.$cep.'",
-						bairro="'.$bairro.'",
-						cidade="'.$cidade.'",
-						estado="'.$estado.'" where id='.$endCli[0].';';
-						if(!mysqli_query($mysqli,$updEndereco)){
-							die ('
-							<script>
-								alert("Não foi possível atualizar o enderecõ do cliente:\n\n'.mysqli_error($mysqli).'");
-								location.href="/trabalhos/gti/bda1/";
-							</script>');
-						}
-					// Finaliza a conexão
-						mysqli_close($mysqli);
-						break;
-					case 'funcionario':
-					// Algoritmo
-						$queryEndFunc='select endereco from funcionario where id='.$id.';';
-						$getEndFunc=mysqli_query($mysqli,$queryEndFunc);
-						$endFunc=mysqli_fetch_row($getEndFunc);
-						$updEndereco='update endereco set
-						rua="'.$rua.'",
-						numero='.$numero.',
-						complemento="'.$compl.'",
-						cep="'.$cep.'",
-						bairro="'.$bairro.'",
-						cidade="'.$cidade.'",
-						estado="'.$estado.'" where id='.$endFunc[0].';';
-						if(!mysqli_query($mysqli,$updEndereco)){
-							die ('
-							<script>
-								alert("Não foi possível atualizar o endereço do funcionário:\n\n'.mysqli_error($mysqli).'");
-								location.href="/trabalhos/gti/bda1/";
-							</script>');
-						}
-					// Finaliza a conexão
-						mysqli_close($mysqli);
-						break;
+			// Algoritmo
+				$queryEndereco='select endereco from '.$alvo.' where id='.$id.';';
+				$getEndereco=mysqli_query($mysqli,$queryEndereco);
+				$endereco=mysqli_fetch_row($getEndereco);
+				$updEndereco='update endereco set
+				rua="'.$rua.'",
+				numero='.$numero.',
+				complemento="'.$compl.'",
+				cep="'.$cep.'",
+				bairro="'.$bairro.'",
+				cidade="'.$cidade.'",
+				estado="'.$estado.'" where id='.$endereco[0].';';
+				if(!mysqli_query($mysqli,$updEndereco)){
+					die ('
+					<script>
+						alert("Não foi possível atualizar o endereço do '.$alvo.':\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
 				}
+			// Finaliza a conexão
+				mysqli_close($mysqli);
 				break;
 		}
 	}
@@ -819,56 +769,20 @@
 				mysqli_close($mysqli);
 				break;
 			case 'atualizar':
-				switch($alvo){
-					case 'fornecedor':
-					// Algoritmo
-						$queryConForn='select contato from fornecedor where id='.$id.';';
-						$getConForn=mysqli_query($mysqli,$queryConForn);
-						$conForn=mysqli_fetch_row($getConForn);
-						$updContato='update contato set email="'.$email.'",telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$conForn[0].';';
-						if(!mysqli_query($mysqli,$updContato)){
-							die ('
-							<script>
-								alert("Não foi possível atualizar o contato do fornecedor:\n\n'.mysqli_error($mysqli).'");
-								location.href="/trabalhos/gti/bda1/";
-							</script>');
-						}
-					// Finaliza a conexão
-						mysqli_close($mysqli);
-						break;
-					case 'cliente':
-					// Algoritmo
-						$queryConCli='select contato from cliente where id='.$id.';';
-						$getConCli=mysqli_query($mysqli,$queryConCli);
-						$conCli=mysqli_fetch_row($getConCli);
-						$updContato='update contato set email="'.$email.'",telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$conCli[0].';';
-						if(!mysqli_query($mysqli,$updContato)){
-							die ('
-							<script>
-								alert("Não foi possível atualizar o contato do cliente:\n\n'.mysqli_error($mysqli).'");
-								location.href="/trabalhos/gti/bda1/";
-							</script>');
-						}
-					// Finaliza a conexão
-						mysqli_close($mysqli);
-						break;
-					case 'funcionario':
-					// Algoritmo
-						$queryConFunc='select contato from funcionario where id='.$id.';';
-						$getConFunc=mysqli_query($mysqli,$queryConFunc);
-						$conFunc=mysqli_fetch_row($getConFunc);
-						$updContato='update contato set email="'.$email.'",telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$conFunc[0].';';
-						if(!mysqli_query($mysqli,$updContato)){
-							die ('
-							<script>
-								alert("Não foi possível atualizar o contato do funcionário:\n\n'.mysqli_error($mysqli).'");
-								location.href="/trabalhos/gti/bda1/";
-							</script>');
-						}
-					// Finaliza a conexão
-						mysqli_close($mysqli);
-						break;
+			// Algoritmo
+				$queryContato='select contato from '.$alvo.' where id='.$id.';';
+				$getContato=mysqli_query($mysqli,$queryContato);
+				$contato=mysqli_fetch_row($getContato);
+				$updContato='update contato set email="'.$email.'",telCel="'.$telCel.'",telFixo="'.$telFixo.'" where id='.$contato[0].';';
+				if(!mysqli_query($mysqli,$updContato)){
+					die ('
+					<script>
+						alert("Não foi possível atualizar o contato do '.$alvo.':\n\n'.mysqli_error($mysqli).'");
+						location.href="/trabalhos/gti/bda1/";
+					</script>');
 				}
+			// Finaliza a conexão
+				mysqli_close($mysqli);
 				break;
 		}
 	}
