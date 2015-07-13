@@ -1,11 +1,17 @@
 <?php
-public class Connection{
+class Connection {
+	private static $host='localhost';
+	private static $db='sefuncbd';
+	private static $user='root';
+	private static $password='';
+	/*
 	private $host='mysql.hostinger.com.br';
 	private $db='u398318873_bda';
 	private $user='u398318873_tj';
 	private $password='Knowledge1';
+	*/
 	public static function conectar(){
-		$mysqli=mysqli_connect($this->host,$this->user,$this->password,$this->db);
+		$mysqli=mysqli_connect(self::$host,self::$user,self::$password,self::$db);
 		if (mysqli_connect_errno()) {
 			echo '<script>alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");location.href="/trabalhos/gti/bda1/";</script>';
 		}else{
@@ -13,10 +19,10 @@ public class Connection{
 		}
 	}
 	public static function getValueInBank($campo,$tabela,$campoPesquisa,$pesquisa){
-		$mysqli=conectar();
+		$mysqli=self::conectar();
 		$getValue='select '.$campo.' from '.$tabela;
 		if($campoPesquisa!=""||$pesquisa!=""){
-			$getValue.='where '.$campoPesquisa.' = '.$pesquisa.';';
+			$getValue.=' where '.$campoPesquisa.' = '.$pesquisa.';';
 		}else{
 			$getValue.=';';
 		}
@@ -25,7 +31,7 @@ public class Connection{
 		return $value[0];
 	}
 	public static function verifyId($alvo,$id){
-		$mysqli=conectar();
+		$mysqli=self::conectar();
 		$queryCheck='select * from '.$alvo.' where id='.$id.';';
 		$getCheck=mysqli_query($mysqli,$queryCheck);
 		$check=mysqli_num_rows($getCheck);

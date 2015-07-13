@@ -21,6 +21,7 @@ public class Cliente extends Contato{
 		}
 	}
 	public function buscarDadosCliente($id){
+		$mysqli=$this->conectar();
 		if($this->idCliente!=$id){
 			$this->nome=getValueInBank('nome','cliente','id',$id);
 			$this->cpf=getValueInBank('cpf','cliente','id',$id);
@@ -39,7 +40,7 @@ public class Cliente extends Contato{
 		echo "<script>$('#phpForm').submit();</script>";
 	}
 	public function atualizarCliente($id,$nome,$cpf,$obs){
-		$mysqli=conectar();
+		$mysqli=$this->conectar();
 		$updCliente='update cliente set nome="'.$this->nome.'",cpf="'.$this->cpf.'",obs="'.$this->obs.'" where id='.$this->idCliente.';';
 		if(!mysqli_query($mysqli,$updCliente)){
 			die ('<script>alert("Não foi possível atualizar o cliente:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');

@@ -3,6 +3,37 @@
 		<meta charset="utf-8" />
 		<title>Software teste de banco de dados de estoque</title>
 		<?php
+			function __autoload($class){
+				$pasta='./class';
+				$ext='.php';
+				$file=procurarArquivos($pasta,$class.$ext);
+			   if ($file!==false ){
+				   require_once $file;
+				}else{
+					$msg='Não foi possível encontrar o arquivo "'.$class.$ext.'".';
+					exit('<script>alert("'.$msg.'");</script>');
+				}
+			}
+			function procurarArquivos($pasta,$arquivo,$ds='/'){
+				if (is_dir($pasta)){
+					if (file_exists($pasta.$ds.$arquivo)){
+						return $pasta.$ds.$arquivo;
+					}
+					$dirs=array_diff(scandir($pasta, 1), array('.','..'));
+					foreach ($dirs as $dir) {
+						if (!is_dir($pasta.$ds.$dir)){
+							continue;
+						}else{
+							$f=procurarArquivos($pasta.$ds.$dir, $arquivo, $ds);
+							if ($f!==false){
+								return $f;
+							}
+						}
+					}
+				}else{
+					return false;
+				}
+			}
 			if(isset($_SESSION['usuario'])){
 				if(!empty($_SESSION['usuario'])){
 					header("location:/trabalhos/gti/bda1/");
@@ -13,14 +44,7 @@
 					$senha=$_POST['senha'];
 					$acao=$_POST['acao'];
 					// Inicia a conexão
-					$mysqli=mysqli_connect('mysql.hostinger.com.br', 'u398318873_tj', 'Knowledge1', 'u398318873_bda');
-					if (mysqli_connect_errno()) {
-						echo '
-						<script>
-							alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");
-							location.href="/trabalhos/gti/bda1/";
-						</script>';
-					}
+					$mysqli=Connection::conectar();
 					$queryCheck='select * from usuario where nome="'.$usuario.'";';
 					$getCheck=mysqli_query($mysqli,$queryCheck);
 					$check=mysqli_num_rows($getCheck);
@@ -51,6 +75,7 @@
 								}else{
 									session_start();
 									$_SESSION['usuario']=$usuario;
+									$_SESSION['tempo']=time();
 									echo '
 									<script>
 										alert("Seja bem vindo, '.$usuario.'.");
@@ -78,11 +103,8 @@
 									echo '<script>alert("O usuário '.$usuario.' foi cadastrado com sucesso!");</script>';
 									session_start();
 									$_SESSION['usuario']=$usuario;
-									echo '
-									<script>
-										alert("Seja bem vindo, '.$usuario.'.");
-										location.href="/trabalhos/gti/bda1/";
-									</script>';
+									$_SESSION['tempo']=time();
+									echo '<script>alert("Seja bem vindo, '.$usuario.'.");location.href="/trabalhos/gti/bda1/";</script>';
 								}
 							}
 							break;

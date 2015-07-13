@@ -13,8 +13,13 @@
 			if(empty($_SESSION['usuario'])||!isset($_SESSION['usuario'])){
 				header("location:/trabalhos/gti/bda1/login.php");
 			}else{
-				$usuario=$_SESSION['usuario'];
-				require_once('php/edicao.php');
+				if($_SESSION['tempo']<(time()-10)){
+					session_unset();
+					echo '<script>alert("Sua sessão expirou!");location.href="/trabalhos/gti/bda1/login.php";</script>';
+				}else{
+					$usuario=$_SESSION['usuario'];
+					require_once('php/edicao.php');
+				}
 			}
 		?>
 	</head><!-- Head -->

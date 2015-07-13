@@ -6,10 +6,11 @@
 	</head>
 	<body>
 		<?php
+			require_once('db-queries.php');
 			function __autoload($class){
-				$libs='./class';
+				$pasta='./class';
 				$ext='.php';
-				$file=procurarArquivos($libs,$class.$ext);
+				$file=procurarArquivos($pasta,$class.$ext);
 			   if ($file!==false ){
 				   require_once $file;
 				}else{
@@ -17,52 +18,73 @@
 					exit('<script>alert("'.$msg.'");</script>');
 				}
 			}
-			require_once('db-queries.php');
+			function procurarArquivos($pasta,$arquivo,$ds='/'){
+				if (is_dir($pasta)){
+					if (file_exists($pasta.$ds.$arquivo)){
+						return $pasta.$ds.$arquivo;
+					}
+					$dirs=array_diff(scandir($pasta, 1), array('.','..'));
+					foreach ($dirs as $dir) {
+						if (!is_dir($pasta.$ds.$dir)){
+							continue;
+						}else{
+							$f=procurarArquivos($pasta.$ds.$dir, $arquivo, $ds);
+							if ($f!==false){
+								return $f;
+							}
+						}
+					}
+				}else{
+					return false;
+				}
+			}
 			$acao=$_POST['acao'];
 			$alvo=$_POST['alvo'];
 			switch($alvo){
 				case 'fornecedor':
-					$idFornecedor=$_POST['idFornecedor'];
-					$nomeFantasia=$_POST['nomeFantasia'];
-					$cnpj=$_POST['cnpj'];
+					$fornecedor=new Fornecedor();
+					$fornecedor->idFornecedor=$_POST['idFornecedor'];
+					$fornecedor->nomeFantasia=$_POST['nomeFantasia'];
+					$fornecedor->cnpj=$_POST['cnpj'];
 					//Contatos
-					$email=$_POST['email'];
-					$telFixo=$_POST['telFixo'];
-					$telCel=$_POST['telCel'];
+					$fornecedor->email=$_POST['email'];
+					$fornecedor->telFixo=$_POST['telFixo'];
+					$fornecedor->telCel=$_POST['telCel'];
 					//Endereços
-					$rua=$_POST['rua'];
-					$numero=$_POST['numero'];
-					$compl=$_POST['compl'];
-					$cep=$_POST['cep'];
-					$bairro=$_POST['bairro'];
-					$cidade=$_POST['cidade'];
-					$estado=$_POST['estado'];
+					$fornecedor->rua=$_POST['rua'];
+					$fornecedor->numero=$_POST['numero'];
+					$fornecedor->complemento=$_POST['compl'];
+					$fornecedor->cep=$_POST['cep'];
+					$fornecedor->bairro=$_POST['bairro'];
+					$fornecedor->cidade=$_POST['cidade'];
+					$fornecedor->estado=$_POST['estado'];
+					$mysqli=$fornecedor->conectar();
 					//Funções
 					switch($acao){
 						case 'cadastrar':
-							enderecos($acao,'','',$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-							contatos($acao,'','',$email,$telCel,$telFixo);
-							fornecedores($acao,'',$nomeFantasia,$cnpj);
+							$fornecedor->cadastrarEndereco();
+							$fornecedor->cadastrarContato();
+							$fornecedor->cadastrarFornecedor();
 							break;
 						case 'atualizar':
-							if(verifyId('fornecedor',$idFornecedor)=="nonEcziste"){
+							if($fornecedor->verifyId('fornecedor',$fornecedor->idFornecedor)===false){
 								break;
 							}
-							enderecos($acao,'fornecedor',$idFornecedor,$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-							contatos($acao,'fornecedor',$idFornecedor,$email,$telCel,$telFixo);
-							fornecedores($acao,$idFornecedor,$nomeFantasia,$cnpj);
+							$fornecedor->atualizarFornecedor();
+							$fornecedor->atualizarEndereco();
+							$fornecedor->atualizarContato();
 							break;
 						case 'editar':
-							if(verifyId('fornecedor',$idFornecedor)=="nonEcziste"){
+							if($fornecedor->verifyId('fornecedor',$fornecedor->idFornecedor)===false){
 								break;
 							}
-							fornecedores($acao,$idFornecedor);
+							$fornecedor->buscarDadosFornecedor($fornecedor->idFornecedor);
 							break;
 						case 'excluir':
-							if(verifyId('fornecedor',$idFornecedor)=="nonEcziste"){
+							if($fornecedor->verifyId('fornecedor',$fornecedor->idFornecedor)===false){
 								break;
 							}
-							fornecedores($acao,$idFornecedor);
+							$fornecedor->excluirFornecedor($fornecedor->idFornecedor);
 							break;
 					}
 					break;
