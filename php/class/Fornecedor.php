@@ -39,18 +39,18 @@ class Fornecedor extends Contato {
 			echo '<script>alert("Atualização do fornecedor '.$this->nomeFantasia.', de ID '.$this->idFornecedor.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 		}
 	}
-	public function excluirFornecedor($id){
-		$nomeFantasia=$this->getValueInBank('nomeFantasia','fornecedor','id',$id);
-		$this->idContato=$this->getValueInBank('contato','fornecedor','id',$id);
-		$this->idEndereco=$this->getValueInBank('endereco','fornecedor','id',$id);
+	public function excluirFornecedor(){
+		$this->nomeFantasia=$this->getValueInBank('nomeFantasia','fornecedor','id',$this->idFornecedor);
+		$this->idContato=$this->getValueInBank('contato','fornecedor','id',$this->idFornecedor);
+		$this->idEndereco=$this->getValueInBank('endereco','fornecedor','id',$this->idFornecedor);
 		$this->excluirContato();
 		$this->excluirEndereco();
-		$delFornecedor='delete from fornecedor where id='.$id.';';
+		$delFornecedor='delete from fornecedor where id='.$this->idFornecedor.';';
 		$mysqli=$this->conectar();
 		if(!mysqli_query($mysqli,$delFornecedor)){
-			die ('<script>alert("Não foi possível excluir o fornecedor '.$nomeFantasia.':\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
+			die ('<script>alert("Não foi possível excluir o fornecedor '.$this->nomeFantasia.':\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
 		}else{
-			echo '<script>alert("Exclusão do fornecedor '.$nomeFantasia.', de ID '.$id.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+			echo '<script>alert("Exclusão do fornecedor '.$this->nomeFantasia.', de ID '.$this->idFornecedor.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 		}
 	}
 }

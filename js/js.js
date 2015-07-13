@@ -19,15 +19,6 @@ function opcoes(item){
 		$('#'+item+' ul').css('display','block')
 	};
 }
-function escondeGalera(){
-	if($('#creditos input').val()=='aberto'){
-		$('#creditos').css('margin-top','463.172px');
-		$('#creditos input').val('fechado');
-	}else{
-		$('#creditos').css('margin-top','300px');
-		$('#creditos input').val('aberto');
-	}
-}
 function escondeTudo(){
 	$('#remessa,#produto,#fornecedor,#cliente,#funcionario,#estoque,#contato,#endereco').css('display','none').find('input,textarea').removeAttr('required');
 }
@@ -40,8 +31,8 @@ function dbManage(item,proc){
 			$('input[name="acao"]').val('cadastrar');
 			$('button').html('Cadastrar');
 			break;
-		case 'Edição':
-			$('input[name="acao"]').val('editar');
+		case 'Busca de Dados':
+			$('input[name="acao"]').val('buscarDados');
 			$('button').html('Buscar dados');
 			break;
 		case 'Exclusão':
@@ -68,17 +59,17 @@ function dbManage(item,proc){
 					$('#fornecedor p').css('display','block').find('input,textarea').attr('required',true);
 					$('#campoIdFornecedor').css('display','none').find('input').removeAttr('required');
 					break;
-				case 'Edição':
+				case 'Busca de Dados':
 					escondeTudo();
 					$('#fornecedor').css('display','block');
 					$('#fornecedor p').css('display','none').find('input,textarea').removeAttr('required');
-					$('#campoIdFornecedor').css('display','block').find('input').attr('required',true);
+					$('#campoIdFornecedor').css('display','block').find('input').attr('required',true).removeAttr('readonly').removeClass('readonly');
 					break;
 				case 'Exclusão':
 					escondeTudo();
 					$('#fornecedor').css('display','block');
 					$('#fornecedor p').css('display','none').find('input,textarea').removeAttr('required');
-					$('#campoIdFornecedor').css('display','block').find('input').attr('required',true);
+					$('#campoIdFornecedor').css('display','block').find('input').attr('required',true).removeAttr('readonly').removeClass('readonly');
 					break;
 			}
 			break;
@@ -92,17 +83,17 @@ function dbManage(item,proc){
 					$('#cliente p').css('display','block').find('input,textarea').attr('required',true);
 					$('#campoIdCliente').css('display','none').find('input').removeAttr('required');
 					break;
-				case 'Edição':
+				case 'Busca de Dados':
 					escondeTudo();
 					$('#cliente').css('display','block');
 					$('#cliente p').css('display','none').find('input,textarea').removeAttr('required');
-					$('#campoIdCliente').css('display','block').find('input').attr('required',true);
+					$('#campoIdCliente').css('display','block').find('input').attr('required',true).removeAttr('readonly').removeClass('readonly');
 					break;
 				case 'Exclusão':
 					escondeTudo();
 					$('#cliente').css('display','block');
 					$('#cliente p').css('display','none').find('input,textarea').removeAttr('required');
-					$('#campoIdCliente').css('display','block').find('input').attr('required',true);
+					$('#campoIdCliente').css('display','block').find('input').attr('required',true).removeAttr('readonly').removeClass('readonly');
 					break;
 			}
 			break;
@@ -116,17 +107,17 @@ function dbManage(item,proc){
 					$('#funcionario p').css('display','block').find('input,textarea').attr('required',true);
 					$('#campoIdFuncionario').css('display','none').find('input').removeAttr('required');
 					break;
-				case 'Edição':
+				case 'Busca de Dados':
 					escondeTudo();
 					$('#funcionario').css('display','block');
 					$('#funcionario p').css('display','none').find('input,textarea').removeAttr('required');
-					$('#campoIdFuncionario').css('display','block').find('input').attr('required',true);
+					$('#campoIdFuncionario').css('display','block').find('input').attr('required',true).removeAttr('readonly').removeClass('readonly');
 					break;
 				case 'Exclusão':
 					escondeTudo();
 					$('#funcionario').css('display','block');
 					$('#funcionario p').css('display','none').find('input,textarea').removeAttr('required');
-					$('#campoIdFuncionario').css('display','block').find('input').attr('required',true);
+					$('#campoIdFuncionario').css('display','block').find('input').attr('required',true).removeAttr('readonly').removeClass('readonly');
 					break;
 			}
 			break;
@@ -148,13 +139,13 @@ function dbManage(item,proc){
 					escondeTudo();
 					$('#produto').css('display','block').find('input,textarea').attr('required',true);
 					$('#produto p').css('display','block').find('input,textarea').attr('required',true);
-					$('#campoIdFuncionario').css('display','none').find('input').removeAttr('required');
+					$('#campoIdProduto').css('display','none').find('input').removeAttr('required');
 					break;
-				case 'Edição':
+				case 'Busca de Dados':
 					escondeTudo();
 					$('#produto').css('display','block');
 					$('#produto p').css('display','none').find('input,textarea').removeAttr('required');
-					$('#campoIdProduto').css('display','block').find('input').attr('required',true);
+					$('#campoIdProduto').css('display','block').find('input').attr('required',true).removeAttr('readonly').removeClass('readonly');
 					break;
 			}
 			break;

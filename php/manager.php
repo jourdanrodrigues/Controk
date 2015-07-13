@@ -74,108 +74,110 @@
 							$fornecedor->atualizarEndereco();
 							$fornecedor->atualizarContato();
 							break;
-						case 'editar':
+						case 'buscarDados':
 							if($fornecedor->verifyId('fornecedor',$fornecedor->idFornecedor)===false){
 								break;
 							}
-							$fornecedor->buscarDadosFornecedor($fornecedor->idFornecedor);
+							$fornecedor->buscarDadosFornecedor();
 							break;
 						case 'excluir':
 							if($fornecedor->verifyId('fornecedor',$fornecedor->idFornecedor)===false){
 								break;
 							}
-							$fornecedor->excluirFornecedor($fornecedor->idFornecedor);
+							$fornecedor->excluirFornecedor();
 							break;
 					}
 					break;
 				case 'cliente':
-					$idCliente=$_POST['idCliente'];
-					$nomeCliente=$_POST['nomeCliente'];
-					$cpfCliente=$_POST['cpfCliente'];
-					$obsCliente=$_POST['obsCliente'];
+					$cliente=new Cliente();
+					$cliente->idCliente=$_POST['idCliente'];
+					$cliente->nome=$_POST['nomeCliente'];
+					$cliente->cpf=$_POST['cpfCliente'];
+					$cliente->obs=$_POST['obsCliente'];
 					//Contatos
-					$email=$_POST['email'];
-					$telFixo=$_POST['telFixo'];
-					$telCel=$_POST['telCel'];
+					$cliente->email=$_POST['email'];
+					$cliente->telFixo=$_POST['telFixo'];
+					$cliente->telCel=$_POST['telCel'];
 					//Endereços
-					$rua=$_POST['rua'];
-					$numero=$_POST['numero'];
-					$compl=$_POST['compl'];
-					$cep=$_POST['cep'];
-					$bairro=$_POST['bairro'];
-					$cidade=$_POST['cidade'];
-					$estado=$_POST['estado'];
+					$cliente->rua=$_POST['rua'];
+					$cliente->numero=$_POST['numero'];
+					$cliente->complemento=$_POST['compl'];
+					$cliente->cep=$_POST['cep'];
+					$cliente->bairro=$_POST['bairro'];
+					$cliente->cidade=$_POST['cidade'];
+					$cliente->estado=$_POST['estado'];
 					switch($acao){
 						case 'cadastrar':
-							enderecos($acao,'','',$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-							contatos($acao,'','',$email,$telCel,$telFixo);
-							clientes($acao,'',$nomeCliente,$cpfCliente,$obsCliente);
+							$cliente->cadastrarEndereco();
+							$cliente->cadastrarContato();
+							$cliente->cadastrarCliente();
 							break;
 						case 'atualizar':
-							if(verifyId('cliente',$idCliente)=="nonEcziste"){
+							if($cliente->verifyId('cliente',$cliente->idCliente)===false){
 								break;
 							}
-							enderecos($acao,'cliente',$idCliente,$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-							contatos($acao,'cliente',$idCliente,$email,$telCel,$telFixo);
-							clientes($acao,$idCliente,$nomeCliente,$cpfCliente,$obsCliente);
+							$cliente->atualizarCliente();
+							$cliente->atualizarEndereco();
+							$cliente->atualizarContato();
 							break;
-						case 'editar':
-							if(verifyId('cliente',$idCliente)=="nonEcziste"){
+						case 'buscarDados':
+							if($cliente->verifyId('cliente',$cliente->idCliente)===false){
 								break;
 							}
-							clientes($acao,$idCliente);
+							$cliente->buscarDadosCliente();
 							break;
 						case 'excluir':
-							if(verifyId('cliente',$idCliente)=="nonEcziste"){
+							if($cliente->verifyId('cliente',$cliente->idCliente)===false){
 								break;
 							}
-							clientes($acao,$idCliente);
+							$cliente->excluirCliente();
 							break;
 					}
 					break;
 				case 'funcionario':
-					$idFuncionario=$_POST['idFuncionario'];
-					$nomeFunc=$_POST['nomeFunc'];
-					$cpfFuncionario=$_POST['cpfFuncionario'];
-					$cargo=$_POST['cargo'];
-					$obsFuncionario=$_POST['obsFuncionario'];
+					$funcionario=new Funcionario();
+					$funcionario->idFuncionario=$_POST['idFuncionario'];
+					$funcionario->nome=$_POST['nomeFunc'];
+					$funcionario->cpf=$_POST['cpfFuncionario'];
+					$funcionario->cargo=$_POST['cargo'];
+					$funcionario->obs=$_POST['obsFuncionario'];
 					//Contatos
-					$email=$_POST['email'];
-					$telFixo=$_POST['telFixo'];
-					$telCel=$_POST['telCel'];
+					$funcionario->email=$_POST['email'];
+					$funcionario->telFixo=$_POST['telFixo'];
+					$funcionario->telCel=$_POST['telCel'];
 					//Endereços
-					$rua=$_POST['rua'];
-					$numero=$_POST['numero'];
-					$compl=$_POST['compl'];
-					$cep=$_POST['cep'];
-					$bairro=$_POST['bairro'];
-					$cidade=$_POST['cidade'];
-					$estado=$_POST['estado'];
+					$funcionario->rua=$_POST['rua'];
+					$funcionario->numero=$_POST['numero'];
+					$funcionario->complemento=$_POST['compl'];
+					$funcionario->cep=$_POST['cep'];
+					$funcionario->bairro=$_POST['bairro'];
+					$funcionario->cidade=$_POST['cidade'];
+					$funcionario->estado=$_POST['estado'];
 					switch($acao){
 						case 'cadastrar':
-							enderecos($acao,'','',$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-							contatos($acao,'','',$email,$telCel,$telFixo);
-							funcionarios($acao,'',$nomeFunc,$cpfFuncionario,$cargo,$obsFuncionario);
+							$funcionario->cadastrarEndereco();
+							$funcionario->cadastrarContato();
+							$funcionario->cadastrarFuncionario();
 							break;
-						case 'editar':
-							if(verifyId('funcionario',$idFuncionario)=="nonEcziste"){
+						case 'buscarDados':
+							if($funcionario->verifyId('funcionario',$funcionario->idFuncionario)===false){
 								break;
 							}
-							funcionarios($acao,$idFuncionario);
+							$funcionario->buscarDadosFuncionario();
 							break;
 						case 'atualizar':
-							if(verifyId('funcionario',$idFuncionario)=="nonEcziste"){
+							if($funcionario->verifyId('funcionario',$funcionario->idFuncionario)===false){
 								break;
 							}
-							enderecos($acao,'funcionario',$idFuncionario,$rua,$numero,$compl,$cep,$bairro,$cidade,$estado);
-							contatos($acao,'funcionario',$idFuncionario,$email,$telCel,$telFixo);
-							funcionarios($acao,$idFuncionario,$nomeFunc,$cpfFuncionario,$cargo,$obsFuncionario);
+							$funcionario->atualizarFuncionario();
+							$funcionario->atualizarEndereco();
+							$funcionario->atualizarContato();
 							break;
 						case 'excluir':
-							if(verifyId('funcionario',$idFuncionario)=="nonEcziste"){
+							if($funcionario->verifyId('funcionario',$funcionario->idFuncionario)===false){
 								break;
 							}
-							funcionarios($acao,$idFuncionario);
+							$funcionario->excluirFuncionario();
 							break;
 					}
 					break;
@@ -191,27 +193,27 @@
 					}
 					break;
 				case 'produto':
-					$idProduto=$_POST['idProduto'];
-					$idRemessa=$_POST['idRemessa'];
-					$descrProd=$_POST['descrProd'];
-					$nomeProd=$_POST['nomeProd'];
-					$custoProd=$_POST['custoProd'];
-					$valorVenda=$_POST['valorVenda'];
+					$produto->idProduto=$_POST['idProduto'];
+					$produto->idRemessa=$_POST['idRemessa'];
+					$produto->descricao=$_POST['descrProd'];
+					$produto->nome=$_POST['nomeProd'];
+					$produto->custoProd=$_POST['custoProd'];
+					$produto->valorVenda=$_POST['valorVenda'];
 					switch($acao){
 						case 'cadastrar':
-							produtos($acao,'',$idRemessa,$descrProd,$nomeProd,$custoProd,$valorVenda);
+							$produto->cadastrarProduto();
+							break;
+						case 'buscarDados':
+							if($produto->verifyId('produto',$produto->idProduto)===false){
+								break;
+							}
+							$produto->buscarDadosProduto();
 							break;
 						case 'atualizar':
-							if(verifyId('produto',$idProduto)=="nonEcziste"){
+							if($produto->verifyId('produto',$produto->idProduto)===false){
 								break;
 							}
-							produtos($acao,$idProduto,$idRemessa,$descrProd,$nomeProd,$custoProd,$valorVenda);
-							break;
-						case 'editar':
-							if(verifyId('produto',$idProduto)=="nonEcziste"){
-								break;
-							}
-							produtos($acao,$idProduto);
+							$produto->atualizarProduto();
 							break;
 					}
 					break;

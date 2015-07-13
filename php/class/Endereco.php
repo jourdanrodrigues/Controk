@@ -35,8 +35,8 @@ class Endereco extends Connection {
 	}
 	public function atualizarEndereco(){
 		$mysqli=$this->conectar();
-		$updContato='update endereco set rua="'.$this->rua.'",numero="'.$this->numero.'",complemento="'.$this->complemento.'",cep="'.$this->cep.'",bairro="'.$this->bairro.'",cidade="'.$this->cidade.'",estado="'.$this->estado.'" where id='.$this->idEndereco.';';
-		if(!mysqli_query($mysqli,$updContato)){
+		$updEndereco='update endereco set rua="'.$this->rua.'",numero='.$this->numero.',complemento="'.$this->complemento.'",cep="'.$this->cep.'",bairro="'.$this->bairro.'",cidade="'.$this->cidade.'",estado="'.$this->estado.'" where id='.$this->idEndereco.';';
+		if(!mysqli_query($mysqli,$updEndereco)){
 			die ('<script>alert("Não foi possível atualizar o endereço:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
 		}
 	}

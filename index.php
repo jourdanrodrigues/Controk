@@ -13,7 +13,7 @@
 			if(empty($_SESSION['usuario'])||!isset($_SESSION['usuario'])){
 				header("location:/trabalhos/gti/bda1/login.php");
 			}else{
-				if($_SESSION['tempo']<(time()-10)){
+				if($_SESSION['tempo']<(time()-3000)){
 					session_unset();
 					echo '<script>alert("Sua sessão expirou!");location.href="/trabalhos/gti/bda1/login.php";</script>';
 				}else{
@@ -37,21 +37,21 @@
 				<li id="navFuncionario" class="item" onclick="opcoes('navFuncionario')">Funcionário
 					<ul>
 						<li onclick="dbManage('funcionario','Cadastro')">Cadastrar</li>
-						<li onclick="dbManage('funcionario','Edição')">Editar</li>
+						<li onclick="dbManage('funcionario','Busca de Dados')">Buscar Dados</li>
 						<li onclick="dbManage('funcionario','Exclusão')">Excluir</li>
 					</ul>
 				</li>
 				<li id="navCliente" class="item" onclick="opcoes('navCliente')">Cliente
 					<ul>
 						<li onclick="dbManage('cliente','Cadastro')">Cadastrar</li>
-						<li onclick="dbManage('cliente','Edição')">Editar</li>
+						<li onclick="dbManage('cliente','Busca de Dados')">Buscar Dados</li>
 						<li onclick="dbManage('cliente','Exclusão')">Excluir</li>
 					</ul>
 				</li>
 				<li id="navFornecedor" class="item" onclick="opcoes('navFornecedor')">Fornecedor
 					<ul>
 						<li onclick="dbManage('fornecedor','Cadastro')">Cadastrar</li>
-						<li onclick="dbManage('fornecedor','Edição')">Editar</li>
+						<li onclick="dbManage('fornecedor','Busca de Dados')">Buscar Dados</li>
 						<li onclick="dbManage('fornecedor','Exclusão')">Excluir</li>
 					</ul>
 				</li>
@@ -63,7 +63,7 @@
 				<li id="navProduto" class="item" onclick="opcoes('navProduto')">Produto
 					<ul>
 						<li onclick="dbManage('produto','Cadastro')">Cadastrar</li>
-						<li onclick="dbManage('produto','Edição')">Editar</li>
+						<li onclick="dbManage('produto','Busca de Dados')">Buscar Dados</li>
 					</ul>
 				</li>
 				<li id="navEstoque" class="item" onclick="opcoes('navEstoque')">Estoque
@@ -227,16 +227,5 @@
 				<button type="submit"></button>
 			</form>
 		</div><!-- Direita -->
-		<div id="creditos" align="center">
-			<h4 onclick="escondeGalera();">Equipe de BDA</h4>
-			<input type="hidden" value="aberto">
-			<ul id="galera">
-				<li class="integrante">Jean Rodrigues</li>
-				<li class="integrante">Jéssica Freires</li>
-				<li class="integrante">Joseph Rodrigues</li>
-				<li class="integrante">Rômulo Cordeiro</li>
-				<li class="integrante">Thiago Jourdan</li>
-			</ul>
-		</div>
 	</body><!-- Body -->
 </html>

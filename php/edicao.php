@@ -14,7 +14,7 @@
 			echo "<script>
 			$(document).ready(function (){
 			$('input[name=\"acao\"]').val('atualizar');
-			$('button').html('Editar');
+			$('button').html('Atualizar');
 			$('#email').val('".$email."');
 			$('#telFixo').val('".$telFixo."');
 			$('#telCel').val('".$telCel."');
@@ -33,9 +33,9 @@
 				$cargo=$_POST['cargo'];
 				$obs=$_POST['obs'];
 				echo "
-				$('#funcionario h3').html('Edição de Funcionario');
+				$('#funcionario h3').html('Atualização de Funcionario');
 				$('input[name=\"alvo\"]').val('funcionario');
-				$('#idFuncionario').val('".$idFuncionario."');
+				$('#idFuncionario').val('".$idFuncionario."').attr('readonly','readonly').addClass('readonly');
 				$('#nomeFunc').val('".$nomeFunc."');
 				$('#cpfFuncionario').val('".$cpf."');
 				$('#cargo').val('".$cargo."');
@@ -52,12 +52,11 @@
 				$cpf=$_POST['cpf'];
 				$obs=$_POST['obs'];
 				echo "
-				$('#cliente h3').html('Edição de Cliente');
+				$('#cliente h3').html('Atualização de Cliente');
 				$('input[name=\"alvo\"]').val('cliente');
-				$('#idCliente').val('".$idCliente."');
+				$('#idCliente').val('".$idCliente."').attr('readonly','readonly').addClass('readonly');
 				$('#nomeCliente').val('".$nomeCliente."');
 				$('#cpfCliente').val('".$cpf."');
-				$('#cargo').val('".$cargo."');
 				$('#obsCliente').val('".$obs."');
 				escondeTudo();
 				$('#direita').css('display','block');
@@ -70,9 +69,9 @@
 				$nomeFantasia=$_POST['nomeFantasia'];
 				$cnpj=$_POST['cnpj'];
 				echo "
-				$('#fornecedor h3').html('Edição de Fornecedor');
+				$('#fornecedor h3').html('Atualização de Fornecedor');
 				$('input[name=\"alvo\"]').val('fornecedor');
-				$('#idFornecedor').val('".$idFornecedor."');
+				$('#idFornecedor').val('".$idFornecedor."').attr('readonly','readonly').addClass('readonly');
 				$('#nomeFantasia').val('".$nomeFantasia."');
 				$('#cnpj').val('".$cnpj."');
 				escondeTudo();
@@ -93,8 +92,8 @@
 			$(document).ready(function (){
 			$('input[name=\"acao\"]').val('atualizar');
 			$('input[name=\"alvo\"]').val('produto');
-			$('button').html('Editar');
-			$('#idProduto').val('".$idProduto."');
+			$('button').html('Atualizar');
+			$('#idProduto').val('".$idProduto."').attr('readonly','readonly').addClass('readonly');
 			$('#idRemessa').val('".$idRemessa."');
 			$('#nomeProd').val('".$nomeProd."');
 			$('#descrProd').val('".$descrProd."');

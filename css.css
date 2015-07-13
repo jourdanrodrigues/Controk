@@ -42,25 +42,6 @@ button:hover{
 #direita,#fornecedor,#cliente,#contato,#endereco,#remessa,#produto,#funcionario{
 	display:none;
 	transition:.3s}
-#creditos{
-	background:#999;
-	color:#333;
-	position:fixed;
-	margin-top:300px; padding-right:20px;
-	border-radius:0 10px 0 0;
-	box-shadow:5px -5px 10px #666;
-	transition:.3s}
-#creditos h4{
-	cursor:pointer;
-	border-radius:0 6px 6px 0;
-	padding:5px 5px 5px 0}
-#creditos h4:hover{
-	background:#CCC;
-	color:#666;
-	transition:.3s}
-#creditos ul{
-	list-style:none;
-	margin-left:-30px}
 #logIn{
 	margin:0 30%; padding:2% 0 5% 0;
 	background:#666}
@@ -75,9 +56,6 @@ button:hover{
 #logOut a:hover{
 	color:red;
 	transition:.3s}
-.integrante{
-	padding:4px 0;
-	font-size:14pt;}
 .item{
 	background:#AAA;
 	margin-left:-20px; padding:5px;
@@ -117,3 +95,8 @@ button:hover{
 .required{
 	margin-left:5px;
 	color:red}
+.readonly,.readonly:hover,.readonly:focus{
+	background:#CCC;
+	color:#333;
+	cursor:default;
+	box-shadow:0 0 0px rgba(0,0,0,0);}
