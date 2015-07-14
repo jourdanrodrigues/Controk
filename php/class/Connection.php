@@ -30,20 +30,18 @@ class Connection {
 		$value=mysqli_fetch_row($gotValue);
 		return $value[0];
 	}
-	public static function verifyId($alvo,$id){
+	public static function verificarExistencia($alvo,$campo,$valor){
 		$mysqli=self::conectar();
-		$queryCheck='select * from '.$alvo.' where id='.$id.';';
+		$queryCheck='select * from '.$alvo.' where '.$campo.'='.$valor.';';
 		$getCheck=mysqli_query($mysqli,$queryCheck);
 		$check=mysqli_num_rows($getCheck);
 		if($check==0){
 			if($alvo=='funcionario'){
 				$alvo=str_replace('a','á',$alvo);
 			}
-			echo '
-			<script>
-				alert("O '.$alvo.' de ID '.$id.' não existe.");
-				location.href="/trabalhos/gti/bda1/";
-			</script>';
+			if($alvo!='estoque'){
+				echo '<script>alert("O '.$alvo.' de '.$campo.' '.$valor.' não existe.");location.href="/trabalhos/gti/bda1/";</script>';
+			}
 			return false;
 		}
 	}

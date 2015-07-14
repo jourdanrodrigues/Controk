@@ -7,7 +7,7 @@ class Produto extends Remessa{
 	public function setAttrProduto($idProduto,$nome,$idRemessa,$descricao,$custoProd,$valorVenda){
 		$this->idProduto=$idProduto;
 		$this->nome=$nome;
-		$this->idRemessa=$remessa;
+		$this->idRemessa=$idRemessa;
 		$this->descricao=$descricao;
 		$this->custoProd=$custoProd;
 		$this->valorVenda=$valorVenda;
@@ -48,14 +48,14 @@ class Produto extends Remessa{
 	public function atualizarProduto(){
 		$this->custoProd=str_replace('R$ ','',$this->custoProd);
 		$custoProd=str_replace(',','.',$this->custoProd);
-		$valorVenda=str_replace('R$ ','',$valorVenda);
-		$this->valorVenda=str_replace(',','.',$valorVenda);
+		$this->valorVenda=str_replace('R$ ','',$this->valorVenda);
+		$valorVenda=str_replace(',','.',$this->valorVenda);
 		$mysqli=$this->conectar();
-		$updProduto='update produto set descricao="'.$this->descricao.'",nome="'.$this->nome.'",custo="'.$custoProd.'",valorVenda="'.$this->valorVenda.'" where id='.$this->idProduto.';';
+		$updProduto='update produto set descricao="'.$this->descricao.'",nome="'.$this->nome.'",custo="'.$custoProd.'",valorVenda="'.$valorVenda.'" where id='.$this->idProduto.';';
 		if(!mysqli_query($mysqli,$updProduto)){
 			die ('<script>alert("Não foi possível atualizar o produto:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
 		}else{
-			echo '<script>alert("Atualização do produto '.$this->nome.', de ID '.$id.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+			echo '<script>alert("Atualização do produto '.$this->nome.', de ID '.$this->idProduto.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
 		}
 	}
 }

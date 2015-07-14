@@ -47,7 +47,6 @@
 					$fornecedor->setAttrFornecedor($idFornecedor,$_POST['nomeFantasia'],$_POST['cnpj']);
 					$fornecedor->setAttrContato($_POST['email'],$_POST['telCel'],$_POST['telFixo']);
 					$fornecedor->setAttrEndereco($_POST['rua'],$_POST['numero'],$_POST['compl'],$_POST['cep'],$_POST['bairro'],$_POST['cidade'],$_POST['estado']);
-					$mysqli=$fornecedor->conectar();
 					//Funções
 					switch($acao){
 						case 'cadastrar':
@@ -56,19 +55,19 @@
 							$fornecedor->cadastrarFornecedor();
 							break;
 						case 'atualizar':
-							if($fornecedor->verifyId('fornecedor',$idFornecedor)!==false){
+							if($fornecedor->verificarExistencia('fornecedor','id',$idFornecedor)!==false){
 								$fornecedor->atualizarFornecedor();
 								$fornecedor->atualizarEndereco();
 								$fornecedor->atualizarContato();
 							}
 							break;
 						case 'buscarDados':
-							if($fornecedor->verifyId('fornecedor',$idFornecedor)!==false){
+							if($fornecedor->verificarExistencia('fornecedor','id',$idFornecedor)!==false){
 								$fornecedor->buscarDadosFornecedor();
 							}
 							break;
 						case 'excluir':
-							if($fornecedor->verifyId('fornecedor',$idFornecedor)!==false){
+							if($fornecedor->verificarExistencia('fornecedor','id',$idFornecedor)!==false){
 								$fornecedor->excluirFornecedor();
 							}
 							break;
@@ -87,19 +86,19 @@
 							$cliente->cadastrarCliente();
 							break;
 						case 'atualizar':
-							if($cliente->verifyId('cliente',$idCliente)!==false){
+							if($cliente->verificarExistencia('cliente','id',$idCliente)!==false){
 								$cliente->atualizarCliente();
 								$cliente->atualizarEndereco();
 								$cliente->atualizarContato();
 							}
 							break;
 						case 'buscarDados':
-							if($cliente->verifyId('cliente',$idCliente)!==false){
+							if($cliente->verificarExistencia('cliente','id',$idCliente)!==false){
 								$cliente->buscarDadosCliente();
 							}
 							break;
 						case 'excluir':
-							if($cliente->verifyId('cliente',$idCliente)!==false){
+							if($cliente->verificarExistencia('cliente','id',$idCliente)!==false){
 								$cliente->excluirCliente();
 							}
 							break;
@@ -118,19 +117,19 @@
 							$funcionario->cadastrarFuncionario();
 							break;
 						case 'buscarDados':
-							if($funcionario->verifyId('funcionario',$idFuncionario)!==false){
+							if($funcionario->verificarExistencia('funcionario','id',$idFuncionario)!==false){
 								$funcionario->buscarDadosFuncionario();
 							}
 							break;
 						case 'atualizar':
-							if($funcionario->verifyId('funcionario',$idFuncionario)!==false){
+							if($funcionario->verificarExistencia('funcionario','id',$idFuncionario)!==false){
 								$funcionario->atualizarFuncionario();
 								$funcionario->atualizarEndereco();
 								$funcionario->atualizarContato();
 							}
 							break;
 						case 'excluir':
-							if($funcionario->verifyId('funcionario',$idFuncionario)!==false){
+							if($funcionario->verificarExistencia('funcionario','id',$idFuncionario)!==false){
 								$funcionario->excluirFuncionario();
 							}
 							break;
@@ -141,10 +140,8 @@
 					$idProduto=$_POST['idProdutoRem'];
 					$remessa->setAttrRemessa($idProduto,$_POST['qtdProdRem'],$_POST['idFornecedorRem'],$_POST['dataPedido'],$_POST['dataPagamento'],$_POST['dataEntrega']);
 					if($acao=='cadastrar'){
-						if($remessa->verifyId('produto',$idProduto)!==false){
+						if($remessa->verificarExistencia('produto','id',$idProduto)!==false){
 							$remessa->cadastrarRemessa();
-						}else{
-							echo '<script>alert("O produto de ID '$idProduto' não existe. Verifique se o ID está correto ou cadastre um novo produto.");</script>';
 						}
 					}
 					break;
@@ -157,12 +154,12 @@
 							$produto->cadastrarProduto();
 							break;
 						case 'buscarDados':
-							if($produto->verifyId('produto',$idProduto)!==false){
+							if($produto->verificarExistencia('produto','id',$idProduto)!==false){
 								$produto->buscarDadosProduto();
 							}
 							break;
 						case 'atualizar':
-							if($produto->verifyId('produto',$idProduto)!==false){
+							if($produto->verificarExistencia('produto','id',$idProduto)!==false){
 								$produto->atualizarProduto();
 							}
 							break;
@@ -171,16 +168,19 @@
 				case 'estoque':
 					$entradaEstoque=new Estoque();
 					$idProduto=$_POST['idProdutoEstq'];
-					$entradaEstoque->setAttrEstoque($idProduto,$_POST['idFuncionarioEstq'],$_POST['qtdProdEstq'],$_POST['dataSaida']);
+					$idFuncionario=$_POST['idFuncionarioEstq'];
+					$entradaEstoque->setAttrEstoque($idProduto,$idFuncionario,$_POST['qtdProdEstq'],$_POST['dataSaida']);
 					switch($acao){
 						case 'inserir':
-							if($entradaEstoque->verifyId('produto',$idProduto)!==false){
+							if($entradaEstoque->verificarExistencia('produto','id',$idProduto)!==false){
 								$entradaEstoque->inserirProduto();
 							}
 							break;
 						case 'retirar':
-							if($entradaEstoque->verifyId('produto',$idProduto)!==false){
-								$entradaEstoque->retirarProduto();
+							if($entradaEstoque->verificarExistencia('funcionario','id',$idFuncionario)!==false){
+								if($entradaEstoque->verificarExistencia('produto','id',$idProduto)!==false){
+									$entradaEstoque->retirarProduto();
+								}
 							}
 							break;
 					}

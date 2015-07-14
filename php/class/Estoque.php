@@ -7,13 +7,25 @@ class Estoque extends Historico{
 		$this->dataSaida=$dataSaida;
 	}
 	public function inserirProduto(){
-		$insEstoque='insert into estoque(produto,qtdProd) values ('.$this->idProduto.','.$this->qtdProd.');';
+		if($this->verificarExistencia('estoque','produto',$this->idProduto)===false){
+			$insEstoque='insert into estoque(produto,qtdProd) values ('.$this->idProduto.','.$this->qtdProd.');';
+		}else{
+			$qtdProdEstq=$this->getValueInBank('qtdProd','estoque','produto',$this->idProduto);
+			$this->qtdProd+=$qtdProdEstq;
+			$insEstoque='update estoque set qtdProd='.$this->qtdProd.' where produto='.$this->idProduto.';';
+		}
 		$this->nomeProduto=$this->getValueInBank('nome','produto','id',$this->idProduto);
 		$mysqli=$this->conectar();
 		if(!mysqli_query($mysqli,$insEstoque)){
 			die ('<script>alert("Não foi possível inserir o produto no estoque:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
 		}else{
-			echo '<script>alert("Inserido no estoque com sucesso:\n\nProduto: '.$this->nomeProduto.';\nQuantidade: '.$this->qtdProd.'.");location.href="/trabalhos/gti/bda1/";</script>';
+			echo '<script>alert("Produto inserido no estoque com sucesso:\n\nProduto: '.$this->nomeProduto.';\nQuantidade';
+			if(isset($qtdProdEstq)){
+				echo ' anterior: '.$qtdProdEstq.';\nQuantidade atual: '.$this->qtdProd.'.");';
+			}else{
+				echo ': '.$this->qtdProd.'.");location.href="/trabalhos/gti/bda1/";';
+			}
+			echo 'location.href="/trabalhos/gti/bda1/";</script>';
 		}
 	}
 	public function retirarProduto(){
