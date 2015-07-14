@@ -10,6 +10,7 @@ class Funcionario extends Cliente{
 		$this->obs=$obs;
 	}
 	public function cadastrarFuncionario(){
+		if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false){return;}
 		$mysqli=$this->conectar();
 		$queryInsert='insert into funcionario(nome,cpf,obs,cargo,endereco,contato) values ("'.$this->nome.'","'.$this->cpf.'","'.$this->obs.'","'.$this->cargo.'",'.$this->idEndereco.','.$this->idContato.');';
 		if(!mysqli_query($mysqli,$queryInsert)){
@@ -20,6 +21,7 @@ class Funcionario extends Cliente{
 		}
 	}
 	public function buscarDadosFuncionario(){
+		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false){return;}
 		$this->nome=$this->getValueInBank('nome','funcionario','id',$this->idFuncionario);
 		$this->cpf=$this->getValueInBank('cpf','funcionario','id',$this->idFuncionario);
 		$this->cargo=$this->getValueInBank('cargo','funcionario','id',$this->idFuncionario);
@@ -41,6 +43,7 @@ class Funcionario extends Cliente{
 	public function atualizarFuncionario(){
 		$this->idEndereco=$this->getValueInBank('endereco','funcionario','id',$this->idFuncionario);
 		$this->idContato=$this->getValueInBank('contato','funcionario','id',$this->idFuncionario);
+		if($this->atualizarEndereco()===false||$this->atualizarContato()===false){return;}
 		$mysqli=$this->conectar();
 		$updFuncionario='update funcionario set nome="'.$this->nome.'",cpf="'.$this->cpf.'",obs="'.$this->obs.'",cargo="'.$this->cargo.'" where id='.$this->idFuncionario.';';
 		if(!mysqli_query($mysqli,$updFuncionario)){
@@ -54,11 +57,11 @@ class Funcionario extends Cliente{
 		}
 	}
 	public function excluirFuncionario(){
+		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false){return;}
 		$this->nome=$this->getValueInBank('nome','funcionario','id',$this->idFuncionario);
 		$this->idContato=$this->getValueInBank('contato','funcionario','id',$this->idFuncionario);
 		$this->idEndereco=$this->getValueInBank('endereco','funcionario','id',$this->idFuncionario);
-		$this->excluirContato();
-		$this->excluirEndereco();
+		if($this->excluirEndereco()===false||$this->excluirContato()===false){return;}
 		$delFuncionario='delete from funcionario where id='.$this->idFuncionario.';';
 		$mysqli=$this->conectar();
 		if(!mysqli_query($mysqli,$delFuncionario)){

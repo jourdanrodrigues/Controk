@@ -7,6 +7,7 @@ class Estoque extends Historico{
 		$this->dataSaida=$dataSaida;
 	}
 	public function inserirProduto(){
+		if($this->verificarExistencia('produto','id',$this->idProduto)===false){return;}
 		if($this->verificarExistencia('estoque','produto',$this->idProduto)===false){
 			$insEstoque='insert into estoque(produto,qtdProd) values ('.$this->idProduto.','.$this->qtdProd.');';
 		}else{
@@ -29,6 +30,7 @@ class Estoque extends Historico{
 		}
 	}
 	public function retirarProduto(){
+		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false||$this->verificarExistencia('produto','id',$this->idProduto)===false){return;}
 		$qtdProdEstq=$this->getValueInBank('qtdProd','estoque','produto',$this->idProduto);
 		$nomeProduto=$this->getValueInBank('nome','produto','id',$this->idProduto);
 		if($this->qtdProd>$qtdProdEstq){

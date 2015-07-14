@@ -14,7 +14,7 @@ class Historico extends Connection{
 			$this->idHistorico=mysqli_insert_id($mysqli);
 		}
 	}
-	public function buscarDadosHistorico($id){
+	public function buscarDadosHistorico(){
 		//Não finalizada!
 	}
 }

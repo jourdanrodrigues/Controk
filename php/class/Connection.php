@@ -5,10 +5,10 @@ class Connection {
 	protected static $user='root';
 	protected static $password='';
 	/*
-	private $host='mysql.hostinger.com.br';
-	private $db='u398318873_bda';
-	private $user='u398318873_tj';
-	private $password='Knowledge1';
+	protected static $host='mysql.hostinger.com.br';
+	protected static $db='u398318873_bda';
+	protected static $user='u398318873_tj';
+	protected static $password='Knowledge1';
 	*/
 	public static function conectar(){
 		$mysqli=mysqli_connect(self::$host,self::$user,self::$password,self::$db);

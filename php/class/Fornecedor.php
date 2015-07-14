@@ -9,6 +9,7 @@ class Fornecedor extends Contato {
 		$this->cnpj=$cnpj;
 	}
 	public function cadastrarFornecedor(){
+		if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false){return;}
 		$mysqli=$this->conectar();
 		$cadFornecedor='insert into fornecedor(nomeFantasia,cnpj,endereco,contato) values ("'.$this->nomeFantasia.'","'.$this->cnpj.'",'.$this->idEndereco.','.$this->idContato.');';
 		if(!mysqli_query($mysqli,$cadFornecedor)){
@@ -19,6 +20,7 @@ class Fornecedor extends Contato {
 		}
 	}
 	public function buscarDadosFornecedor(){
+		if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false){return;}
 		$this->nomeFantasia=$this->getValueInBank('nomeFantasia','fornecedor','id',$this->idFornecedor);
 		$this->cnpj=$this->getValueInBank('cnpj','fornecedor','id',$this->idFornecedor);
 		$this->idEndereco=$this->getValueInBank('endereco','fornecedor','id',$this->idFornecedor);
@@ -36,8 +38,9 @@ class Fornecedor extends Contato {
 	public function atualizarFornecedor(){
 		$this->idContato=$this->getValueInBank('contato','fornecedor','id',$this->idFornecedor);
 		$this->idEndereco=$this->getValueInBank('endereco','fornecedor','id',$this->idFornecedor);
-		$mysqli=$this->conectar();
+		if($this->atualizarEndereco()===false||$this->atualizarContato()===false){return;}
 		$updFornecedor='update fornecedor set cnpj="'.$this->cnpj.'",nomeFantasia="'.$this->nomeFantasia.'" where id='.$this->idFornecedor.';';
+		$mysqli=$this->conectar();
 		if(!mysqli_query($mysqli,$updFornecedor)){
 			die ('<script>alert("Não foi possível atualizar o fornecedor:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
 		}else{
@@ -45,11 +48,11 @@ class Fornecedor extends Contato {
 		}
 	}
 	public function excluirFornecedor(){
+		if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false){return;}
 		$this->nomeFantasia=$this->getValueInBank('nomeFantasia','fornecedor','id',$this->idFornecedor);
 		$this->idContato=$this->getValueInBank('contato','fornecedor','id',$this->idFornecedor);
 		$this->idEndereco=$this->getValueInBank('endereco','fornecedor','id',$this->idFornecedor);
-		$this->excluirContato();
-		$this->excluirEndereco();
+		if($this->excluirEndereco()===false||$this->excluirContato()===false){return;}
 		$delFornecedor='delete from fornecedor where id='.$this->idFornecedor.';';
 		$mysqli=$this->conectar();
 		if(!mysqli_query($mysqli,$delFornecedor)){

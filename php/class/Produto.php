@@ -27,6 +27,7 @@ class Produto extends Remessa{
 		}
 	}
 	public function buscarDadosProduto(){
+		if($this->verificarExistencia('produto','id',$this->idProduto)===false){return;}
 		$this->nome=$this->getValueInBank('nome','produto','id',$this->idProduto);
 		$this->idRemessa=$this->getValueInBank('remessa','produto','id',$this->idProduto);
 		$this->descricao=$this->getValueInBank('descricao','produto','id',$this->idProduto);

@@ -21,9 +21,11 @@ class Endereco extends Connection {
 		$mysqli=$this->conectar();
 		$cadEndereco='insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values ("'.$this->rua.'",'.$this->numero.',"'.$this->complemento.'","'.$this->cep.'","'.$this->bairro.'","'.$this->cidade.'","'.$this->estado.'");';
 		if(!mysqli_query($mysqli,$cadEndereco)){
-			die ('<script>alert("Não foi possível cadastrar o endereço:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
+			die ('<script>alert("Não foi possível cadastrar o endereço:\n\n'.mysqli_error($mysqli).'");</script>');
+			return false;
 		}else{
 			$this->idEndereco=mysqli_insert_id($mysqli);
+			return true;
 		}
 	}
 	public function buscarDadosEndereco(){
@@ -46,15 +48,19 @@ class Endereco extends Connection {
 		$mysqli=$this->conectar();
 		$updEndereco='update endereco set rua="'.$this->rua.'",numero='.$this->numero.',complemento="'.$this->complemento.'",cep="'.$this->cep.'",bairro="'.$this->bairro.'",cidade="'.$this->cidade.'",estado="'.$this->estado.'" where id='.$this->idEndereco.';';
 		if(!mysqli_query($mysqli,$updEndereco)){
-			die ('<script>alert("Não foi possível atualizar o endereço:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
+			die ('<script>alert("Não foi possível atualizar o endereço:\n\n'.mysqli_error($mysqli).'");</script>');
+			return false;
 		}
+		return true;
 	}
 	public function excluirEndereco(){
 		$mysqli=$this->conectar();
 		$delEndereco='delete from endereco where id='.$this->idEndereco.';';
 		if(!mysqli_query($mysqli,$delEndereco)){
-			die ('<script>alert("Não foi possível excluir o endereço:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
+			die ('<script>alert("Não foi possível excluir o endereço:\n\n'.mysqli_error($mysqli).'");</script>');
+			return false;
 		}
+		return true;
 	}
 }
 ?>

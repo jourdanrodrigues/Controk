@@ -11,6 +11,7 @@ class Cliente extends Contato{
 		$this->obs=$obs;
 	}
 	public function cadastrarCliente(){
+		if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false){return;}
 		$mysqli=$this->conectar();
 		$queryInsert='insert into cliente(nome,cpf,obs,endereco,contato) values ("'.$this->nome.'","'.$this->cpf.'","'.$this->obs.'",'.$this->idEndereco.','.$this->idContato.');';
 		if(!mysqli_query($mysqli,$queryInsert)){
@@ -21,7 +22,7 @@ class Cliente extends Contato{
 		}
 	}
 	public function buscarDadosCliente(){
-		$mysqli=$this->conectar();
+		if($this->verificarExistencia('cliente','id',$this->idCliente)===false){return;}
 		$this->nome=$this->getValueInBank('nome','cliente','id',$this->idCliente);
 		$this->cpf=$this->getValueInBank('cpf','cliente','id',$this->idCliente);
 		$this->obs=$this->getValueInBank('obs','cliente','id',$this->idCliente);
@@ -42,6 +43,7 @@ class Cliente extends Contato{
 		$mysqli=$this->conectar();
 		$this->idContato=$this->getValueInBank('contato','cliente','id',$this->idCliente);
 		$this->idEndereco=$this->getValueInBank('endereco','cliente','id',$this->idCliente);
+		if($this->atualizarEndereco()===false||$this->atualizarContato()===false){return;}
 		$updCliente='update cliente set nome="'.$this->nome.'",cpf="'.$this->cpf.'",obs="'.$this->obs.'" where id='.$this->idCliente.';';
 		if(!mysqli_query($mysqli,$updCliente)){
 			die ('<script>alert("Não foi possível atualizar o cliente:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
@@ -50,11 +52,11 @@ class Cliente extends Contato{
 		}
 	}
 	public function excluirCliente(){
+		if($this->verificarExistencia('cliente','id',$this->idCliente)===false){return;}
 		$this->nome=$this->getValueInBank('nome','cliente','id',$this->idCliente);
 		$this->idContato=$this->getValueInBank('contato','cliente','id',$this->idCliente);
 		$this->idEndereco=$this->getValueInBank('endereco','cliente','id',$this->idCliente);
-		$this->excluirContato();
-		$this->excluirEndereco();
+		if($this->excluirEndereco()===false||$this->excluirContato()===false){return;}
 		$delCliente='delete from cliente where id='.$this->idCliente.';';
 		$mysqli=$this->conectar();
 		if(!mysqli_query($mysqli,$delCliente)){
