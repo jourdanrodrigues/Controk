@@ -1,8 +1,13 @@
 <?php
 class Fornecedor extends Contato {
-	public $idFornecedor;
-	public $nomeFantasia;
-	public $cnpj;
+	private $idFornecedor;
+	private $nomeFantasia;
+	private $cnpj;
+	public function setAttrFornecedor($idFornecedor,$nomeFantasia,$cnpj){
+		$this->idFornecedor=$idFornecedor;
+		$this->nomeFantasia=$nomeFantasia;
+		$this->cnpj=$cnpj;
+	}
 	public function cadastrarFornecedor(){
 		$mysqli=$this->conectar();
 		$cadFornecedor='insert into fornecedor(nomeFantasia,cnpj,endereco,contato) values ("'.$this->nomeFantasia.'","'.$this->cnpj.'",'.$this->idEndereco.','.$this->idContato.');';

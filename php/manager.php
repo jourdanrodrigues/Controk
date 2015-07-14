@@ -43,21 +43,10 @@
 			switch($alvo){
 				case 'fornecedor':
 					$fornecedor=new Fornecedor();
-					$fornecedor->idFornecedor=$_POST['idFornecedor'];
-					$fornecedor->nomeFantasia=$_POST['nomeFantasia'];
-					$fornecedor->cnpj=$_POST['cnpj'];
-					//Contatos
-					$fornecedor->email=$_POST['email'];
-					$fornecedor->telFixo=$_POST['telFixo'];
-					$fornecedor->telCel=$_POST['telCel'];
-					//Endereços
-					$fornecedor->rua=$_POST['rua'];
-					$fornecedor->numero=$_POST['numero'];
-					$fornecedor->complemento=$_POST['compl'];
-					$fornecedor->cep=$_POST['cep'];
-					$fornecedor->bairro=$_POST['bairro'];
-					$fornecedor->cidade=$_POST['cidade'];
-					$fornecedor->estado=$_POST['estado'];
+					$idFornecedor=$_POST['idFornecedor'];
+					$fornecedor->setAttrFornecedor($idFornecedor,$_POST['nomeFantasia'],$_POST['cnpj']);
+					$fornecedor->setAttrContato($_POST['email'],$_POST['telCel'],$_POST['telFixo']);
+					$fornecedor->setAttrEndereco($_POST['rua'],$_POST['numero'],$_POST['compl'],$_POST['cep'],$_POST['bairro'],$_POST['cidade'],$_POST['estado']);
 					$mysqli=$fornecedor->conectar();
 					//Funções
 					switch($acao){
@@ -67,45 +56,30 @@
 							$fornecedor->cadastrarFornecedor();
 							break;
 						case 'atualizar':
-							if($fornecedor->verifyId('fornecedor',$fornecedor->idFornecedor)===false){
-								break;
+							if($fornecedor->verifyId('fornecedor',$idFornecedor)!==false){
+								$fornecedor->atualizarFornecedor();
+								$fornecedor->atualizarEndereco();
+								$fornecedor->atualizarContato();
 							}
-							$fornecedor->atualizarFornecedor();
-							$fornecedor->atualizarEndereco();
-							$fornecedor->atualizarContato();
 							break;
 						case 'buscarDados':
-							if($fornecedor->verifyId('fornecedor',$fornecedor->idFornecedor)===false){
-								break;
+							if($fornecedor->verifyId('fornecedor',$idFornecedor)!==false){
+								$fornecedor->buscarDadosFornecedor();
 							}
-							$fornecedor->buscarDadosFornecedor();
 							break;
 						case 'excluir':
-							if($fornecedor->verifyId('fornecedor',$fornecedor->idFornecedor)===false){
-								break;
+							if($fornecedor->verifyId('fornecedor',$idFornecedor)!==false){
+								$fornecedor->excluirFornecedor();
 							}
-							$fornecedor->excluirFornecedor();
 							break;
 					}
 					break;
 				case 'cliente':
 					$cliente=new Cliente();
-					$cliente->idCliente=$_POST['idCliente'];
-					$cliente->nome=$_POST['nomeCliente'];
-					$cliente->cpf=$_POST['cpfCliente'];
-					$cliente->obs=$_POST['obsCliente'];
-					//Contatos
-					$cliente->email=$_POST['email'];
-					$cliente->telFixo=$_POST['telFixo'];
-					$cliente->telCel=$_POST['telCel'];
-					//Endereços
-					$cliente->rua=$_POST['rua'];
-					$cliente->numero=$_POST['numero'];
-					$cliente->complemento=$_POST['compl'];
-					$cliente->cep=$_POST['cep'];
-					$cliente->bairro=$_POST['bairro'];
-					$cliente->cidade=$_POST['cidade'];
-					$cliente->estado=$_POST['estado'];
+					$idCliente=$_POST['idCliente'];
+					$cliente->setAttrCliente($idCliente,$_POST['nomeCliente'],$_POST['cpfCliente'],$_POST['obsCliente']);
+					$cliente->setAttrContato($_POST['email'],$_POST['telCel'],$_POST['telFixo']);
+					$cliente->setAttrEndereco($_POST['rua'],$_POST['numero'],$_POST['compl'],$_POST['cep'],$_POST['bairro'],$_POST['cidade'],$_POST['estado']);
 					switch($acao){
 						case 'cadastrar':
 							$cliente->cadastrarEndereco();
@@ -113,46 +87,30 @@
 							$cliente->cadastrarCliente();
 							break;
 						case 'atualizar':
-							if($cliente->verifyId('cliente',$cliente->idCliente)===false){
-								break;
+							if($cliente->verifyId('cliente',$idCliente)!==false){
+								$cliente->atualizarCliente();
+								$cliente->atualizarEndereco();
+								$cliente->atualizarContato();
 							}
-							$cliente->atualizarCliente();
-							$cliente->atualizarEndereco();
-							$cliente->atualizarContato();
 							break;
 						case 'buscarDados':
-							if($cliente->verifyId('cliente',$cliente->idCliente)===false){
-								break;
+							if($cliente->verifyId('cliente',$idCliente)!==false){
+								$cliente->buscarDadosCliente();
 							}
-							$cliente->buscarDadosCliente();
 							break;
 						case 'excluir':
-							if($cliente->verifyId('cliente',$cliente->idCliente)===false){
-								break;
+							if($cliente->verifyId('cliente',$idCliente)!==false){
+								$cliente->excluirCliente();
 							}
-							$cliente->excluirCliente();
 							break;
 					}
 					break;
 				case 'funcionario':
 					$funcionario=new Funcionario();
-					$funcionario->idFuncionario=$_POST['idFuncionario'];
-					$funcionario->nome=$_POST['nomeFunc'];
-					$funcionario->cpf=$_POST['cpfFuncionario'];
-					$funcionario->cargo=$_POST['cargo'];
-					$funcionario->obs=$_POST['obsFuncionario'];
-					//Contatos
-					$funcionario->email=$_POST['email'];
-					$funcionario->telFixo=$_POST['telFixo'];
-					$funcionario->telCel=$_POST['telCel'];
-					//Endereços
-					$funcionario->rua=$_POST['rua'];
-					$funcionario->numero=$_POST['numero'];
-					$funcionario->complemento=$_POST['compl'];
-					$funcionario->cep=$_POST['cep'];
-					$funcionario->bairro=$_POST['bairro'];
-					$funcionario->cidade=$_POST['cidade'];
-					$funcionario->estado=$_POST['estado'];
+					$idFuncionario=$_POST['idFuncionario'];
+					$funcionario->setAttrFuncionario($idFuncionario,$_POST['nomeFunc'],$_POST['cpfFuncionario'],$_POST['cargo'],$_POST['obsFuncionario']);
+					$funcionario->setAttrContato($_POST['email'],$_POST['telCel'],$_POST['telFixo']);
+					$funcionario->setAttrEndereco($_POST['rua'],$_POST['numero'],$_POST['compl'],$_POST['cep'],$_POST['bairro'],$_POST['cidade'],$_POST['estado']);
 					switch($acao){
 						case 'cadastrar':
 							$funcionario->cadastrarEndereco();
@@ -160,74 +118,70 @@
 							$funcionario->cadastrarFuncionario();
 							break;
 						case 'buscarDados':
-							if($funcionario->verifyId('funcionario',$funcionario->idFuncionario)===false){
-								break;
+							if($funcionario->verifyId('funcionario',$idFuncionario)!==false){
+								$funcionario->buscarDadosFuncionario();
 							}
-							$funcionario->buscarDadosFuncionario();
 							break;
 						case 'atualizar':
-							if($funcionario->verifyId('funcionario',$funcionario->idFuncionario)===false){
-								break;
+							if($funcionario->verifyId('funcionario',$idFuncionario)!==false){
+								$funcionario->atualizarFuncionario();
+								$funcionario->atualizarEndereco();
+								$funcionario->atualizarContato();
 							}
-							$funcionario->atualizarFuncionario();
-							$funcionario->atualizarEndereco();
-							$funcionario->atualizarContato();
 							break;
 						case 'excluir':
-							if($funcionario->verifyId('funcionario',$funcionario->idFuncionario)===false){
-								break;
+							if($funcionario->verifyId('funcionario',$idFuncionario)!==false){
+								$funcionario->excluirFuncionario();
 							}
-							$funcionario->excluirFuncionario();
 							break;
 					}
 					break;
 				case 'remessa':
-					$idProdutoRem=$_POST['idProdutoRem'];
-					$qtdProdRem=$_POST['qtdProdRem'];
-					$idFornecedorRem=$_POST['idFornecedorRem'];
-					$dataPedido=$_POST['dataPedido'];
-					$dataPagamento=$_POST['dataPagamento'];
-					$dataEntrega=$_POST['dataEntrega'];
+					$remessa=new Remessa();
+					$idProduto=$_POST['idProdutoRem'];
+					$remessa->setAttrRemessa($idProduto,$_POST['qtdProdRem'],$_POST['idFornecedorRem'],$_POST['dataPedido'],$_POST['dataPagamento'],$_POST['dataEntrega']);
 					if($acao=='cadastrar'){
-						remessas($acao,'',$idProdutoRem,$qtdProdRem,$idFornecedorRem,$dataPedido,$dataPagamento,$dataEntrega);
+						if($remessa->verifyId('produto',$idProduto)!==false){
+							$remessa->cadastrarRemessa();
+						}else{
+							echo '<script>alert("O produto de ID '$idProduto' não existe. Verifique se o ID está correto ou cadastre um novo produto.");</script>';
+						}
 					}
 					break;
 				case 'produto':
-					$produto->idProduto=$_POST['idProduto'];
-					$produto->idRemessa=$_POST['idRemessa'];
-					$produto->descricao=$_POST['descrProd'];
-					$produto->nome=$_POST['nomeProd'];
-					$produto->custoProd=$_POST['custoProd'];
-					$produto->valorVenda=$_POST['valorVenda'];
+					$produto=new Produto();
+					$idProduto=$_POST['idProduto'];
+					$produto->setAttrProduto($idProduto,$_POST['nomeProd'],$_POST['idRemessa'],$_POST['descrProd'],$_POST['custoProd'],$_POST['valorVenda']);
 					switch($acao){
 						case 'cadastrar':
 							$produto->cadastrarProduto();
 							break;
 						case 'buscarDados':
-							if($produto->verifyId('produto',$produto->idProduto)===false){
-								break;
+							if($produto->verifyId('produto',$idProduto)!==false){
+								$produto->buscarDadosProduto();
 							}
-							$produto->buscarDadosProduto();
 							break;
 						case 'atualizar':
-							if($produto->verifyId('produto',$produto->idProduto)===false){
-								break;
+							if($produto->verifyId('produto',$idProduto)!==false){
+								$produto->atualizarProduto();
 							}
-							$produto->atualizarProduto();
 							break;
 					}
 					break;
 				case 'estoque':
-					$idFuncionarioEstq=$_POST['idFuncionarioEstq'];
-					$idProdutoEstq=$_POST['idProdutoEstq'];
-					$qtdProdEstq=$_POST['qtdProdEstq'];
-					$dataSaida=$_POST['dataSaida'];
+					$entradaEstoque=new Estoque();
+					$idProduto=$_POST['idProdutoEstq'];
+					$entradaEstoque->setAttrEstoque($idProduto,$_POST['idFuncionarioEstq'],$_POST['qtdProdEstq'],$_POST['dataSaida']);
 					switch($acao){
 						case 'inserir':
-							estoques($acao,$idProdutoEstq,$qtdProdEstq);
+							if($entradaEstoque->verifyId('produto',$idProduto)!==false){
+								$entradaEstoque->inserirProduto();
+							}
 							break;
 						case 'retirar':
-							estoques($acao,$idProdutoEstq,$qtdProdEstq,$idFuncionarioEstq,$dataSaida);
+							if($entradaEstoque->verifyId('produto',$idProduto)!==false){
+								$entradaEstoque->retirarProduto();
+							}
 							break;
 					}
 					break;

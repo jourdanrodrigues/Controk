@@ -1,7 +1,14 @@
 <?php
 class Funcionario extends Cliente{
-	public $idFuncionario;
-	public $cargo;
+	private $idFuncionario;
+	private $cargo;
+	public function setAttrFuncionario($idFuncionario,$nome,$cpf,$cargo,$obs){
+		$this->idFuncionario=$idFuncionario;
+		$this->nome=$nome;
+		$this->cpf=$cpf;
+		$this->cargo=$cargo;
+		$this->obs=$obs;
+	}
 	public function cadastrarFuncionario(){
 		$mysqli=$this->conectar();
 		$queryInsert='insert into funcionario(nome,cpf,obs,cargo,endereco,contato) values ("'.$this->nome.'","'.$this->cpf.'","'.$this->obs.'","'.$this->cargo.'",'.$this->idEndereco.','.$this->idContato.');';

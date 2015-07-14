@@ -1,9 +1,14 @@
 <?php
 class Contato extends Endereco {
-	public $idContato;
-	public $email;
-	public $telCel;
-	public $telFixo;
+	protected $idContato;
+	protected $email;
+	protected $telCel;
+	protected $telFixo;
+	public function setAttrContato($email,$telCel,$telFixo){
+		$this->email=$email;
+		$this->telCel=$telCel;
+		$this->telFixo=$telFixo;
+	}
 	public function cadastrarContato(){
 		$mysqli=$this->conectar();
 		$cadContato='insert into contato(email,telCel,telFixo) values ("'.$this->email.'","'.$this->telCel.'","'.$this->telFixo.'");';

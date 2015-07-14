@@ -1,9 +1,9 @@
 <?php
 class Connection {
-	private static $host='localhost';
-	private static $db='sefuncbd';
-	private static $user='root';
-	private static $password='';
+	protected static $host='localhost';
+	protected static $db='sefuncbd';
+	protected static $user='root';
+	protected static $password='';
 	/*
 	private $host='mysql.hostinger.com.br';
 	private $db='u398318873_bda';

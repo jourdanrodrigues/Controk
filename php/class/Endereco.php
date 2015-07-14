@@ -1,13 +1,22 @@
 <?php
 class Endereco extends Connection {
-	public $idEndereco;
-	public $rua;
-	public $numero;
-	public $complemento;
-	public $cep;
-	public $bairro;
-	public $cidade;
-	public $estado;
+	protected $idEndereco;
+	protected $rua;
+	protected $numero;
+	protected $complemento;
+	protected $cep;
+	protected $bairro;
+	protected $cidade;
+	protected $estado;
+	public function setAttrEndereco($rua,$numero,$complemento,$cep,$bairro,$cidade,$estado){
+		$this->rua=$rua;
+		$this->numero=$numero;
+		$this->complemento=$complemento;
+		$this->cep=$cep;
+		$this->bairro=$bairro;
+		$this->cidade=$cidade;
+		$this->estado=$estado;
+	}
 	public function cadastrarEndereco(){
 		$mysqli=$this->conectar();
 		$cadEndereco='insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values ("'.$this->rua.'",'.$this->numero.',"'.$this->complemento.'","'.$this->cep.'","'.$this->bairro.'","'.$this->cidade.'","'.$this->estado.'");';

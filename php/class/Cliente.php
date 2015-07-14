@@ -1,9 +1,15 @@
 <?php
 class Cliente extends Contato{
-	public $idCliente;
-	public $nome;
-	public $cpf;
-	public $obs;
+	private $idCliente;
+	protected $nome;
+	protected $cpf;
+	protected $obs;
+	public function setAttrCliente($idCliente,$nome,$cpf,$obs){
+		$this->idCliente=$idCliente;
+		$this->nome=$nome;
+		$this->cpf=$cpf;
+		$this->obs=$obs;
+	}
 	public function cadastrarCliente(){
 		$mysqli=$this->conectar();
 		$queryInsert='insert into cliente(nome,cpf,obs,endereco,contato) values ("'.$this->nome.'","'.$this->cpf.'","'.$this->obs.'",'.$this->idEndereco.','.$this->idContato.');';
