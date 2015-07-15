@@ -26,17 +26,21 @@ class Remessa extends Estoque {
 	}
 	public function inserirRemessaEstoque(){
 		echo '
-			<script src="/trabalhos/gti/bda1/js/jQuery.js"></script>
-			<script>
-				alert("Cadastro da remessa nº '.$this->idRemessa.' finalizado com sucesso!");
-				if(confirm("O produto será cadastrado no estoque.")){
-					$(\'#div\').html("<form id=\'phpForm\' action=\'/trabalhos/gti/bda1/php/manager.php\' method=\'POST\'><input type=\'hidden\' id=\'idFuncionarioEstq\' name=\'idFuncionarioEstq\' value=\'\'><input type=\'hidden\' id=\'dataSaida\' name=\'dataSaida\' value=\'\'><input type=\'hidden\' id=\'idProdutoEstq\' name=\'idProdutoEstq\' value='.$this->idProduto.'><input type=\'hidden\' id=\'qtdProdEstq\' name=\'qtdProdEstq\' value='.$this->qtdProd.'><input type=\'hidden\' name=\'acao\' value=\'inserir\'><input type=\'hidden\' name=\'alvo\' value=\'estoque\'></form>");
-					$(\'#phpForm\').submit();
-				}else{
-					location.href="/trabalhos/gti/bda1/";
-				}
-			</script>
-			<div id="div"></div>';
+		<html>
+			<head>
+				<script src="/trabalhos/gti/bda1/js/jQuery.js"></script>
+				<script>
+					alert("Cadastro da remessa nº '.$this->idRemessa.' finalizado com sucesso!");
+					if(confirm("O produto será cadastrado no estoque.")){
+						$(\'body\').html("<form id=\'phpForm\' action=\'/trabalhos/gti/bda1/php/manager.php\' method=\'POST\'><input type=\'hidden\' id=\'idFuncionarioEstq\' name=\'idFuncionarioEstq\' value=\'\'><input type=\'hidden\' id=\'dataSaida\' name=\'dataSaida\' value=\'\'><input type=\'hidden\' id=\'idProdutoEstq\' name=\'idProdutoEstq\' value='.$this->idProduto.'><input type=\'hidden\' id=\'qtdProdEstq\' name=\'qtdProdEstq\' value='.$this->qtdProd.'><input type=\'hidden\' name=\'acao\' value=\'inserir\'><input type=\'hidden\' name=\'alvo\' value=\'estoque\'></form>");
+						$(\'#phpForm\').submit();
+					}else{
+						location.href="/trabalhos/gti/bda1/";
+					}
+				</script>
+			</head>
+			<body></body>
+		</html>';
 	}
 }
 ?>
