@@ -1,15 +1,15 @@
 <?php
 class Connection {
+	/*
 	protected static $host='localhost';
 	protected static $db='sefuncbd';
 	protected static $user='root';
 	protected static $password='';
-	/*
+	*/
 	protected static $host='mysql.hostinger.com.br';
 	protected static $db='u398318873_bda';
 	protected static $user='u398318873_tj';
 	protected static $password='Knowledge1';
-	*/
 	public static function conectar(){
 		$mysqli=mysqli_connect(self::$host,self::$user,self::$password,self::$db);
 		if (mysqli_connect_errno()) {

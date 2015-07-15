@@ -43,7 +43,7 @@ class Estoque extends Historico{
 				die ('<script>alert("Não foi possível retirar o produto '.$nomeProduto.' do estoque:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
 			}else{
 				$this->cadastrarHistorico();
-				echo '<script>alert("Retirado do estoque com sucesso:\n\nProduto: '.$nomeProduto.';\nQuantidade: '.$this->qtdProd.'.");location.href="/trabalhos/gti/bda1/";</script>';
+				echo '<script>alert("Retirado do estoque com sucesso:\n\nProduto: '.$nomeProduto.';\nQuantidade retirada: '.$this->qtdProd.';\nQuantidade no estoque: '.$qtdProdEstq.'");location.href="/trabalhos/gti/bda1/";</script>';
 			}
 		}
 	}

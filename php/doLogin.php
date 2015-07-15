@@ -3,6 +3,7 @@
 		<meta charset="utf-8" />
 		<title>Software teste de banco de dados de estoque</title>
 		<?php
+			require_once('funcoesBase.php');
 			function __autoload($class){
 				$pasta='./class';
 				$ext='.php';
@@ -12,26 +13,6 @@
 				}else{
 					$msg='Não foi possível encontrar o arquivo "'.$class.$ext.'".';
 					exit('<script>alert("'.$msg.'");</script>');
-				}
-			}
-			function procurarArquivos($pasta,$arquivo,$ds='/'){
-				if (is_dir($pasta)){
-					if (file_exists($pasta.$ds.$arquivo)){
-						return $pasta.$ds.$arquivo;
-					}
-					$dirs=array_diff(scandir($pasta, 1), array('.','..'));
-					foreach ($dirs as $dir) {
-						if (!is_dir($pasta.$ds.$dir)){
-							continue;
-						}else{
-							$f=procurarArquivos($pasta.$ds.$dir, $arquivo, $ds);
-							if ($f!==false){
-								return $f;
-							}
-						}
-					}
-				}else{
-					return false;
 				}
 			}
 			if(isset($_SESSION['usuario'])){
