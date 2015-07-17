@@ -24,7 +24,8 @@
 			body{
 				padding:2% 0;
 				overflow:hidden;
-				background:#CCC}
+				background:#CCC;
+				text-align:center}
 			form{
 				font-size:25pt;
 				color:#CCC;}
@@ -44,6 +45,10 @@
 				color:#CCC;
 				background:#666;
 				box-shadow:0 0 15px #CCC;}
+			.title{
+				background:#CCC;
+				color:#666;
+				padding:2px 0}
 		</style>
 		<?php
 			session_start();
@@ -52,9 +57,9 @@
 			}
 		?>
 	</head>
-	<body align="center">
+	<body>
 		<form id="logIn" action="/trabalhos/gti/bda1/php/doLogin.php" method="POST" autocomplete="off">
-			<p style="background:#CCC;color:#666;padding:2px 0">Login para SEFUNC BD</p>
+			<p class="title">Login para SEFUNC BD</p>
 			<p>
 				<label for="usuario">Usuário</label><br>
 				<input type="text" id="usuario" name="usuario" class="field" required>

@@ -23,7 +23,7 @@
 			}
 		?>
 	</head><!-- Head -->
-	<body align="center">
+	<body>
 		<div id="topo">
 			<form id="logOut" action="php/logout.php" method="POST">
 				<input type="hidden" name="logout" value="logout">
@@ -137,6 +137,31 @@
 						<input id="telCel" name="telCel" class="field" type="text">
 					</p>
 				</div>
+				<div id="endereco"><!-- Endereço -->
+					<h3>Endereço</h3>
+					<p>
+						<label for="rua">Rua</label><br>
+						<input id="rua" name="rua" class="field" type="text">
+					</p><p>
+						<label for="numero">Número</label><br>
+						<input id="numero" name="numero" class="field" type="text">
+					</p><p>
+						<label for="compl">Complemento</label><br>
+						<input id="compl" name="compl" class="field" type="text" value="S. Comp.">
+					</p><p>
+						<label for="cep">CEP</label><br>
+						<input id="cep" name="cep" class="field" type="text">
+					</p><p>
+						<label for="bairro">Bairro</label><br>
+						<input id="bairro" name="bairro" class="field" type="text">
+					</p><p>
+						<label for="cidade">Cidade</label><br>
+						<input id="cidade" name="cidade" class="field" type="text">
+					</p><p>
+						<label for="estado">Estado (UF)</label><br>
+						<input id="estado" name="estado" class="field" type="text">
+					</p>
+				</div>
 				<div id="remessa"><!-- Remessa -->
 					<h3></h3>
 					<p>
@@ -179,31 +204,6 @@
 					</p><p>
 						<label for="valorVenda">Valor de venda do produto</label><br>
 						<input id="valorVenda" name="valorVenda" class="field" type="text">
-					</p>
-				</div>
-				<div id="endereco"><!-- Endereço -->
-					<h3>Endereço</h3>
-					<p>
-						<label for="rua">Rua</label><br>
-						<input id="rua" name="rua" class="field" type="text">
-					</p><p>
-						<label for="numero">Número</label><br>
-						<input id="numero" name="numero" class="field" type="text">
-					</p><p>
-						<label for="compl">Complemento</label><br>
-						<input id="compl" name="compl" class="field" type="text" value="S. Comp.">
-					</p><p>
-						<label for="cep">CEP</label><br>
-						<input id="cep" name="cep" class="field" type="text">
-					</p><p>
-						<label for="bairro">Bairro</label><br>
-						<input id="bairro" name="bairro" class="field" type="text">
-					</p><p>
-						<label for="cidade">Cidade</label><br>
-						<input id="cidade" name="cidade" class="field" type="text">
-					</p><p>
-						<label for="estado">Estado (UF)</label><br>
-						<input id="estado" name="estado" class="field" type="text">
 					</p>
 				</div>
 				<div id="estoque"><!-- Estoque -->
