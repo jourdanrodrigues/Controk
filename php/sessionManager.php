@@ -15,20 +15,17 @@
 					exit('<script>alert("'.$msg.'");</script>');
 				}
 			}
-			if(isset($_SESSION['usuario'])){
-				if(!empty($_SESSION['usuario'])){
-					header("location:/trabalhos/gti/bda1/");
-				}
+			$acao=$_POST['acao'];
+			if($acao=='logout'){
+				session_start();
+				session_unset();
+				echo '<script>alert("Logout efetuado com sucesso!");location.href="/trabalhos/gti/bda1/login.php";</script>';
 			}else{
-				if(isset($_POST)){
-					$acao=$_POST['acao'];
-					// Inicia a conexão
-					$conn=new Connection();
-					$conn->setAttrLogin($_POST['usuario'],$_POST['senha']);
-					switch($acao){
-						case 'login': $conn->login(); break;
-						case 'cadastrar': $conn->cadastrarUsuario(); break;
-					}
+				$conn=new Connection();
+				$conn->setAttrLogin($_POST['usuario'],$_POST['senha']);
+				switch($acao){
+					case 'login': $conn->login(); break;
+					case 'cadastrar': $conn->cadastrarUsuario(); break;
 				}
 			}
 		?>

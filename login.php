@@ -58,7 +58,7 @@
 		?>
 	</head>
 	<body>
-		<form id="logIn" action="/trabalhos/gti/bda1/php/doLogin.php" method="POST" autocomplete="off">
+		<form id="logIn" action="/trabalhos/gti/bda1/php/sessionManager.php" method="POST" autocomplete="off">
 			<p class="title">Login para SEFUNC BD</p>
 			<p>
 				<label for="usuario">Usuário</label><br>

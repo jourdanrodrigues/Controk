@@ -25,9 +25,9 @@
 	</head><!-- Head -->
 	<body>
 		<div id="topo">
-			<form id="logOut" action="php/logout.php" method="POST">
-				<input type="hidden" name="logout" value="logout">
-				<?php if(!empty($_SESSION['usuario'])||isset($_SESSION['usuario'])){echo $usuario;} ?>, fazer <a onclick="$('#logOut').submit();">logout</a>.
+			<form id="logOut" action="php/sessionManager.php" method="POST">
+				<input type="hidden" id="acao" name="acao" value="logout">
+				<?php echo $usuario; ?>, fazer <a onclick="$('#logOut').submit();">logout</a>.
 			</form>
 			<h1>SEFUNC BD</h1>
 			<h3>Software para Exemplo de Funcionamento do Banco de Dados</h3>
