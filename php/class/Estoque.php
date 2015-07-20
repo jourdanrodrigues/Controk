@@ -11,11 +11,11 @@ class Estoque extends Historico{
 		if($this->verificarExistencia('estoque','produto',$this->idProduto)===false){
 			$insEstoque='insert into estoque(produto,qtdProd) values ('.$this->idProduto.','.$this->qtdProd.');';
 		}else{
-			$qtdProdEstq=$this->getValueInBank('qtdProd','estoque','produto',$this->idProduto);
+			$qtdProdEstq=$this->pegarValor('qtdProd','estoque','produto',$this->idProduto);
 			$this->qtdProd+=$qtdProdEstq;
 			$insEstoque='update estoque set qtdProd='.$this->qtdProd.' where produto='.$this->idProduto.';';
 		}
-		$this->nomeProduto=$this->getValueInBank('nome','produto','id',$this->idProduto);
+		$this->nomeProduto=$this->pegarValor('nome','produto','id',$this->idProduto);
 		$mysqli=$this->conectar();
 		if(!mysqli_query($mysqli,$insEstoque)){
 			die ('<script>alert("Não foi possível inserir o produto no estoque:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
@@ -31,8 +31,8 @@ class Estoque extends Historico{
 	}
 	public function retirarProduto(){
 		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false||$this->verificarExistencia('produto','id',$this->idProduto)===false){return;}
-		$qtdProdEstq=$this->getValueInBank('qtdProd','estoque','produto',$this->idProduto);
-		$nomeProduto=$this->getValueInBank('nome','produto','id',$this->idProduto);
+		$qtdProdEstq=$this->pegarValor('qtdProd','estoque','produto',$this->idProduto);
+		$nomeProduto=$this->pegarValor('nome','produto','id',$this->idProduto);
 		if($this->qtdProd>$qtdProdEstq){
 			echo '<script>alert("Retirada não pode ser realizada porque não há essa quantidade do produto no estoque!");location.href="/trabalhos/gti/bda1/";</script>';
 		}else{

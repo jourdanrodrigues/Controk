@@ -28,12 +28,12 @@ class Produto extends Remessa{
 	}
 	public function buscarDadosProduto(){
 		if($this->verificarExistencia('produto','id',$this->idProduto)===false){return;}
-		$this->nome=$this->getValueInBank('nome','produto','id',$this->idProduto);
-		$this->idRemessa=$this->getValueInBank('remessa','produto','id',$this->idProduto);
-		$this->descricao=$this->getValueInBank('descricao','produto','id',$this->idProduto);
-		$this->custoProd=$this->getValueInBank('custo','produto','id',$this->idProduto);
+		$this->nome=$this->pegarValor('nome','produto','id',$this->idProduto);
+		$this->idRemessa=$this->pegarValor('remessa','produto','id',$this->idProduto);
+		$this->descricao=$this->pegarValor('descricao','produto','id',$this->idProduto);
+		$this->custoProd=$this->pegarValor('custo','produto','id',$this->idProduto);
 		$custoProd=str_replace('.',',',$this->custoProd);
-		$this->valorVenda=$this->getValueInBank('valorVenda','produto','id',$this->idProduto);
+		$this->valorVenda=$this->pegarValor('valorVenda','produto','id',$this->idProduto);
 		$valorVenda=str_replace('.',',',$this->valorVenda);
 		echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
 		echo '<input type="hidden" name="idProduto" value="'.$this->idProduto.'">';

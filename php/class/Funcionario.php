@@ -22,12 +22,12 @@ class Funcionario extends Cliente{
 	}
 	public function buscarDadosFuncionario(){
 		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false){return;}
-		$this->nome=$this->getValueInBank('nome','funcionario','id',$this->idFuncionario);
-		$this->cpf=$this->getValueInBank('cpf','funcionario','id',$this->idFuncionario);
-		$this->cargo=$this->getValueInBank('cargo','funcionario','id',$this->idFuncionario);
-		$this->obs=$this->getValueInBank('obs','funcionario','id',$this->idFuncionario);
-		$this->idEndereco=$this->getValueInBank('endereco','funcionario','id',$this->idFuncionario);
-		$this->idContato=$this->getValueInBank('contato','funcionario','id',$this->idFuncionario);
+		$this->nome=$this->pegarValor('nome','funcionario','id',$this->idFuncionario);
+		$this->cpf=$this->pegarValor('cpf','funcionario','id',$this->idFuncionario);
+		$this->cargo=$this->pegarValor('cargo','funcionario','id',$this->idFuncionario);
+		$this->obs=$this->pegarValor('obs','funcionario','id',$this->idFuncionario);
+		$this->idEndereco=$this->pegarValor('endereco','funcionario','id',$this->idFuncionario);
+		$this->idContato=$this->pegarValor('contato','funcionario','id',$this->idFuncionario);
 		echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
 		echo '<input type="hidden" name="idFuncionario" value="'.$this->idFuncionario.'">';
 		echo '<input type="hidden" name="nomeFunc" value="'.$this->nome.'">';
@@ -41,8 +41,8 @@ class Funcionario extends Cliente{
 		echo "<script>$('#phpForm').submit();</script>";
 	}
 	public function atualizarFuncionario(){
-		$this->idEndereco=$this->getValueInBank('endereco','funcionario','id',$this->idFuncionario);
-		$this->idContato=$this->getValueInBank('contato','funcionario','id',$this->idFuncionario);
+		$this->idEndereco=$this->pegarValor('endereco','funcionario','id',$this->idFuncionario);
+		$this->idContato=$this->pegarValor('contato','funcionario','id',$this->idFuncionario);
 		if($this->atualizarEndereco()===false||$this->atualizarContato()===false){return;}
 		$mysqli=$this->conectar();
 		$updFuncionario='update funcionario set nome="'.$this->nome.'",cpf="'.$this->cpf.'",obs="'.$this->obs.'",cargo="'.$this->cargo.'" where id='.$this->idFuncionario.';';
@@ -58,9 +58,9 @@ class Funcionario extends Cliente{
 	}
 	public function excluirFuncionario(){
 		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false){return;}
-		$this->nome=$this->getValueInBank('nome','funcionario','id',$this->idFuncionario);
-		$this->idContato=$this->getValueInBank('contato','funcionario','id',$this->idFuncionario);
-		$this->idEndereco=$this->getValueInBank('endereco','funcionario','id',$this->idFuncionario);
+		$this->nome=$this->pegarValor('nome','funcionario','id',$this->idFuncionario);
+		$this->idContato=$this->pegarValor('contato','funcionario','id',$this->idFuncionario);
+		$this->idEndereco=$this->pegarValor('endereco','funcionario','id',$this->idFuncionario);
 		if($this->excluirEndereco()===false||$this->excluirContato()===false){return;}
 		$delFuncionario='delete from funcionario where id='.$this->idFuncionario.';';
 		$mysqli=$this->conectar();

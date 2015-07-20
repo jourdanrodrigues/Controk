@@ -21,9 +21,9 @@ class Contato extends Endereco {
 		}
 	}
 	public function buscarDadosContato(){
-		$this->email=$this->getValueInBank('email','contato','id',$this->idContato);
-		$this->telCel=$this->getValueInBank('telCel','contato','id',$this->idContato);
-		$this->telFixo=$this->getValueInBank('telFixo','contato','id',$this->idContato);
+		$this->email=$this->pegarValor('email','contato','id',$this->idContato);
+		$this->telCel=$this->pegarValor('telCel','contato','id',$this->idContato);
+		$this->telFixo=$this->pegarValor('telFixo','contato','id',$this->idContato);
 		echo '<input type="hidden" name="email" value="'.$this->email.'">';
 		echo '<input type="hidden" name="telCel" value="'.$this->telCel.'">';
 		echo '<input type="hidden" name="telFixo" value="'.$this->telFixo.'">';

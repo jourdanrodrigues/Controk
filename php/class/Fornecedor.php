@@ -21,10 +21,10 @@ class Fornecedor extends Contato {
 	}
 	public function buscarDadosFornecedor(){
 		if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false){return;}
-		$this->nomeFantasia=$this->getValueInBank('nomeFantasia','fornecedor','id',$this->idFornecedor);
-		$this->cnpj=$this->getValueInBank('cnpj','fornecedor','id',$this->idFornecedor);
-		$this->idEndereco=$this->getValueInBank('endereco','fornecedor','id',$this->idFornecedor);
-		$this->idContato=$this->getValueInBank('contato','fornecedor','id',$this->idFornecedor);
+		$this->nomeFantasia=$this->pegarValor('nomeFantasia','fornecedor','id',$this->idFornecedor);
+		$this->cnpj=$this->pegarValor('cnpj','fornecedor','id',$this->idFornecedor);
+		$this->idEndereco=$this->pegarValor('endereco','fornecedor','id',$this->idFornecedor);
+		$this->idContato=$this->pegarValor('contato','fornecedor','id',$this->idFornecedor);
 		echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
 		echo '<input type="hidden" name="idFornecedor" value="'.$this->idFornecedor.'">';
 		echo '<input type="hidden" name="nomeFantasia" value="'.$this->nomeFantasia.'">';
@@ -36,8 +36,8 @@ class Fornecedor extends Contato {
 		echo "<script>$('#phpForm').submit();</script>";
 	}
 	public function atualizarFornecedor(){
-		$this->idContato=$this->getValueInBank('contato','fornecedor','id',$this->idFornecedor);
-		$this->idEndereco=$this->getValueInBank('endereco','fornecedor','id',$this->idFornecedor);
+		$this->idContato=$this->pegarValor('contato','fornecedor','id',$this->idFornecedor);
+		$this->idEndereco=$this->pegarValor('endereco','fornecedor','id',$this->idFornecedor);
 		if($this->atualizarEndereco()===false||$this->atualizarContato()===false){return;}
 		$updFornecedor='update fornecedor set cnpj="'.$this->cnpj.'",nomeFantasia="'.$this->nomeFantasia.'" where id='.$this->idFornecedor.';';
 		$mysqli=$this->conectar();
@@ -49,9 +49,9 @@ class Fornecedor extends Contato {
 	}
 	public function excluirFornecedor(){
 		if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false){return;}
-		$this->nomeFantasia=$this->getValueInBank('nomeFantasia','fornecedor','id',$this->idFornecedor);
-		$this->idContato=$this->getValueInBank('contato','fornecedor','id',$this->idFornecedor);
-		$this->idEndereco=$this->getValueInBank('endereco','fornecedor','id',$this->idFornecedor);
+		$this->nomeFantasia=$this->pegarValor('nomeFantasia','fornecedor','id',$this->idFornecedor);
+		$this->idContato=$this->pegarValor('contato','fornecedor','id',$this->idFornecedor);
+		$this->idEndereco=$this->pegarValor('endereco','fornecedor','id',$this->idFornecedor);
 		if($this->excluirEndereco()===false||$this->excluirContato()===false){return;}
 		$delFornecedor='delete from fornecedor where id='.$this->idFornecedor.';';
 		$mysqli=$this->conectar();

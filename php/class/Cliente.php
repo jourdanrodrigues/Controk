@@ -23,11 +23,11 @@ class Cliente extends Contato{
 	}
 	public function buscarDadosCliente(){
 		if($this->verificarExistencia('cliente','id',$this->idCliente)===false){return;}
-		$this->nome=$this->getValueInBank('nome','cliente','id',$this->idCliente);
-		$this->cpf=$this->getValueInBank('cpf','cliente','id',$this->idCliente);
-		$this->obs=$this->getValueInBank('obs','cliente','id',$this->idCliente);
-		$this->idEndereco=$this->getValueInBank('endereco','cliente','id',$this->idCliente);
-		$this->idContato=$this->getValueInBank('contato','cliente','id',$this->idCliente);
+		$this->nome=$this->pegarValor('nome','cliente','id',$this->idCliente);
+		$this->cpf=$this->pegarValor('cpf','cliente','id',$this->idCliente);
+		$this->obs=$this->pegarValor('obs','cliente','id',$this->idCliente);
+		$this->idEndereco=$this->pegarValor('endereco','cliente','id',$this->idCliente);
+		$this->idContato=$this->pegarValor('contato','cliente','id',$this->idCliente);
 		echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
 		echo '<input type="hidden" name="idCliente" value="'.$this->idCliente.'">';
 		echo '<input type="hidden" name="nomeCliente" value="'.$this->nome.'">';
@@ -41,8 +41,8 @@ class Cliente extends Contato{
 	}
 	public function atualizarCliente(){
 		$mysqli=$this->conectar();
-		$this->idContato=$this->getValueInBank('contato','cliente','id',$this->idCliente);
-		$this->idEndereco=$this->getValueInBank('endereco','cliente','id',$this->idCliente);
+		$this->idContato=$this->pegarValor('contato','cliente','id',$this->idCliente);
+		$this->idEndereco=$this->pegarValor('endereco','cliente','id',$this->idCliente);
 		if($this->atualizarEndereco()===false||$this->atualizarContato()===false){return;}
 		$updCliente='update cliente set nome="'.$this->nome.'",cpf="'.$this->cpf.'",obs="'.$this->obs.'" where id='.$this->idCliente.';';
 		if(!mysqli_query($mysqli,$updCliente)){
@@ -53,9 +53,9 @@ class Cliente extends Contato{
 	}
 	public function excluirCliente(){
 		if($this->verificarExistencia('cliente','id',$this->idCliente)===false){return;}
-		$this->nome=$this->getValueInBank('nome','cliente','id',$this->idCliente);
-		$this->idContato=$this->getValueInBank('contato','cliente','id',$this->idCliente);
-		$this->idEndereco=$this->getValueInBank('endereco','cliente','id',$this->idCliente);
+		$this->nome=$this->pegarValor('nome','cliente','id',$this->idCliente);
+		$this->idContato=$this->pegarValor('contato','cliente','id',$this->idCliente);
+		$this->idEndereco=$this->pegarValor('endereco','cliente','id',$this->idCliente);
 		if($this->excluirEndereco()===false||$this->excluirContato()===false){return;}
 		$delCliente='delete from cliente where id='.$this->idCliente.';';
 		$mysqli=$this->conectar();

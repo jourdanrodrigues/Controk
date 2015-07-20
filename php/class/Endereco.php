@@ -29,13 +29,13 @@ class Endereco extends Connection {
 		}
 	}
 	public function buscarDadosEndereco(){
-		$this->rua=$this->getValueInBank('rua','endereco','id',$this->idEndereco);
-		$this->numero=$this->getValueInBank('numero','endereco','id',$this->idEndereco);
-		$this->complemento=$this->getValueInBank('complemento','endereco','id',$this->idEndereco);
-		$this->cep=$this->getValueInBank('cep','endereco','id',$this->idEndereco);
-		$this->bairro=$this->getValueInBank('bairro','endereco','id',$this->idEndereco);
-		$this->cidade=$this->getValueInBank('cidade','endereco','id',$this->idEndereco);
-		$this->estado=$this->getValueInBank('estado','endereco','id',$this->idEndereco);
+		$this->rua=$this->pegarValor('rua','endereco','id',$this->idEndereco);
+		$this->numero=$this->pegarValor('numero','endereco','id',$this->idEndereco);
+		$this->complemento=$this->pegarValor('complemento','endereco','id',$this->idEndereco);
+		$this->cep=$this->pegarValor('cep','endereco','id',$this->idEndereco);
+		$this->bairro=$this->pegarValor('bairro','endereco','id',$this->idEndereco);
+		$this->cidade=$this->pegarValor('cidade','endereco','id',$this->idEndereco);
+		$this->estado=$this->pegarValor('estado','endereco','id',$this->idEndereco);
 		echo '<input type="hidden" name="rua" value="'.$this->rua.'">';
 		echo '<input type="hidden" name="numero" value="'.$this->numero.'">';
 		echo '<input type="hidden" name="compl" value="'.$this->complemento.'">';

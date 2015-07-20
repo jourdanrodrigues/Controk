@@ -4,6 +4,9 @@
 		<title>Login para SEFUNC BD</title>
 		<script src="js/jQuery.js"></script>
 		<script>
+		$(document).ready(function (){
+			$('body').css('opacity', '0').fadeTo(600, 1,'swing');
+		});
 		function mudarAcao(){
 			switch($('#mudaAcao').val()){
 				case "Cadastre-se":
