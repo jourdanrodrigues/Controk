@@ -41,9 +41,13 @@ class Connection {
 		$getCheck=mysqli_query($mysqli,$queryCheck);
 		$check=mysqli_num_rows($getCheck);
 		if($check==0){
-			if($alvo!='estoque'||$alvo!='usuario'){
-				if($alvo=='funcionario'){$alvo=str_replace('a','á',$alvo);}
-				echo '<script>alert("O '.$alvo.' de '.$campo.' '.$valor.' não existe.");location.href="/trabalhos/gti/bda1/";</script>';
+			switch($alvo){
+				case 'estoque':
+				case 'usuario': break;
+				default:
+					if($alvo=='funcionario'){$alvo=str_replace('a','á',$alvo);}
+					echo '<script>alert("O '.$alvo.' de '.$campo.' '.$valor.' não existe.");location.href="/trabalhos/gti/bda1/";</script>';
+					break;
 			}
 			return false;
 		}elseif($alvo=='usuario'){return true;}

@@ -10,12 +10,12 @@
 		function mudarAcao(){
 			switch($('#mudaAcao').val()){
 				case "Cadastre-se":
-					$('#acao').val("cadastrar");
+					$('#acaoSessao').val("cadastrar");
 					$('#mudaAcao').val("Fazer LogIn");
 					$('button').html("Cadastrar");
 					break;
 				case "Fazer LogIn":
-					$('#acao').val("login");
+					$('#acaoSessao').val("login");
 					$('#mudaAcao').val("Cadastre-se");
 					$('button').html("Fazer LogIn");
 					break;
@@ -70,7 +70,7 @@
 				<label for="senha">Senha</label><br>
 				<input type="password" id="senha" name="senha" class="field" required>
 			</p>
-			<input type="hidden" id="acao" name="acao" value="login">
+			<input type="hidden" id="acaoSessao" name="acaoSessao" value="login">
 			<input type="button" id="mudaAcao" name="mudaAcao" onclick="mudarAcao();" value="Cadastre-se">
 			<button>Fazer LogIn</button>
 		</form>

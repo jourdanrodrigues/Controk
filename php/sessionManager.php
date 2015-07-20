@@ -15,7 +15,7 @@
 					exit('<script>alert("'.$msg.'");</script>');
 				}
 			}
-			$acao=$_POST['acao'];
+			$acao=$_POST['acaoSessao'];
 			$sessao=new Sessao();
 			if($acao=='logout'){
 				$sessao->logout();

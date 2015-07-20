@@ -26,7 +26,7 @@
 	<body>
 		<div id="topo">
 			<form id="logOut" action="php/sessionManager.php" method="POST">
-				<input type="hidden" id="acao" name="acao" value="logout">
+				<input type="hidden" id="acaoSessao" name="acaoSessao" value="logout">
 				<?php echo $usuario; ?>, fazer <a onclick="$('#logOut').submit();">logout</a>.
 			</form>
 			<h1>SEFUNC BD</h1>

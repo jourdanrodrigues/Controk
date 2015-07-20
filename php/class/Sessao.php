@@ -10,11 +10,9 @@ class Sessao extends Connection{
 		if($this->verificarExistencia('usuario','nome',$this->usuario)!==true){
 			echo '<script>alert("O usuário \"'.$this->usuario.'\" não está cadastrado no sistema.");location.href="/trabalhos/gti/bda1/login.php";</script>';
 		}else{
-			$id=$this->pegarValor('id','usuario','nome',$this->usuario);
-			$nome=$this->pegarValor('nome','usuario','id',$id);
-			$pw=$this->pegarValor('senha','usuario','id',$id);
-			if($this->usuario!=$nome||$this->senha!=$pw){
-				echo '<script>alert("Não foi possível realizar o login.\n\nVerifique se e-mail e senha estão corretos.");location.href="/trabalhos/gti/bda1/login.php";</script>';
+			$pw=$this->pegarValor('senha','usuario','nome',$this->usuario);
+			if($this->senha!=$pw){
+				echo '<script>alert("Não foi possível realizar o login pois a senha digitada está incorreta.");location.href="/trabalhos/gti/bda1/login.php";</script>';
 			}else{
 				$this->iniciarSessao();
 			}
