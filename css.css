@@ -4,7 +4,8 @@ body{
 	margin:0; padding:0;
 	width:100%; height:100%;
 	cursor:default;
-	text-align:center}
+	text-align:center;
+	opacity:0}
 textarea{
 	resize:none;
 	width:50%; height:60px;
@@ -28,33 +29,33 @@ button:hover{
 	background:#CCC;
 	box-shadow:0 0 15px #999;
 	transition:.3s}
-#topo{
+.topo{
 	margin:-25px 0; padding:25px;
 	background:linear-gradient(45deg,rgba(255,255,255,1),rgba(200,200,200,1));
 	border-radius:0 0 20px 20px}
-#esquerda,#direita{
+.esquerda,.direita{
 	background:#BBB;
 	float:left;
 	margin-bottom:20px; padding:10px 0;
 	border-radius:15px;
 	box-shadow:-5px 5px 10px #666}
-#esquerda{width:20%}
-#direita{width:80%}
-#direita,#fornecedor,#cliente,#contato,#endereco,#remessa,#produto,#funcionario{
+.esquerda{width:20%}
+.direita{width:80%}
+.direita,.fornecedor,.cliente,.contato,.endereco,.remessa,.produto,.funcionario{
 	display:none;
 	transition:.3s}
-#logIn{
+.logIn{
 	margin:0 30%; padding:2% 0 5% 0;
 	background:#666}
-#logOut{
+.logOut{
 	margin: 10px 0 0 10px;
 	position:absolute;}
-#logOut a{
+.logOut span{
 	cursor:pointer;
 	font-weight:bold;
 	color:blue;
 	transition:.3s}
-#logOut a:hover{
+.logOut span:hover{
 	color:red;
 	transition:.3s}
 .item{

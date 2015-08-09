@@ -8,6 +8,7 @@
 		<script src="js/maskedInput.js"></script>
 		<script src="js/priceFormat.js"></script>
 		<script src="js/js.js"></script>
+		<script src="js/nav.js"></script>
 		<?php
 			session_start();
 			if(empty($_SESSION['usuario'])||!isset($_SESSION['usuario'])){
@@ -24,61 +25,61 @@
 		?>
 	</head><!-- Head -->
 	<body>
-		<div id="topo">
-			<form id="logOut" action="php/sessionManager.php" method="POST">
+		<div class="topo">
+			<form class="logOut" action="php/sessionManager.php" method="POST">
 				<input type="hidden" id="acaoSessao" name="acaoSessao" value="logout">
-				<?php echo $usuario; ?>, fazer <a onclick="$('#logOut').submit();">logout</a>.
+				<?php echo $usuario; ?>, fazer <span onclick="$('.logOut').submit();">logout</span>.
 			</form>
 			<h1>SEFUNC BD</h1>
 			<h3>Software para Exemplo de Funcionamento do Banco de Dados</h3>
 		</div>
-		<div id="esquerda" align="left">
+		<div class="esquerda" align="left">
 			<ul>
-				<li id="navFuncionario" class="item" onclick="opcoes('navFuncionario')">Funcionário
+				<li class="item navFuncionario">Funcionário
 					<ul>
-						<li onclick="dbManage('funcionario','Cadastro')">Cadastrar</li>
-						<li onclick="dbManage('funcionario','Busca de Dados')">Buscar Dados</li>
-						<li onclick="dbManage('funcionario','Exclusão')">Excluir</li>
+						<li class="cadastrar">Cadastrar</li>
+						<li class="buscarDados">Buscar Dados</li>
+						<li class="excluir">Excluir</li>
 					</ul>
 				</li>
-				<li id="navCliente" class="item" onclick="opcoes('navCliente')">Cliente
+				<li class="item navCliente">Cliente
 					<ul>
-						<li onclick="dbManage('cliente','Cadastro')">Cadastrar</li>
-						<li onclick="dbManage('cliente','Busca de Dados')">Buscar Dados</li>
-						<li onclick="dbManage('cliente','Exclusão')">Excluir</li>
+						<li class="cadastrar">Cadastrar</li>
+						<li class="buscarDados">Buscar Dados</li>
+						<li class="excluir">Excluir</li>
 					</ul>
 				</li>
-				<li id="navFornecedor" class="item" onclick="opcoes('navFornecedor')">Fornecedor
+				<li class="item navFornecedor">Fornecedor
 					<ul>
-						<li onclick="dbManage('fornecedor','Cadastro')">Cadastrar</li>
-						<li onclick="dbManage('fornecedor','Busca de Dados')">Buscar Dados</li>
-						<li onclick="dbManage('fornecedor','Exclusão')">Excluir</li>
+						<li class="cadastrar">Cadastrar</li>
+						<li class="buscarDados">Buscar Dados</li>
+						<li class="excluir">Excluir</li>
 					</ul>
 				</li>
-				<li id="navRemessa" class="item" onclick="opcoes('navRemessa')">Remessa
+				<li class="item navRemessa">Remessa
 					<ul>
-						<li onclick="dbManage('remessa','Cadastro')">Cadastrar</li>
+						<li class="cadastrar">Cadastrar</li>
 					</ul>
 				</li>
-				<li id="navProduto" class="item" onclick="opcoes('navProduto')">Produto
+				<li class="item navProduto">Produto
 					<ul>
-						<li onclick="dbManage('produto','Cadastro')">Cadastrar</li>
-						<li onclick="dbManage('produto','Busca de Dados')">Buscar Dados</li>
+						<li class="cadastrar">Cadastrar</li>
+						<li class="buscarDados">Buscar Dados</li>
 					</ul>
 				</li>
-				<li id="navEstoque" class="item" onclick="opcoes('navEstoque')">Estoque
+				<li class="item navEstoque">Estoque
 					<ul>
-						<li onclick="dbManage('estoque','Inserir')">Inserir itens</li>
-						<li onclick="dbManage('estoque','Retirar')">Retirar itens</li>
+						<li class="inserir">Inserir itens</li>
+						<li class="retirar">Retirar itens</li>
 					</ul>
 				</li>
 			</ul>
 		</div><!-- Esquerda -->
-		<div id="direita">
+		<div class="direita">
 			<form id="mainForm" action="php/manager.php" method="POST" autocomplete="off">
-				<div id="fornecedor"><!-- Fornecedor -->
+				<div class="fornecedor"><!-- Fornecedor -->
 					<h3></h3>
-					<p id="campoIdFornecedor">
+					<p class="campoIdFornecedor">
 						<label for="idFornecedor">ID do Fornecedor</label><br>
 						<input id="idFornecedor" name="idFornecedor" class="field" type="text">
 					</p><p>
@@ -89,9 +90,9 @@
 						<input id="cnpj" name="cnpj" class="field" type="text">
 					</p>
 				</div>
-				<div id="cliente"><!-- Cliente -->
+				<div class="cliente"><!-- Cliente -->
 					<h3></h3>
-					<p id="campoIdCliente">
+					<p class="campoIdCliente">
 						<label for="idCliente">ID do Cliente</label><br>
 						<input id="idCliente" name="idCliente" class="field" type="text">
 					</p><p>
@@ -105,14 +106,14 @@
 						<input id="obsCliente" name="obsCliente" class="field" type="text" value="S. Obs.">
 					</p>
 				</div>
-				<div id="funcionario"><!-- Funcionário -->
+				<div class="funcionario"><!-- Funcionário -->
 					<h3></h3>
-					<p id="campoIdFuncionario">
+					<p class="campoIdFuncionario">
 						<label for="idFuncionario">ID do Funcionário</label><br>
 						<input id="idFuncionario" name="idFuncionario" class="field" type="text">
 					</p><p>
-						<label for="nomeFunc">Nome</label><br>
-						<input id="nomeFunc" name="nomeFunc" class="field" type="text">
+						<label for="nomeFuncionario">Nome</label><br>
+						<input id="nomeFuncionario" name="nomeFunc" class="field" type="text">
 					</p><p>
 						<label for="cpfFuncionario">CPF</label><br>
 						<input id="cpfFuncionario" name="cpfFuncionario" class="field" type="text">
@@ -124,7 +125,7 @@
 						<input id="obsFuncionario" name="obsFuncionario" class="field" type="text" value="S. Obs.">
 					</p>
 				</div>
-				<div id="contato"><!-- Contatos -->
+				<div class="contato"><!-- Contatos -->
 					<h3>Contatos</h3>
 					<p>
 						<label for="email">E-mail</label><br>
@@ -137,7 +138,7 @@
 						<input id="telCel" name="telCel" class="field" type="text">
 					</p>
 				</div>
-				<div id="endereco"><!-- Endereço -->
+				<div class="endereco"><!-- Endereço -->
 					<h3>Endereço</h3>
 					<p>
 						<label for="rua">Rua</label><br>
@@ -162,7 +163,7 @@
 						<input id="estado" name="estado" class="field" type="text">
 					</p>
 				</div>
-				<div id="remessa"><!-- Remessa -->
+				<div class="remessa"><!-- Remessa -->
 					<h3></h3>
 					<p>
 						<label for="idProdutoRem">ID do produto</label><br>
@@ -184,9 +185,9 @@
 						<input id="dataEntrega" name="dataEntrega" class="field" type="date">
 					</p>
 				</div>
-				<div id="produto"><!-- Produto -->
+				<div class="produto"><!-- Produto -->
 					<h3></h3>
-					<p id="campoIdProduto">
+					<p class="campoIdProduto">
 						<label for="idProduto">ID do produto</label><br>
 						<input id="idProduto" name="idProduto" class="field" type="text">
 					</p><p>
@@ -206,9 +207,9 @@
 						<input id="valorVenda" name="valorVenda" class="field" type="text">
 					</p>
 				</div>
-				<div id="estoque"><!-- Estoque -->
+				<div class="estoque"><!-- Estoque -->
 					<h3></h3>
-					<p id="campoIdFuncEstq">
+					<p class="campoIdFuncEstq">
 						<label for="idFuncionarioEstq">ID do funcionário</label><br>
 						<input id="idFuncionarioEstq" name="idFuncionarioEstq" class="field" type="text">
 					</p><p>
@@ -217,13 +218,13 @@
 					</p><p>
 						<label for="qtdProdEstq">Quantidade do produto (un.)</label><br>
 						<input id="qtdProdEstq" name="qtdProdEstq" class="field" type="text">
-					</p><p id="campoDataSaidaEstq">
+					</p><p class="campoDataSaidaEstq">
 						<label for="dataSaida">Data Saída</label><br>
 						<input id="dataSaida" name="dataSaida" class="field" type="date">
 					</p>
 				</div>
-				<input type="hidden" name="acao" value="">
-				<input type="hidden" name="alvo" value="">
+				<input type="hidden" name="acao">
+				<input type="hidden" name="alvo">
 				<button type="submit"></button>
 			</form>
 		</div><!-- Direita -->
