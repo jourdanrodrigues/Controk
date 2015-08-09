@@ -13,12 +13,12 @@ class Cliente extends Contato{
 	public function cadastrarCliente(){
 		if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false){return;}
 		$mysqli=$this->conectar();
-		$queryInsert='insert into cliente(nome,cpf,obs,endereco,contato) values ("'.$this->nome.'","'.$this->cpf.'","'.$this->obs.'",'.$this->idEndereco.','.$this->idContato.');';
-		if(!mysqli_query($mysqli,$queryInsert)){
-			die ('<script>alert("Não foi possível cadastrar o cliente:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
+		$cadCliente=$mysqli->prepare('insert into cliente(nome,cpf,obs,endereco,contato) values (?,?,?,?,?)');
+		$cadCliente->bind_param("sssdd",$this->nome,$this->cpf,$this->obs,$this->idEndereco,$this->idContato);
+		if(!$cadCliente->execute()){
+			echo "<span class='retorno'>Não foi possível cadastrar o cliente:\n\n$cadCliente->error.</span>";
 		}else{
-			$this->idCliente=mysqli_insert_id($mysqli);
-			echo '<script>alert("Cadastro do cliente '.$this->nome.', de ID '.$this->idCliente.', finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+			echo "<span class='retorno'>Cadastro do cliente $this->nome, de ID $cadCliente->insert_id, finalizado com sucesso!</span>";
 		}
 	}
 	public function buscarDadosCliente(){

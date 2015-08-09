@@ -9,6 +9,7 @@
 		<script src="js/priceFormat.js"></script>
 		<script src="js/js.js"></script>
 		<script src="js/nav.js"></script>
+		<script src="js/AJAX/AJAX.js"></script>
 		<?php
 			session_start();
 			if(empty($_SESSION['usuario'])||!isset($_SESSION['usuario'])){
@@ -76,18 +77,18 @@
 			</ul>
 		</div><!-- Esquerda -->
 		<div class="direita">
-			<form id="mainForm" action="php/manager.php" method="POST" autocomplete="off">
+			<form autocomplete="off">
 				<div class="fornecedor"><!-- Fornecedor -->
 					<h3></h3>
 					<p class="campoIdFornecedor">
 						<label for="idFornecedor">ID do Fornecedor</label><br>
-						<input id="idFornecedor" name="idFornecedor" class="field" type="text">
+						<input id="idFornecedor" class="field" type="text">
 					</p><p>
 						<label for="nomeFantasia">Nome Fantasia</label><br>
-						<input id="nomeFantasia" name="nomeFantasia" class="field" type="text">
+						<input id="nomeFantasia" class="field" type="text">
 					</p><p>
 						<label for="cnpj">CNPJ</label><br>
-						<input id="cnpj" name="cnpj" class="field" type="text">
+						<input id="cnpj" class="field" type="text">
 					</p>
 				</div>
 				<div class="cliente"><!-- Cliente -->
@@ -97,135 +98,135 @@
 						<input id="idCliente" name="idCliente" class="field" type="text">
 					</p><p>
 						<label for="nomeCliente">Nome</label><br>
-						<input id="nomeCliente" name="nomeCliente" class="field" type="text">
+						<input id="nomeCliente" class="field" type="text">
 					</p><p>
 						<label for="cpfCliente">CPF</label><br>
-						<input id="cpfCliente" name="cpfCliente" class="field" type="text">
+						<input id="cpfCliente" class="field" type="text">
 					</p><p>
 						<label for="obsCliente">Observação</label><br>
-						<input id="obsCliente" name="obsCliente" class="field" type="text" value="S. Obs.">
+						<input id="obsCliente" class="field" type="text" value="S. Obs.">
 					</p>
 				</div>
 				<div class="funcionario"><!-- Funcionário -->
 					<h3></h3>
 					<p class="campoIdFuncionario">
 						<label for="idFuncionario">ID do Funcionário</label><br>
-						<input id="idFuncionario" name="idFuncionario" class="field" type="text">
+						<input id="idFuncionario" class="field" type="text">
 					</p><p>
 						<label for="nomeFuncionario">Nome</label><br>
-						<input id="nomeFuncionario" name="nomeFunc" class="field" type="text">
+						<input id="nomeFuncionario" class="field" type="text">
 					</p><p>
 						<label for="cpfFuncionario">CPF</label><br>
-						<input id="cpfFuncionario" name="cpfFuncionario" class="field" type="text">
+						<input id="cpfFuncionario" class="field" type="text">
 					</p><p>
 						<label for="cargo">Cargo</label><br>
-						<input id="cargo" name="cargo" class="field" type="text">
+						<input id="cargo" class="field" type="text">
 					</p><p>
 						<label for="obsFuncionario">Observação</label><br>
-						<input id="obsFuncionario" name="obsFuncionario" class="field" type="text" value="S. Obs.">
+						<input id="obsFuncionario" class="field" type="text" value="S. Obs.">
 					</p>
 				</div>
 				<div class="contato"><!-- Contatos -->
 					<h3>Contatos</h3>
 					<p>
 						<label for="email">E-mail</label><br>
-						<input id="email" name="email" class="field" type="email">
+						<input id="email" class="field" type="email">
 					</p><p>
 						<label for="telFixo">Telefone Fixo</label><br>
-						<input id="telFixo" name="telFixo" class="field" type="text">
+						<input id="telFixo" class="field" type="text">
 					</p><p>
 						<label for="telCel">Telefone Celular</label><br>
-						<input id="telCel" name="telCel" class="field" type="text">
+						<input id="telCel" class="field" type="text">
 					</p>
 				</div>
 				<div class="endereco"><!-- Endereço -->
 					<h3>Endereço</h3>
 					<p>
 						<label for="rua">Rua</label><br>
-						<input id="rua" name="rua" class="field" type="text">
+						<input id="rua" class="field" type="text">
 					</p><p>
 						<label for="numero">Número</label><br>
-						<input id="numero" name="numero" class="field" type="text">
+						<input id="numero" class="field" type="text">
 					</p><p>
-						<label for="compl">Complemento</label><br>
-						<input id="compl" name="compl" class="field" type="text" value="S. Comp.">
+						<label for="complemento">Complemento</label><br>
+						<input id="complemento" class="field" type="text" value="S. Comp.">
 					</p><p>
 						<label for="cep">CEP</label><br>
-						<input id="cep" name="cep" class="field" type="text">
+						<input id="cep" class="field" type="text">
 					</p><p>
 						<label for="bairro">Bairro</label><br>
-						<input id="bairro" name="bairro" class="field" type="text">
+						<input id="bairro" class="field" type="text">
 					</p><p>
 						<label for="cidade">Cidade</label><br>
-						<input id="cidade" name="cidade" class="field" type="text">
+						<input id="cidade" class="field" type="text">
 					</p><p>
 						<label for="estado">Estado (UF)</label><br>
-						<input id="estado" name="estado" class="field" type="text">
+						<input id="estado" class="field" type="text">
 					</p>
 				</div>
 				<div class="remessa"><!-- Remessa -->
 					<h3></h3>
 					<p>
 						<label for="idProdutoRem">ID do produto</label><br>
-						<input id="idProdutoRem" name="idProdutoRem" class="field" type="text">
+						<input id="idProdutoRem" class="field" type="text">
 					</p><p>
 						<label for="qtdProdRem">Quantidade do produto (un.)</label><br>
-						<input id="qtdProdRem" name="qtdProdRem" class="field" type="text">
+						<input id="qtdProdRem" class="field" type="text">
 					</p><p>
 						<label for="idFornecedorRem">ID do fornecedor</label><br>
-						<input id="idFornecedorRem" name="idFornecedorRem" class="field" type="text">
+						<input id="idFornecedorRem" class="field" type="text">
 					</p><p>
 						<label for="dataPedido">Data do Pedido</label><br>
-						<input id="dataPedido" name="dataPedido" class="field" type="date">
+						<input id="dataPedido" class="field" type="date">
 					</p><p>
 						<label for="dataPagamento">Data do Pagamento</label><br>
-						<input id="dataPagamento" name="dataPagamento" class="field" type="date">
+						<input id="dataPagamento" class="field" type="date">
 					</p><p>
 						<label for="dataEntrega">Data da Entrega</label><br>
-						<input id="dataEntrega" name="dataEntrega" class="field" type="date">
+						<input id="dataEntrega" class="field" type="date">
 					</p>
 				</div>
 				<div class="produto"><!-- Produto -->
 					<h3></h3>
 					<p class="campoIdProduto">
 						<label for="idProduto">ID do produto</label><br>
-						<input id="idProduto" name="idProduto" class="field" type="text">
+						<input id="idProduto" class="field" type="text">
 					</p><p>
 						<label for="idRemessa">ID da remessa</label><br>
-						<input id="idRemessa" name="idRemessa" class="field" type="text">
+						<input id="idRemessa" class="field" type="text">
 					</p><p>
 						<label for="nomeProd">Nome do produto</label><br>
-						<input id="nomeProd" name="nomeProd" class="field" type="text">
+						<input id="nomeProd" class="field" type="text">
 					</p><p>
 						<label for="descrProd">Descrição do produto</label><br>
-						<textarea id="descrProd" name="descrProd"></textarea>
+						<textarea id="descrProd"></textarea>
 					</p><p>
 						<label for="custoProd">Custo do produto</label><br>
-						<input id="custoProd" name="custoProd" class="field" type="text">
+						<input id="custoProd" class="field" type="text">
 					</p><p>
 						<label for="valorVenda">Valor de venda do produto</label><br>
-						<input id="valorVenda" name="valorVenda" class="field" type="text">
+						<input id="valorVenda" class="field" type="text">
 					</p>
 				</div>
 				<div class="estoque"><!-- Estoque -->
 					<h3></h3>
 					<p class="campoIdFuncEstq">
 						<label for="idFuncionarioEstq">ID do funcionário</label><br>
-						<input id="idFuncionarioEstq" name="idFuncionarioEstq" class="field" type="text">
+						<input id="idFuncionarioEstq" class="field" type="text">
 					</p><p>
 						<label for="idProdutoEstq">ID do produto</label><br>
-						<input id="idProdutoEstq" name="idProdutoEstq" class="field" type="text">
+						<input id="idProdutoEstq" class="field" type="text">
 					</p><p>
 						<label for="qtdProdEstq">Quantidade do produto (un.)</label><br>
-						<input id="qtdProdEstq" name="qtdProdEstq" class="field" type="text">
+						<input id="qtdProdEstq" class="field" type="text">
 					</p><p class="campoDataSaidaEstq">
 						<label for="dataSaida">Data Saída</label><br>
-						<input id="dataSaida" name="dataSaida" class="field" type="date">
+						<input id="dataSaida" class="field" type="date">
 					</p>
 				</div>
 				<input type="hidden" name="acao">
 				<input type="hidden" name="alvo">
-				<button type="submit"></button>
+				<button type="submit" onclick="execute(); return false;"></button>
 			</form>
 		</div><!-- Direita -->
 	</body><!-- Body -->
