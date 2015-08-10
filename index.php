@@ -10,6 +10,7 @@
 		<script src="js/js.js"></script>
 		<script src="js/nav.js"></script>
 		<script src="js/AJAX/AJAX.js"></script>
+		<script src="js/bPopup.js"></script>
 		<?php
 			session_start();
 			if(empty($_SESSION['usuario'])||!isset($_SESSION['usuario'])){
@@ -26,6 +27,16 @@
 		?>
 	</head><!-- Head -->
 	<body>
+		<div class="mensagem">
+			<div class="x">X</div>
+			<span class="titulo"></span>
+			<p></p>
+			<div class="options">
+				<button class="cancelar">Cancelar</button>
+				<button class="ok">Ok</button>
+				<button class="tentarNovamente">Tentar novamente</button>
+			</div>
+		</div>
 		<div class="topo">
 			<form class="logOut" action="php/sessionManager.php" method="POST">
 				<input type="hidden" id="acaoSessao" name="acaoSessao" value="logout">
@@ -77,7 +88,7 @@
 			</ul>
 		</div><!-- Esquerda -->
 		<div class="direita">
-			<form autocomplete="off">
+			<form id="mainForm" method="POST" autocomplete="off">
 				<div class="fornecedor"><!-- Fornecedor -->
 					<h3></h3>
 					<p class="campoIdFornecedor">
@@ -226,7 +237,7 @@
 				</div>
 				<input type="hidden" name="acao">
 				<input type="hidden" name="alvo">
-				<button type="submit" onclick="execute(); return false;"></button>
+				<button type="submit"></button>
 			</form>
 		</div><!-- Direita -->
 	</body><!-- Body -->

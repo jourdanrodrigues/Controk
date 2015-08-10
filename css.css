@@ -13,7 +13,7 @@ textarea{
 	cursor:pointer;
 	transition:.3s;
 	border-radius:5px}
-button{
+#mainForm button{
 	width:50%;
 	margin:10px 0; padding:20px;
 	cursor:pointer;
@@ -24,11 +24,44 @@ button{
 	border-radius:15px;
 	box-shadow:0 0 15px #666;
 	transition:.3s}
-button:hover{
+#mainForm button:hover{
 	color:#666;
 	background:#CCC;
 	box-shadow:0 0 15px #999;
 	transition:.3s}
+.mensagem{
+	display:none;
+	position:absolute;
+	margin-top:-70%;
+	height:25%; width:40%;
+	background:white;
+	border-radius:20px;
+	box-shadow:0 0 20px #fff}
+.mensagem .titulo{
+	padding:10px 20%;
+	border-radius:10px
+}
+.mensagem .options button{
+	cursor:pointer;
+	margin-right:20px;
+	border:none;
+	float:right;
+	display:none;
+	border-radius:5px;
+	color:#444;
+	padding:20px 20px
+}
+.mensagem .options button:hover{
+	opacity:.8;
+}
+.x{
+	cursor:pointer;
+	color:#fff;
+	margin-top:0; padding:4px 8px;
+	float:right;
+	background:#0489B1;
+	border-radius:3px
+}
 .topo{
 	margin:-25px 0; padding:25px;
 	background:linear-gradient(45deg,rgba(255,255,255,1),rgba(200,200,200,1));
