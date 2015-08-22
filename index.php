@@ -2,46 +2,48 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="author" content="Thiago Jourdan" />
-		<link rel="stylesheet" href="css.css" />
+		<link rel="stylesheet" href="css/bootstrap.css" />
+		<link rel="stylesheet" href="css/sweetalert.css" />
+		<link rel="stylesheet" href="css/mainStyle.css" />
 		<title>Software teste de banco de dados de estoque</title>
 		<script src="js/jQuery.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script src="js/sweetalert.js"></script>
 		<script src="js/maskedInput.js"></script>
 		<script src="js/priceFormat.js"></script>
 		<script src="js/js.js"></script>
 		<script src="js/nav.js"></script>
-		<script src="js/AJAX/AJAX.js"></script>
-		<script src="js/bPopup.js"></script>
+		<script src="js/AJAX/AJAXManager.js"></script>
 		<?php
 			session_start();
 			if(empty($_SESSION['usuario'])||!isset($_SESSION['usuario'])){
 				header("location:/trabalhos/gti/bda1/login.php");
 			}else{
-				if($_SESSION['tempo']<(time()-3000)){
+				if($_SESSION['tempo']<(time()-140)){
 					session_unset();
-					echo '<script>alert("Sua sessão expirou!");location.href="/trabalhos/gti/bda1/login.php";</script>';
+					echo '
+					<script>
+						$(document).ready(function(){
+							swal({
+								title:"Sua sessão expirou!",
+								type:"warning"
+							},function(){
+								location.href="/trabalhos/gti/bda1/login.php";
+							});
+						});
+					</script>';
 				}else{
+					$_SESSION['tempo']=time();
 					$usuario=$_SESSION['usuario'];
-					require_once('php/edicao.php');
 				}
 			}
 		?>
 	</head><!-- Head -->
 	<body>
-		<div class="mensagem">
-			<div class="x">X</div>
-			<span class="titulo"></span>
-			<p></p>
-			<div class="options">
-				<button class="cancelar">Cancelar</button>
-				<button class="ok">Ok</button>
-				<button class="tentarNovamente">Tentar novamente</button>
-			</div>
-		</div>
 		<div class="topo">
-			<form class="logOut" action="php/sessionManager.php" method="POST">
-				<input type="hidden" id="acaoSessao" name="acaoSessao" value="logout">
-				<?php echo $usuario; ?>, fazer <span onclick="$('.logOut').submit();">logout</span>.
-			</form>
+			<span class="logOut">
+				<?php if(isset($_SESSION['usuario'])){echo $usuario; ?>, fazer <span>logout</span>.<?php } ?>
+			</span>
 			<h1>SEFUNC BD</h1>
 			<h3>Software para Exemplo de Funcionamento do Banco de Dados</h3>
 		</div>
@@ -88,7 +90,7 @@
 			</ul>
 		</div><!-- Esquerda -->
 		<div class="direita">
-			<form id="mainForm" method="POST" autocomplete="off">
+			<form class="mainForm" autocomplete="off">
 				<div class="fornecedor"><!-- Fornecedor -->
 					<h3></h3>
 					<p class="campoIdFornecedor">
@@ -106,7 +108,7 @@
 					<h3></h3>
 					<p class="campoIdCliente">
 						<label for="idCliente">ID do Cliente</label><br>
-						<input id="idCliente" name="idCliente" class="field" type="text">
+						<input id="idCliente" class="field" type="text">
 					</p><p>
 						<label for="nomeCliente">Nome</label><br>
 						<input id="nomeCliente" class="field" type="text">
@@ -235,9 +237,9 @@
 						<input id="dataSaida" class="field" type="date">
 					</p>
 				</div>
-				<input type="hidden" name="acao">
-				<input type="hidden" name="alvo">
-				<button type="submit"></button>
+				<input type="hidden" class="acao">
+				<input type="hidden" class="alvo">
+				<button onclick="manageAJAX()" class="allBtn"></button>
 			</form>
 		</div><!-- Direita -->
 	</body><!-- Body -->

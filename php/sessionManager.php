@@ -1,7 +1,9 @@
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8" />
-		<title>Software teste de banco de dados de estoque</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
 		<?php
 			require_once('funcoesBase.php');
 			function __autoload($class){
@@ -27,5 +29,5 @@
 				}
 			}
 		?>
-	</head>
+	</body>
 </html>

@@ -8,12 +8,13 @@ class Sessao extends Connection{
 	}
 	public function login(){
 		if($this->verificarExistencia('usuario','nome',$this->usuario)!==true){
-			echo '<script>alert("O usuário \"'.$this->usuario.'\" não está cadastrado no sistema.");location.href="/trabalhos/gti/bda1/login.php";</script>';
+			echo "<span class='retorno' data-type='error'>O usuário \"$this->usuario\" não está cadastrado no sistema.</span>";
 		}else{
 			$pw=$this->pegarValor('senha','usuario','nome',$this->usuario);
 			if($this->senha!=$pw){
-				echo '<script>alert("Não foi possível realizar o login pois a senha digitada está incorreta.");location.href="/trabalhos/gti/bda1/login.php";</script>';
+				echo "<span class='retorno' data-type='error'>Não foi possível realizar o login pois a senha digitada está incorreta.</span>";
 			}else{
+				echo "<span class='retorno' data-type='redirect'>/trabalhos/gti/bda1/</span>";
 				$this->iniciarSessao();
 			}
 		}
@@ -21,18 +22,19 @@ class Sessao extends Connection{
 	public function logout(){
 		session_start();
 		session_unset();
-		echo '<script>alert("Logout efetuado com sucesso!");location.href="/trabalhos/gti/bda1/login.php";</script>';
+		echo "<span class='retorno' data-type='success'>Logout efetuado com sucesso!</span>";
 	}
 	public function cadastrarUsuario(){
 		if($this->verificarExistencia('usuario','nome',$this->usuario)===true){
-			echo '<script>alert("O usuário '.$this->usuario.' já está cadastrado no sistema.");location.href="/trabalhos/gti/bda1/login.php";</script>';
+			echo "<span class='retorno' data-type='error'>O usuário \"$this->usuario\" já está cadastrado no sistema.</span>";
 		}else{
 			$mysqli=$this->conectar();
-			$cadUsuario='insert into usuario(nome,senha) values ("'.$this->usuario.'","'.$this->senha.'");';
-			if(!mysqli_query($mysqli,$cadUsuario)){
-				die ('<script>alert("Não foi possível cadastrar o usuário \"'.$this->usuario.'\":\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/login.php";</script>');
+			$cadUsuario=$mysqli->prepare('insert into usuario(nome,senha) values (?,?)');
+			$cadUsuario->bind_param("ss",$this->usuario,$this->senha);
+			if(!$cadUsuario->execute()){
+				echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o usuário \"$this->usuario\":\n\n$cadUsuario->error.</span>";
 			}else{
-				echo '<script>alert("O usuário \"'.$this->usuario.'\" foi cadastrado com sucesso!");</script>';
+				echo "<span class='retorno' data-type='success'>O usuário \"$this->usuario\" foi cadastrado com sucesso!</span>";
 				$this->iniciarSessao();
 			}
 		}
@@ -41,7 +43,5 @@ class Sessao extends Connection{
 		session_start();
 		$_SESSION['usuario']=$this->usuario;
 		$_SESSION['tempo']=time();
-		header("location:/trabalhos/gti/bda1/");
 	}
 }
-?>

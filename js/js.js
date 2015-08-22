@@ -27,29 +27,29 @@ function dbManage(item,proc){
 	}
 	switch(proc){
 		case 'Cadastro':
-			$('input[name="acao"]').val('cadastrar');
-			$('#mainForm button').html('Cadastrar');
+			$('input.acao').val('cadastrar');
+			$('.mainForm button').html('Cadastrar');
 			break;
 		case 'Busca de Dados':
-			$('input[name="acao"]').val('buscarDados');
-			$('#mainForm button').html('Buscar dados');
+			$('input.acao').val('buscarDados');
+			$('.mainForm button').html('Buscar dados');
 			break;
 		case 'Exclusão':
-			$('input[name="acao"]').val('excluir');
-			$('#mainForm button').html('Excluir');
+			$('input.acao').val('excluir');
+			$('.mainForm button').html('Excluir');
 			break;
 		case 'Inserir':
-			$('input[name="acao"]').val('inserir');
-			$('#mainForm button').html('Inserir');
+			$('input.acao').val('inserir');
+			$('.mainForm button').html('Inserir');
 			break;
 		case 'Retirar':
-			$('input[name="acao"]').val('retirar');
-			$('#mainForm button').html('Retirar');
+			$('input.acao').val('retirar');
+			$('.mainForm button').html('Retirar');
 			break;
 	}
 	switch(item){
 		case 'fornecedor':
-			$('input[name="alvo"]').val('fornecedor');
+			$('input.alvo').val('fornecedor');
 			$('.fornecedor h3').html(proc+' de Fornecedor');
 			switch(proc){
 				case 'Cadastro':
@@ -73,7 +73,7 @@ function dbManage(item,proc){
 			}
 			break;
 		case 'cliente':
-			$('input[name="alvo"]').val('cliente');
+			$('input.alvo').val('cliente');
 			$('.cliente h3').html(proc+' de Cliente');
 			switch(proc){
 				case 'Cadastro':
@@ -97,7 +97,7 @@ function dbManage(item,proc){
 			}
 			break;
 		case 'funcionario':
-			$('input[name="alvo"]').val('funcionario');
+			$('input.alvo').val('funcionario');
 			$('.funcionario h3').html(proc+' de Funcionário');
 			switch(proc){
 				case 'Cadastro':
@@ -121,7 +121,7 @@ function dbManage(item,proc){
 			}
 			break;
 		case 'remessa':
-			$('input[name="alvo"]').val('remessa');
+			$('input.alvo').val('remessa');
 			$('.remessa h3').html(proc+' de Remessa');
 			switch(proc){
 				case 'Cadastro':
@@ -131,7 +131,7 @@ function dbManage(item,proc){
 			}
 			break;
 		case 'produto':
-			$('input[name="alvo"]').val('produto');
+			$('input.alvo').val('produto');
 			$('.produto h3').html(proc+' de Produto');
 			switch(proc){
 				case 'Cadastro':
@@ -149,7 +149,7 @@ function dbManage(item,proc){
 			}
 			break;
 		case 'estoque':
-			$('input[name="alvo"]').val('estoque');
+			$('input.alvo').val('estoque');
 			switch(proc){
 				case 'Inserir':
 					escondeTudo();
