@@ -4,9 +4,9 @@ function logOut(){
 		url: "php/sessionManager.php",
 		type: "POST",
 		data: {acaoSessao:"logout"},
-		success:function(dados){
+		success:function(){
 			swal({
-				title: $(dados).filter(".retorno").html(),
+				title: "Logout efetuado com sucesso!",
 				timer: 2000,
 				type: "success"
 			},function(){

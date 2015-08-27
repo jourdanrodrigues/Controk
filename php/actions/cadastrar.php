@@ -9,33 +9,28 @@
 				$pasta="../class";
 				$ext=".php";
 				$file=procurarArquivos($pasta,$class.$ext);
-				if ($file!==false)
-				   require_once $file;
-				else
-					exit("<span class='retorno'>Não foi possível encontrar o arquivo \"$class$ext\".</span>");
+				if ($file!==false) require_once $file;
+				else echo "<span class='retorno' data-type='error'>Não foi possível encontrar o arquivo \"$class$ext\".</span>";
 			}
 			$alvo=$_POST["alvo"];
 			$Alvo=ucfirst($alvo);
 			$$alvo=new $Alvo();
 			switch($alvo){
 				case "fornecedor":
-					$fornecedor->setAttrFornecedor(
-						$_POST["idFornecedor"],
+					$fornecedor->setAttrFornecedor("", // ID
 						$_POST["nome"],
 						$_POST["cnpj"]
 					);
 					break;
 				case "cliente":
-					$cliente->setAttrCliente(
-						$_POST["idCliente"],
+					$cliente->setAttrCliente("", // ID
 						$_POST["nome"],
 						$_POST["cpf"],
 						$_POST["obs"]
 					);
 					break;
 				case "funcionario":
-					$funcionario->setAttrFuncionario(
-						$_POST["idFuncionario"],
+					$funcionario->setAttrFuncionario("", // ID
 						$_POST["nome"],
 						$_POST["cpf"],
 						$_POST["cargo"],
@@ -53,8 +48,7 @@
 					);
 					break;
 				case "produto":
-					$produto->setAttrProduto(
-						$_POST["idProduto"],
+					$produto->setAttrProduto("", // ID
 						$_POST["nomeProd"],
 						$_POST["idRemessa"],
 						$_POST["descrProd"],

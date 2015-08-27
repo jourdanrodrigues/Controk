@@ -22,7 +22,6 @@ class Sessao extends Connection{
 	public function logout(){
 		session_start();
 		session_unset();
-		echo "<span class='retorno' data-type='success'>Logout efetuado com sucesso!</span>";
 	}
 	public function cadastrarUsuario(){
 		if($this->verificarExistencia('usuario','nome',$this->usuario)===true){

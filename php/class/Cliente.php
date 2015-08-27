@@ -4,11 +4,14 @@ class Cliente extends Contato{
 	protected $nome;
 	protected $cpf;
 	protected $obs;
-	public function setAttrCliente($idCliente,$nome,$cpf,$obs){
-		$this->idCliente=$idCliente;
-		$this->nome=$nome;
-		$this->cpf=$cpf;
-		$this->obs=$obs;
+	public function setAttrCliente($idCliente="",$nome="",$cpf="",$obs=""){
+		if($nome!=""||$cpf!=""||$obs!=""){
+			$this->nome=$nome;
+			$this->cpf=$cpf;
+			$this->obs=$obs;
+		}else if($idCliente!=""){
+			$this->idCliente=$idCliente;
+		}
 	}
 	public function cadastrarCliente(){
 		if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false){return;}
@@ -16,9 +19,9 @@ class Cliente extends Contato{
 		$cadCliente=$mysqli->prepare('insert into cliente(nome,cpf,obs,endereco,contato) values (?,?,?,?,?)');
 		$cadCliente->bind_param("sssdd",$this->nome,$this->cpf,$this->obs,$this->idEndereco,$this->idContato);
 		if(!$cadCliente->execute()){
-			echo "<span class='retorno'>Não foi possível cadastrar o cliente:\n\n$cadCliente->error.</span>";
+			echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o cliente:\n\n$cadCliente->error.</span>";
 		}else{
-			echo "<span class='retorno'>Cadastro do cliente $this->nome, de ID $cadCliente->insert_id, finalizado com sucesso!</span>";
+			echo "<span class='retorno' data-type='success'>Cadastro do cliente $this->nome, de ID $cadCliente->insert_id, finalizado com sucesso!</span>";
 		}
 	}
 	public function buscarDadosCliente(){
@@ -28,16 +31,12 @@ class Cliente extends Contato{
 		$this->obs=$this->pegarValor('obs','cliente','id',$this->idCliente);
 		$this->idEndereco=$this->pegarValor('endereco','cliente','id',$this->idCliente);
 		$this->idContato=$this->pegarValor('contato','cliente','id',$this->idCliente);
-		echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
-		echo '<input type="hidden" name="idCliente" value="'.$this->idCliente.'">';
-		echo '<input type="hidden" name="nomeCliente" value="'.$this->nome.'">';
-		echo '<input type="hidden" name="cpf" value="'.$this->cpf.'">';
-		echo '<input type="hidden" name="obs" value="'.$this->obs.'">';
+		echo "<input type='text' class='idCliente' value='$this->idCliente'>";
+		echo "<input type='text' class='nomeCliente' value='$this->nome'>";
+		echo "<input type='text' class='cpf' value='$this->cpf'>";
+		echo "<input type='text' class='obs' value='$this->obs'>";
 		$this->buscarDadosEndereco();
 		$this->buscarDadosContato();
-		echo '</form>';
-		echo '<script src="/trabalhos/gti/bda1/js/jQuery.js"></script>';
-		echo "<script>$('#phpForm').submit();</script>";
 	}
 	public function atualizarCliente(){
 		$mysqli=$this->conectar();
@@ -57,12 +56,13 @@ class Cliente extends Contato{
 		$this->idContato=$this->pegarValor('contato','cliente','id',$this->idCliente);
 		$this->idEndereco=$this->pegarValor('endereco','cliente','id',$this->idCliente);
 		if($this->excluirEndereco()===false||$this->excluirContato()===false){return;}
-		$delCliente='delete from cliente where id='.$this->idCliente.';';
 		$mysqli=$this->conectar();
-		if(!mysqli_query($mysqli,$delCliente)){
-			die ('<script>alert("Não foi possível excluir o cliente:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
+		$delCliente=$mysqli->prepare("delete from cliente where id=?");
+		$delCliente->bind_param("d",$this->idCliente);
+		if(!$delCliente->execute()){
+			echo "<span class='retorno' data-type='error'>Não foi possível excluir o cliente:<p>$delCliente->error</p></span>";
 		}else{
-			echo '<script>alert("Exclusão do cliente '.$this->nome.', de ID '.$this->idCliente.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
+			echo "<span class='retorno' data-type='success'>Exclusão do cliente $this->nome, de ID $this->idCliente, finalizada com sucesso!</span>";
 		}
 	}
 }

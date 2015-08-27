@@ -18,7 +18,7 @@ class Connection {
 		}
 		$mysqli=mysqli_connect($this->host,$this->user,$this->password,$this->db);
 		if(mysqli_connect_errno()){
-			echo '<script>alert("Falha ao se conectar ao MySQL:\n\n('.$mysqli->connect_errno.')\n\n'.$mysqli->connect_error.'");location.href="/trabalhos/gti/bda1/";</script>';
+			echo "<span class='retorno' data-type='error'>Falha ao se conectar ao MySQL:<p>($mysqli->connect_errno)</p><p>$mysqli->connect_error</p></span>";
 		}else{
 			return $mysqli;
 		}
@@ -27,26 +27,32 @@ class Connection {
 		$mysqli=$this->conectar();
 		$getValue='select '.$campo.' from '.$tabela;
 		if($campoPesquisa!=""||$pesquisa!=""){
-			$getValue.=' where '.$campoPesquisa.'="'.$pesquisa.'";';
+			$getValue.=' where '.$campoPesquisa.'=?;';
+			$getValue=$mysqli->prepare($getValue);
+			$getValue->bind_param("s",$pesquisa);
 		}else{
 			$getValue.=';';
+			$getValue=$mysqli->prepare($getValue);
 		}
-		$gotValue=mysqli_query($mysqli,$getValue);
-		$value=mysqli_fetch_row($gotValue);
-		return $value[0];
+		$getValue->execute();
+		$getValue->bind_result($value);
+		$getValue->fetch();
+		echo $value;
+		return $value;
 	}
 	public function verificarExistencia($alvo,$campo,$valor){
 		$mysqli=$this->conectar();
-		$queryCheck='select * from '.$alvo.' where '.$campo.'="'.$valor.'";';
-		$getCheck=mysqli_query($mysqli,$queryCheck);
-		$check=mysqli_num_rows($getCheck);
-		if($check==0){
+		$query=$mysqli->prepare("select * from $alvo where $campo=?");
+		$query->bind_param("s",$valor);
+		$query->execute();
+		$query->store_result();
+		if($query->num_rows==0){
 			switch($alvo){
 				case 'estoque':
 				case 'usuario': break;
 				default:
 					if($alvo=='funcionario'){$alvo=str_replace('a','á',$alvo);}
-					echo '<script>alert("O '.$alvo.' de '.$campo.' '.$valor.' não existe.");location.href="/trabalhos/gti/bda1/";</script>';
+					echo "<span class='retorno' data-type='error'>O $alvo de $campo $valor não existe.</span>";
 					break;
 			}
 			return false;

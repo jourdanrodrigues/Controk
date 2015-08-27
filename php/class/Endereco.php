@@ -19,12 +19,13 @@ class Endereco extends Connection {
 	}
 	public function cadastrarEndereco(){
 		$mysqli=$this->conectar();
-		$cadEndereco='insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values ("'.$this->rua.'",'.$this->numero.',"'.$this->complemento.'","'.$this->cep.'","'.$this->bairro.'","'.$this->cidade.'","'.$this->estado.'");';
-		if(!mysqli_query($mysqli,$cadEndereco)){
-			die ('<script>alert("Não foi possível cadastrar o endereço:\n\n'.mysqli_error($mysqli).'");</script>');
+		$cadEndereco=$mysqli->prepare('insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values (?,?,?,?,?,?,?)');
+		$cadEndereco->bind_param("sdsssss",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado);
+		if(!$cadEndereco->execute()){
+			echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o endereço:<p>$cadEndereco->error</p></span>";
 			return false;
 		}else{
-			$this->idEndereco=mysqli_insert_id($mysqli);
+			$this->idEndereco=$cadEndereco->insert_id;
 			return true;
 		}
 	}
@@ -36,13 +37,13 @@ class Endereco extends Connection {
 		$this->bairro=$this->pegarValor('bairro','endereco','id',$this->idEndereco);
 		$this->cidade=$this->pegarValor('cidade','endereco','id',$this->idEndereco);
 		$this->estado=$this->pegarValor('estado','endereco','id',$this->idEndereco);
-		echo '<input type="hidden" name="rua" value="'.$this->rua.'">';
-		echo '<input type="hidden" name="numero" value="'.$this->numero.'">';
-		echo '<input type="hidden" name="compl" value="'.$this->complemento.'">';
-		echo '<input type="hidden" name="cep" value="'.$this->cep.'">';
-		echo '<input type="hidden" name="bairro" value="'.$this->bairro.'">';
-		echo '<input type="hidden" name="cidade" value="'.$this->cidade.'">';
-		echo '<input type="hidden" name="estado" value="'.$this->estado.'">';
+		echo "<input type='text' class='rua' value='$this->rua'>";
+		echo "<input type='text' class='numero' value='$this->numero'>";
+		echo "<input type='text' class='complemento' value='$this->complemento'>";
+		echo "<input type='text' class='cep' value='$this->cep'>";
+		echo "<input type='text' class='bairro' value='$this->bairro'>";
+		echo "<input type='text' class='cidade' value='$this->cidade'>";
+		echo "<input type='text' class='estado' value='$this->estado'>";
 	}
 	public function atualizarEndereco(){
 		$mysqli=$this->conectar();
@@ -55,9 +56,10 @@ class Endereco extends Connection {
 	}
 	public function excluirEndereco(){
 		$mysqli=$this->conectar();
-		$delEndereco='delete from endereco where id='.$this->idEndereco.';';
-		if(!mysqli_query($mysqli,$delEndereco)){
-			die ('<script>alert("Não foi possível excluir o endereço:\n\n'.mysqli_error($mysqli).'");</script>');
+		$delEndereco=$mysqli->prepare("delete from endereco where id=?");
+		$delEndereco->bind_param("d",$this->idEndereco);
+		if(!$delEndereco->execute()){
+			echo "<span class='retorno' data-type='error'>Não foi possível excluir o endereço:<p>$delEndereco->error</p></span>";
 			return false;
 		}
 		return true;

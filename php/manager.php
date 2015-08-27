@@ -11,9 +11,8 @@
 				$pasta='./class';
 				$ext='.php';
 				$file=procurarArquivos($pasta,$class.$ext);
-			   if ($file!==false ){
-				   require_once $file;
-				}else{
+				if ($file!==false ) require_once $file;
+				else{
 					$msg='Não foi possível encontrar o arquivo "'.$class.$ext.'".';
 					exit('<script>alert("'.$msg.'");</script>');
 				}
