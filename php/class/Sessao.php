@@ -30,9 +30,8 @@ class Sessao extends Connection{
 			$mysqli=$this->conectar();
 			$cadUsuario=$mysqli->prepare('insert into usuario(nome,senha) values (?,?)');
 			$cadUsuario->bind_param("ss",$this->usuario,$this->senha);
-			if(!$cadUsuario->execute()){
-				echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o usuário \"$this->usuario\":\n\n$cadUsuario->error.</span>";
-			}else{
+			if(!$cadUsuario->execute()) echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o usuário \"$this->usuario\":<p>$cadUsuario->error.</p></span>";
+			else{
 				echo "<span class='retorno' data-type='success'>O usuário \"$this->usuario\" foi cadastrado com sucesso!</span>";
 				$this->iniciarSessao();
 			}

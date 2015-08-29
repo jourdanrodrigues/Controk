@@ -47,9 +47,10 @@ class Endereco extends Connection {
 	}
 	public function atualizarEndereco(){
 		$mysqli=$this->conectar();
-		$updEndereco='update endereco set rua="'.$this->rua.'",numero='.$this->numero.',complemento="'.$this->complemento.'",cep="'.$this->cep.'",bairro="'.$this->bairro.'",cidade="'.$this->cidade.'",estado="'.$this->estado.'" where id='.$this->idEndereco.';';
-		if(!mysqli_query($mysqli,$updEndereco)){
-			die ('<script>alert("Não foi possível atualizar o endereço:\n\n'.mysqli_error($mysqli).'");</script>');
+		$updEndereco=$mysqli->prepare("update endereco set rua=?,numero=?,complemento=?,cep=?,bairro=?,cidade=?,estado=? where id=?");
+		$updEndereco->bind_param("sdsssssd",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado,$this->idEndereco);
+		if(!$updEndereco->execute()){
+			echo "<span class='retorno' data-type='error'>Não foi possível atualizar o endereço:<p>$updEndereco->error</p></span>";
 			return false;
 		}
 		return true;

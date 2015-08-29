@@ -12,19 +12,14 @@
 	$('body').fadeTo(600, 1,'swing');
 });
 function opcoes(item){
-	if($('.'+item+' ul').css('display')=='block'){
-		$('.'+item+' ul').css('display','none')
-	}else{
-		$('.'+item+' ul').css('display','block')
-	};
+	if($('.'+item+' ul').css('display')=='block') $('.'+item+' ul').css('display','none')
+	else $('.'+item+' ul').css('display','block');
 }
 function escondeTudo(){
 	$('.remessa,.produto,.fornecedor,.cliente,.funcionario,.estoque,.contato,.endereco').css('display','none').find('input,textarea').removeAttr('required');
 }
 function dbManage(item,proc){
-	if($('.direita').css('display')=='none'){
-		$('.direita').css('display','block')
-	}
+	if($('.direita').css('display')=='none') $('.direita').css('display','block')
 	switch(proc){
 		case 'Cadastro':
 			$('input.acao').val('cadastrar');

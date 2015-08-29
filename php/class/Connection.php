@@ -17,11 +17,8 @@ class Connection {
 			$this->password='Knowledge1';
 		}
 		$mysqli=mysqli_connect($this->host,$this->user,$this->password,$this->db);
-		if(mysqli_connect_errno()){
-			echo "<span class='retorno' data-type='error'>Falha ao se conectar ao MySQL:<p>($mysqli->connect_errno)</p><p>$mysqli->connect_error</p></span>";
-		}else{
-			return $mysqli;
-		}
+		if(mysqli_connect_errno()) echo "<span class='retorno' data-type='error'>Falha ao se conectar ao MySQL:<p>($mysqli->connect_errno)</p><p>$mysqli->connect_error</p></span>";
+		else return $mysqli;
 	}
 	public function pegarValor($campo,$tabela,$campoPesquisa,$pesquisa){
 		$mysqli=$this->conectar();
@@ -37,7 +34,6 @@ class Connection {
 		$getValue->execute();
 		$getValue->bind_result($value);
 		$getValue->fetch();
-		echo $value;
 		return $value;
 	}
 	public function verificarExistencia($alvo,$campo,$valor){

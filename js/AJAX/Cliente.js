@@ -1,5 +1,4 @@
 ﻿function cadastrarCliente(){
-	var btnText = $(".allBtn").html();
 	$(".allBtn").html("Aguarde...");
 	$.ajax({
 		type: "POST",
@@ -22,16 +21,13 @@
 		url: "php/actions/cadastrar.php",
 		success: function(dados){
 			successCase(dados);
-			$(".allBtn").html(btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			errorCase(textStatus, errorThrown, cadastrarCliente);
-			$(".allBtn").html(btnText);
 		}
 	});
 }
 function buscarDadosCliente(){
-	var btnText=$(".allBtn").html();
 	$(".allBtn").html("Aguarde...");
 	$.ajax({
 		data: {
@@ -44,7 +40,6 @@ function buscarDadosCliente(){
 			returnType=$(dados).filter(".retorno").attr("data-type");
 			if(returnType=="error"||returnType=="success"){
 				successCase(dados);
-				$(".allBtn").html(btnText);
 				return;
 			}
 			$('.cliente h3').html('Atualização de Cliente');
@@ -63,16 +58,46 @@ function buscarDadosCliente(){
 			$("#cidade").val($(dados).filter(".cidade").val());
 			$("#estado").val($(dados).filter(".estado").val());
 			$(".allBtn").html("Atualizar").val("atualizar");
-			$("input[name='alvo']").val("cliente");
+			$("input.alvo").val("cliente");
+			$("input.acao").val("atualizar");
 			escondeTudo();
-			$('.direita').css('display','block');
 			$('.cliente,.contato,.endereco').css('display','block').find('input,textarea').attr('required',true);
 			$('.cliente p').css('display','block').find('input,textarea').attr('required',true);
 		},
-		error: function(){
-			$(".allBtn").html(btnText);
+		error: function(jqXHR, textStatus, errorThrown){
+			errorCase(textStatus, errorThrown, buscarDadosCliente);
 		}
 	})
+}
+function atualizarCliente(){
+	$(".allBtn").html("Aguarde...");
+	$.ajax({
+		type: "POST",
+		data: {
+			alvo: $("input.alvo").val(),
+			idCliente: $("#idCliente").val(),
+			nomeCliente: $("#nomeCliente").val(),
+			cpfCliente: $("#cpfCliente").val(),
+			obsCliente: $("#obsCliente").val(),
+			email: $("#email").val(),
+			telCel: $("#telCel").val(),
+			telFixo: $("#telFixo").val(),
+			rua: $("#rua").val(),
+			numero: $("#numero").val(),
+			complemento: $("#complemento").val(),
+			cep: $("#cep").val(),
+			bairro: $("#bairro").val(),
+			cidade: $("#cidade").val(),
+			estado: $("#estado").val()
+		},
+		url: "php/actions/atualizar.php",
+		success: function(dados){
+			successCase(dados);
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			errorCase(textStatus, errorThrown, atualizarCliente);
+		}
+	});
 }
 function excluirCliente(){
 	var btnText = $(".allBtn").html();
@@ -86,11 +111,9 @@ function excluirCliente(){
 		url: "php/actions/excluir.php",
 		success: function(dados){
 			successCase(dados);
-			$(".allBtn").html(btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			errorCase(textStatus, errorThrown, excluirCliente);
-			$(".allBtn").html(btnText);
 		}
 	});
 }

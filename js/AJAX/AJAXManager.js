@@ -1,7 +1,7 @@
-﻿var count=0;
-$(document).ready(function(){
-	$(".mainForm").submit(function(e){
-		e.preventDefault();
+﻿$(document).ready(function(){
+	$(".mainForm").submit(function(){
+		manageAJAX();
+		return false;
 	});
 	$(".logOut span").click(function(){
 		loadFile("js/AJAX/Sessao.js");
@@ -14,29 +14,33 @@ $(document).ready(function(){
 	});
 })
 function manageAJAX(){
-	var
-		acao=$("input.acao").val(),
-		alvo=$("input.alvo").val();
+	var acao=$("input.acao").val(), alvo=$("input.alvo").val();
 	switch(alvo){
 		case 'cliente':
 			loadFile("js/AJAX/Cliente.js");
 			switch(acao){
 				case 'cadastrar': cadastrarCliente(); break;
 				case 'buscarDados': buscarDadosCliente(); break;
+				case 'atualizar': atualizarCliente(); break;
 				case 'excluir': excluirCliente(); break;
+			}
+			break;
+		case 'funcionario':
+			loadFile("js/AJAX/Funcionario.js");
+			switch(acao){
+				case 'cadastrar': cadastrarFuncionario(); break;
+				case 'buscarDados': buscarDadosFuncionario(); break;
+				case 'atualizar': atualizarFuncionario(); break;
+				case 'excluir': excluirFuncionario(); break;
 			}
 			break;
 	}
 }
-function limparCampos(){
-	$("input,textarea").val("");
-	$("#obsCliente,#obsFuncionario").val("S. Obs.");
-	$("#complemento").val("S. Comp.");
-}
 function successCase(dados){
 	swal({
 		title:$(dados).filter(".retorno").html(),
-		type:$(dados).filter(".retorno").attr("data-type")
+		type:$(dados).filter(".retorno").attr("data-type"),
+		html: true
 	},function(){
 		limparCampos();
 	});
@@ -55,6 +59,12 @@ function errorCase(textStatus, errorThrown, thisFunction){
 		if(isConfirm) thisFunction.call();
 		else limparCampos();
 	});
+}
+function limparCampos(){
+	$("input,textarea").val("");
+	$("#obsCliente,#obsFuncionario").val("S. Obs.");
+	$("#complemento").val("S. Comp.");
+	$('.direita').css('display','none').find('input,textarea').removeAttr('required');
 }
 function loadFile(url){
 	if($("script[src='"+url+"']").length==0) $("head").append("<script src='"+url+"'></script>");

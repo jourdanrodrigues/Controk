@@ -19,7 +19,7 @@
 			if(empty($_SESSION['usuario'])||!isset($_SESSION['usuario'])){
 				header("location:/trabalhos/gti/bda1/login.php");
 			}else{
-				if($_SESSION['tempo']<(time()-140)){
+				if($_SESSION['tempo']<(time()-1000)){
 					session_unset();
 					echo '
 					<script>
@@ -239,7 +239,7 @@
 				</div>
 				<input type="hidden" class="acao">
 				<input type="hidden" class="alvo">
-				<button onclick="manageAJAX()" class="allBtn"></button>
+				<button class="allBtn"></button>
 			</form>
 		</div><!-- Direita -->
 	</body><!-- Body -->

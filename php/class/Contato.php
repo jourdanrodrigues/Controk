@@ -31,9 +31,10 @@ class Contato extends Endereco {
 	}
 	public function atualizarContato(){
 		$mysqli=$this->conectar();
-		$updContato='update contato set email="'.$this->email.'",telCel="'.$this->telCel.'",telFixo="'.$this->telFixo.'" where id='.$this->idContato.';';
-		if(!mysqli_query($mysqli,$updContato)){
-			die ('<script>alert("Não foi possível atualizar o contato:\n\n'.mysqli_error($mysqli).'");</script>');
+		$updContato=$mysqli->prepare("update contato set email=?,telCel=?,telFixo=? where id=?");
+		$updContato->bind_param("sssd",$this->email,$this->telCel,$this->telFixo,$this->idContato);
+		if(!$updContato->execute()){
+			echo "<span class='retorno' data-type='error'>Não foi possível atualizar o contato:<p>$updContato->error</span>";
 			return false;
 		}
 		return true;
