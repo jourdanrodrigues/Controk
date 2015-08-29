@@ -4,7 +4,7 @@ class Cliente extends Contato{
 	protected $nome;
 	protected $cpf;
 	protected $obs;
-	public function setAttrCliente($idCliente="",$nome="",$cpf="",$obs=""){
+	public function setAttrCliente($idCliente,$nome="",$cpf="",$obs=""){
 		$this->idCliente=$idCliente;
 		$this->nome=$nome;
 		$this->cpf=$cpf;

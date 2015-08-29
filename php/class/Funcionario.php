@@ -2,7 +2,7 @@
 class Funcionario extends Cliente{
 	private $idFuncionario;
 	private $cargo;
-	public function setAttrFuncionario($idFuncionario,$nome,$cpf,$cargo,$obs){
+	public function setAttrFuncionario($idFuncionario,$nome="",$cpf="",$cargo="",$obs=""){
 		$this->idFuncionario=$idFuncionario;
 		$this->nome=$nome;
 		$this->cpf=$cpf;
@@ -10,18 +10,16 @@ class Funcionario extends Cliente{
 		$this->obs=$obs;
 	}
 	public function cadastrarFuncionario(){
-		if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false){return;}
+		if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false) return;
 		$mysqli=$this->conectar();
-		$queryInsert='insert into funcionario(nome,cpf,obs,cargo,endereco,contato) values ("'.$this->nome.'","'.$this->cpf.'","'.$this->obs.'","'.$this->cargo.'",'.$this->idEndereco.','.$this->idContato.');';
-		if(!mysqli_query($mysqli,$queryInsert)){
-			die ('<script>alert("Não foi possível cadastrar o funcionário:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
-		}else{
-			$this->idFuncionario=mysqli_insert_id($mysqli);
-			echo '<script>alert("Cadastro do funcionario '.$this->nome.', de ID '.$this->idFuncionario.', finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
-		}
+		$cadFuncionario=$mysqli->prepare('insert into funcionario(nome,cpf,obs,cargo,endereco,contato) values (?,?,?,?,?,?)');
+		$cadFuncionario->bind_param("ssssdd",$this->nome,$this->cpf,$this->obs,$this->cargo,$this->idEndereco,$this->idContato);
+		echo "$this->nome, $this->cpf, $this->obs, $this->cargo, $this->idEndereco, $this->idContato";
+		if(!$cadFuncionario->execute()) echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o funcionário:<p>$cadFuncionario->error<p></span>";
+		else echo "<span class='retorno' data-type='success'>Cadastro do funcionário $this->nome, de ID $cadFuncionario->insert_id, finalizado com sucesso!</span>";
 	}
 	public function buscarDadosFuncionario(){
-		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false){return;}
+		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false) return;
 		$this->nome=$this->pegarValor('nome','funcionario','id',$this->idFuncionario);
 		$this->cpf=$this->pegarValor('cpf','funcionario','id',$this->idFuncionario);
 		$this->cargo=$this->pegarValor('cargo','funcionario','id',$this->idFuncionario);

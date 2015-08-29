@@ -7,13 +7,11 @@ class Sessao extends Connection{
 		$this->senha=$senha;
 	}
 	public function login(){
-		if($this->verificarExistencia('usuario','nome',$this->usuario)!==true){
-			echo "<span class='retorno' data-type='error'>O usuário \"$this->usuario\" não está cadastrado no sistema.</span>";
-		}else{
+		if($this->verificarExistencia('usuario','nome',$this->usuario)!==true) echo "<span class='retorno' data-type='error'>O usuário \"$this->usuario\" não está cadastrado no sistema.</span>";
+		else{
 			$pw=$this->pegarValor('senha','usuario','nome',$this->usuario);
-			if($this->senha!=$pw){
-				echo "<span class='retorno' data-type='error'>Não foi possível realizar o login pois a senha digitada está incorreta.</span>";
-			}else{
+			if($this->senha!=$pw) echo "<span class='retorno' data-type='error'>Não foi possível realizar o login pois a senha digitada está incorreta.</span>";
+			else{
 				echo "<span class='retorno' data-type='redirect'>/trabalhos/gti/bda1/</span>";
 				$this->iniciarSessao();
 			}
@@ -24,9 +22,8 @@ class Sessao extends Connection{
 		session_unset();
 	}
 	public function cadastrarUsuario(){
-		if($this->verificarExistencia('usuario','nome',$this->usuario)===true){
-			echo "<span class='retorno' data-type='error'>O usuário \"$this->usuario\" já está cadastrado no sistema.</span>";
-		}else{
+		if($this->verificarExistencia('usuario','nome',$this->usuario)===true) echo "<span class='retorno' data-type='error'>O usuário \"$this->usuario\" já está cadastrado no sistema.</span>";
+		else{
 			$mysqli=$this->conectar();
 			$cadUsuario=$mysqli->prepare('insert into usuario(nome,senha) values (?,?)');
 			$cadUsuario->bind_param("ss",$this->usuario,$this->senha);
