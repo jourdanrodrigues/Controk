@@ -44,7 +44,7 @@ function buscarDadosCliente(){
 			}
 			$('.cliente h3').html('Atualização de Cliente');
 			$("#idCliente").val($(dados).filter(".idCliente").val()).attr('readonly','readonly').addClass('readonly');
-			$("#nomeCliente").val($(dados).filter(".nomeCliente").val());
+			$("#nomeCliente").val($(dados).filter(".nome").val());
 			$("#cpfCliente").val($(dados).filter(".cpf").val());
 			$("#obsCliente").val($(dados).filter(".obs").val());
 			$("#email").val($(dados).filter(".email").val());

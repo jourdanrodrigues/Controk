@@ -26,7 +26,7 @@ class Cliente extends Contato{
 		$this->idEndereco=$this->pegarValor('endereco','cliente','id',$this->idCliente);
 		$this->idContato=$this->pegarValor('contato','cliente','id',$this->idCliente);
 		echo "<input type='text' class='idCliente' value='$this->idCliente'>";
-		echo "<input type='text' class='nomeCliente' value='$this->nome'>";
+		echo "<input type='text' class='nome' value='$this->nome'>";
 		echo "<input type='text' class='cpf' value='$this->cpf'>";
 		echo "<input type='text' class='obs' value='$this->obs'>";
 		$this->buscarDadosEndereco();

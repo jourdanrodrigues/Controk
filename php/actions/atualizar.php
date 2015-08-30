@@ -22,7 +22,7 @@
 				$$alvo->setAttrEndereco($_POST['rua'],$_POST['numero'],$_POST['complemento'],$_POST['cep'],$_POST['bairro'],$_POST['cidade'],$_POST['estado']);
 				if($alvo=="fornecedor") $$alvo->setAttrFornecedor($_POST['idFornecedor'],$_POST['nomeFantasia'],$_POST['cnpj']);
 				elseif($alvo=="cliente") $$alvo->setAttrCliente($_POST['idCliente'],$_POST['nomeCliente'],$_POST['cpfCliente'],$_POST['obsCliente']);
-				elseif($alvo=="funcionario") $$alvo->setAttrFuncionario($_POST['idFuncionario'],$_POST['nomeFunc'],$_POST['cpfFuncionario'],$_POST['cargo'],$_POST['obsFuncionario']);
+				elseif($alvo=="funcionario") $$alvo->setAttrFuncionario($_POST['idFuncionario'],$_POST['nomeFuncionario'],$_POST['cpfFuncionario'],$_POST['cargo'],$_POST['obsFuncionario']);
 			}elseif($alvo=="produto") $$alvo->setAttrProduto($_POST['idProduto'],$_POST['nomeProd'],$_POST['idRemessa'],$_POST['descrProd'],$_POST['custoProd'],$_POST['valorVenda']);
 			$atualizar="atualizar".$Alvo;
 			$$alvo->$atualizar();
