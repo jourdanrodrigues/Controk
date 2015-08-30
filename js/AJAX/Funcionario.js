@@ -67,7 +67,7 @@ function buscarDadosFuncionario(){
 			$('.funcionario p').css('display','block').find('input,textarea').attr('required',true);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, buscarDadosCliente);
+			errorCase(textStatus, errorThrown, buscarDadosFuncionario);
 		}
 	})
 }
@@ -98,7 +98,7 @@ function atualizarFuncionario(){
 			successCase(dados);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, atualizarCliente);
+			errorCase(textStatus, errorThrown, atualizarFuncionario);
 		}
 	});
 }
@@ -116,7 +116,7 @@ function excluirFuncionario(){
 			successCase(dados);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, excluirCliente);
+			errorCase(textStatus, errorThrown, excluirFuncionario);
 		}
 	});
 }

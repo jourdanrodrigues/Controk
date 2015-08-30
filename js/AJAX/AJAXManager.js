@@ -38,6 +38,14 @@ function manageAJAX(){
 				case 'excluir': excluirFornecedor(); break;
 			}
 			break;
+		case 'produto':
+			loadFile("js/AJAX/Produto.js");
+			switch(acao){
+				case 'cadastrar': cadastrarProduto(); break;
+				case 'buscarDados': buscarDadosProduto(); break;
+				case 'atualizar': atualizarProduto(); break;
+			}
+			break;
 	}
 }
 function successCase(dados){

@@ -4,7 +4,7 @@
 	$('input#telFixo').mask("(99) 9999-9999");
 	$('input#telCel').mask("(99) 9 9999-9999");
 	$('input#cep').mask("99.999-999");
-	$('.custoProd,.valorVenda').priceFormat({
+	$('#custoProd,#valorVenda').priceFormat({
 		prefix: 'R$ ',
 		centsSeparator: ',',
 		thousandsSeparator: '.'

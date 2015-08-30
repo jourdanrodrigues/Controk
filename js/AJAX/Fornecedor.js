@@ -22,7 +22,7 @@
 			successCase(dados);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, cadastrarCliente);
+			errorCase(textStatus, errorThrown, cadastrarFornecedor);
 		}
 	});
 }
@@ -41,7 +41,7 @@ function buscarDadosFornecedor(){
 				successCase(dados);
 				return;
 			}
-			$('.fornecdor h3').html('Atualização de Fornecedor');
+			$('.fornecedor h3').html('Atualização de Fornecedor');
 			$("#idFornecedor").val($(dados).filter(".idFornecedor").val()).attr('readonly','readonly').addClass('readonly');
 			$("#nomeFantasia").val($(dados).filter(".nomeFantasia").val());
 			$("#cnpj").val($(dados).filter(".cnpj").val());
@@ -63,7 +63,7 @@ function buscarDadosFornecedor(){
 			$('.fornecedor p').css('display','block').find('input,textarea').attr('required',true);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, buscarDadosCliente);
+			errorCase(textStatus, errorThrown, buscarDadosFornecedor);
 		}
 	})
 }
@@ -92,7 +92,7 @@ function atualizarFornecedor(){
 			successCase(dados);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, atualizarCliente);
+			errorCase(textStatus, errorThrown, atualizarFornecedor);
 		}
 	});
 }
@@ -110,7 +110,7 @@ function excluirFornecedor(){
 			successCase(dados);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, excluirCliente);
+			errorCase(textStatus, errorThrown, excluirFornecedor);
 		}
 	});
 }
