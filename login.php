@@ -9,6 +9,12 @@
 		<script>
 		$(document).ready(function (){
 			$('body').css('opacity', '0').fadeTo(600, 1,'swing');
+			$(".logIn").submit(function(){
+				loadFile("js/AJAX/Sessao.js");
+				logIn();
+				return false;
+			});
+			$(".usuario").focus();
 		});
 		function mudarAcao(){
 			switch($('.mudaAcao').val()){
@@ -64,7 +70,7 @@
 		?>
 	</head>
 	<body>
-		<form class="logIn" action="/trabalhos/gti/bda1/php/sessionManager.php" method="POST" autocomplete="off">
+		<form class="logIn" method="POST" autocomplete="off">
 			<p class="title">Login para SEFUNC BD</p>
 			<p>
 				<label for="usuario">Usuário</label><br>

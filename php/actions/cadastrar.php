@@ -15,7 +15,7 @@
 			$alvo=$_POST["alvo"];
 			$Alvo=ucfirst($alvo);
 			$$alvo=new $Alvo();
-			if($alvo=="fornecedor") $fornecedor->setAttrFornecedor("",$_POST["nome"],$_POST["cnpj"]);
+			if($alvo=="fornecedor") $fornecedor->setAttrFornecedor("",$_POST["nomeFantasia"],$_POST["cnpj"]);
 			elseif($alvo=="cliente") $cliente->setAttrCliente("",$_POST["nome"],$_POST["cpf"],$_POST["obs"]);
 			elseif($alvo=="funcionario") $funcionario->setAttrFuncionario("",$_POST["nome"],$_POST["cpf"],$_POST["cargo"],$_POST["obs"]);
 			elseif($alvo=="remessa") $remessa->setAttrRemessa($_POST["idProdutoRem"],$_POST["qtdProdRem"],$_POST["idFornecedorRem"],$_POST["dataPedido"],$_POST["dataPagamento"],$_POST["dataEntrega"]);

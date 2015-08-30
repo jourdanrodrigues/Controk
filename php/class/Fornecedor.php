@@ -9,15 +9,12 @@ class Fornecedor extends Contato {
 		$this->cnpj=$cnpj;
 	}
 	public function cadastrarFornecedor(){
-		if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false){return;}
+		if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false) return;
 		$mysqli=$this->conectar();
-		$cadFornecedor='insert into fornecedor(nomeFantasia,cnpj,endereco,contato) values ("'.$this->nomeFantasia.'","'.$this->cnpj.'",'.$this->idEndereco.','.$this->idContato.');';
-		if(!mysqli_query($mysqli,$cadFornecedor)){
-			die ('<script>alert("Não foi possível cadastrar o fornecedor:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
-		}else{
-			$this->idFornecedor=mysqli_insert_id($mysqli);
-			echo '<script>alert("Cadastro do fornecedor '.$this->nomeFantasia.', de ID '.$this->idFornecedor.', finalizado com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
-		}
+		$cadFornecedor=$mysqli->prepare("insert into fornecedor(nomeFantasia,cnpj,endereco,contato) values (?,?,?,?)");
+		$cadFornecedor->bind_param("ssdd",$this->nomeFantasia,$this->cnpj,$this->idEndereco,$this->idContato);
+		if(!$cadFornecedor->execute()) echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o fornecedor:<p>$cadFornecedor->error</p></span>";
+		else echo "<span class='retorno' data-type='success'>Cadastro do fornecedor $this->nomeFantasia, de ID $cadFornecedor->insert_id, finalizado com sucesso!</span>";
 	}
 	public function buscarDadosFornecedor(){
 		if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false){return;}
@@ -25,41 +22,33 @@ class Fornecedor extends Contato {
 		$this->cnpj=$this->pegarValor('cnpj','fornecedor','id',$this->idFornecedor);
 		$this->idEndereco=$this->pegarValor('endereco','fornecedor','id',$this->idFornecedor);
 		$this->idContato=$this->pegarValor('contato','fornecedor','id',$this->idFornecedor);
-		echo '<form id="phpForm" action="/trabalhos/gti/bda1/" method="POST">';
-		echo '<input type="hidden" name="idFornecedor" value="'.$this->idFornecedor.'">';
-		echo '<input type="hidden" name="nomeFantasia" value="'.$this->nomeFantasia.'">';
-		echo '<input type="hidden" name="cnpj" value="'.$this->cnpj.'">';
+		echo "<input type='text' class='idFornecedor' value='$this->idFornecedor'>";
+		echo "<input type='text' class='nomeFantasia' value='$this->nomeFantasia'>";
+		echo "<input type='text' class='cnpj' value='$this->cnpj'>";
 		$this->buscarDadosEndereco();
 		$this->buscarDadosContato();
-		echo '</form>';
-		echo '<script src="/trabalhos/gti/bda1/js/jQuery.js"></script>';
-		echo "<script>$('#phpForm').submit();</script>";
 	}
 	public function atualizarFornecedor(){
 		$this->idContato=$this->pegarValor('contato','fornecedor','id',$this->idFornecedor);
 		$this->idEndereco=$this->pegarValor('endereco','fornecedor','id',$this->idFornecedor);
-		if($this->atualizarEndereco()===false||$this->atualizarContato()===false){return;}
-		$updFornecedor='update fornecedor set cnpj="'.$this->cnpj.'",nomeFantasia="'.$this->nomeFantasia.'" where id='.$this->idFornecedor.';';
+		if($this->atualizarEndereco()===false||$this->atualizarContato()===false) return;
 		$mysqli=$this->conectar();
-		if(!mysqli_query($mysqli,$updFornecedor)){
-			die ('<script>alert("Não foi possível atualizar o fornecedor:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
-		}else{
-			echo '<script>alert("Atualização do fornecedor '.$this->nomeFantasia.', de ID '.$this->idFornecedor.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
-		}
+		$updFornecedor=$mysqli->prepare("update fornecedor set cnpj=?,nomeFantasia=? where id=?");
+		$updFornecedor->bind_param("ssd",$this->cnpj,$this->nomeFantasia,$this->idFornecedor);
+		if(!$updFornecedor->execute()) echo "<span class='retorno' data-type='error'>Não foi possível atualizar o fornecedor:<p>$updFornecedor->error</p></span>";
+		else echo "<span class='retorno' data-type='success'>Atualização do fornecedor $this->nomeFantasia, de ID $this->idFornecedor, finalizada com sucesso!</span>";
 	}
 	public function excluirFornecedor(){
-		if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false){return;}
+		if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false) return;
 		$this->nomeFantasia=$this->pegarValor('nomeFantasia','fornecedor','id',$this->idFornecedor);
 		$this->idContato=$this->pegarValor('contato','fornecedor','id',$this->idFornecedor);
 		$this->idEndereco=$this->pegarValor('endereco','fornecedor','id',$this->idFornecedor);
-		if($this->excluirEndereco()===false||$this->excluirContato()===false){return;}
-		$delFornecedor='delete from fornecedor where id='.$this->idFornecedor.';';
+		if($this->excluirEndereco()===false||$this->excluirContato()===false) return;
 		$mysqli=$this->conectar();
-		if(!mysqli_query($mysqli,$delFornecedor)){
-			die ('<script>alert("Não foi possível excluir o fornecedor '.$this->nomeFantasia.':\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
-		}else{
-			echo '<script>alert("Exclusão do fornecedor '.$this->nomeFantasia.', de ID '.$this->idFornecedor.', finalizada com sucesso!");location.href="/trabalhos/gti/bda1/";</script>';
-		}
+		$delFornecedor=$mysqli->prepare('delete from fornecedor where id=?');
+		$delFornecedor->bind_param("d",$this->idFornecedor);
+		if(!$delFornecedor->execute()) echo "<span class='retorno' data-type='error'>Não foi possível excluir o fornecedor $this->nomeFantasia:<p>$delFornecedor->error</p></span>";
+		else echo "<span class='retorno' data=type='success'>Exclusão do fornecedor $this->nomeFantasia, de ID $this->idFornecedor, finalizada com sucesso!</span>";
 	}
 }
 ?>

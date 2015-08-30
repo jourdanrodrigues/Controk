@@ -7,11 +7,6 @@
 		loadFile("js/AJAX/Sessao.js");
 		logOut();
 	});
-	$(".logIn").submit(function(){
-		loadFile("js/AJAX/Sessao.js");
-		logIn();
-		return false;
-	});
 })
 function manageAJAX(){
 	var acao=$("input.acao").val(), alvo=$("input.alvo").val();
@@ -32,6 +27,15 @@ function manageAJAX(){
 				case 'buscarDados': buscarDadosFuncionario(); break;
 				case 'atualizar': atualizarFuncionario(); break;
 				case 'excluir': excluirFuncionario(); break;
+			}
+			break;
+		case 'fornecedor':
+			loadFile("js/AJAX/Fornecedor.js");
+			switch(acao){
+				case 'cadastrar': cadastrarFornecedor(); break;
+				case 'buscarDados': buscarDadosFornecedor(); break;
+				case 'atualizar': atualizarFornecedor(); break;
+				case 'excluir': excluirFornecedor(); break;
 			}
 			break;
 	}
