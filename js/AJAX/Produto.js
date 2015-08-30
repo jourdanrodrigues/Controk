@@ -29,14 +29,13 @@ function buscarDadosProduto(){
 		type: "POST",
 		url: "php/actions/buscarDados.php",
 		success: function(dados){
-			alert(dados);
 			returnType=$(dados).filter(".retorno").attr("data-type");
 			if(returnType=="error"||returnType=="success"){
 				successCase(dados);
 				return;
 			}
 			$('.produto h3').html('Atualização de Produto');
-			$("#idProduto").val($(dados).filter(".idProduto").val()),
+			$("#idProduto").val($(dados).filter(".idProduto").val()).attr('readonly','readonly').addClass('readonly'),
 			$("#idRemessa").val($(dados).filter(".idRemessa").val()),
 			$("#nomeProd").val($(dados).filter(".nomeProd").val()),
 			$("#descrProd").val($(dados).filter(".descrProd").val()),
