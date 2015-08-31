@@ -1,5 +1,6 @@
 ﻿function cadastrarProduto(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type: "POST",
 		data: {
@@ -12,15 +13,16 @@
 		},
 		url: "php/actions/cadastrar.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, cadastrarProduto);
+			errorCase(textStatus, errorThrown, btnText, cadastrarProduto);
 		}
 	});
 }
 function buscarDadosProduto(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		data: {
 			alvo: $("input.alvo").val(),
@@ -31,7 +33,7 @@ function buscarDadosProduto(){
 		success: function(dados){
 			returnType=$(dados).filter(".retorno").attr("data-type");
 			if(returnType=="error"||returnType=="success"){
-				successCase(dados);
+				successCase(dados, btnText);
 				return;
 			}
 			$('.produto h3').html('Atualização de Produto');
@@ -41,7 +43,7 @@ function buscarDadosProduto(){
 			$("#descrProd").val($(dados).filter(".descrProd").val()),
 			$("#custoProd").val($(dados).filter(".custoProd").val()),
 			$("#valorVenda").val($(dados).filter(".valorVenda").val()),
-			$(".allBtn").html("Atualizar").val("atualizar");
+			$(".goBtn").html("Atualizar").val("atualizar");
 			$("input.alvo").val("produto");
 			$("input.acao").val("atualizar");
 			escondeTudo();
@@ -49,12 +51,13 @@ function buscarDadosProduto(){
 			$('.produto p').css('display','block').find('input,textarea').attr('required',true);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, buscarDadosProduto);
+			errorCase(textStatus, errorThrown, btnText, buscarDadosProduto);
 		}
 	})
 }
 function atualizarProduto(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type: "POST",
 		data: {
@@ -68,10 +71,10 @@ function atualizarProduto(){
 		},
 		url: "php/actions/atualizar.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, atualizarProduto);
+			errorCase(textStatus, errorThrown, btnText, atualizarProduto);
 		}
 	});
 }

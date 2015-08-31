@@ -42,7 +42,7 @@
 	<body>
 		<div class="topo">
 			<span class="logOut">
-				<?php if(isset($_SESSION['usuario'])){echo $usuario; ?>, fazer <span>logout</span>.<?php } ?>
+				<?php if(isset($_SESSION['usuario']))echo "$usuario, fazer <span>logout</span>."; ?>
 			</span>
 			<h1>SEFUNC BD</h1>
 			<h3>Software para Exemplo de Funcionamento do Banco de Dados</h3>
@@ -239,7 +239,8 @@
 				</div>
 				<input type="hidden" class="acao">
 				<input type="hidden" class="alvo">
-				<button class="allBtn"></button>
+				<button class="goBtn"></button>
+				<button type="reset" class="resetBtn">Limpar campos</button>
 			</form>
 		</div><!-- Direita -->
 	</body><!-- Body -->

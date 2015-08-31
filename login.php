@@ -41,9 +41,10 @@
 			form{
 				font-size:25pt;
 				color:#CCC;}
-			.allBtn{
+			.goBtn{
 				color:#666;
-				background:#CCC;}
+				background:#CCC;
+				width:50%}
 			.mudaAcao{
 				cursor:pointer;
 				position:absolute;
@@ -53,7 +54,7 @@
 				background:#CCC;
 				border-radius:5px;
 				transition:.3s}
-			.mudaAcao:hover,.allBtn:hover{
+			.mudaAcao:hover,.goBtn:hover{
 				color:#CCC;
 				background:#666;
 				box-shadow:0 0 15px #CCC;}
@@ -81,7 +82,7 @@
 			</p>
 			<input type="hidden" class="acaoSessao" name="acaoSessao" value="login">
 			<input type="button" class="mudaAcao" name="mudaAcao" onclick="mudarAcao();" value="Cadastre-se">
-			<button class="allBtn">Fazer LogIn</button>
+			<button class="goBtn">Acessar</button>
 		</form>
 	</body>
 </html>

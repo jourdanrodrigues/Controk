@@ -43,8 +43,8 @@ function logOut(){
 	});
 }
 function logIn(){
-	var btnText = $(".logIn .allBtn").html();
-	$(".logIn button").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		url: "php/sessionManager.php",
 		type: "POST",
@@ -54,18 +54,14 @@ function logIn(){
 			acaoSessao: $(".acaoSessao").val()
 		},
 		success: function(dados){
-			$(".logIn .allBtn").html(btnText);
 			if($(dados).filter(".retorno").attr("data-type")=="redirect"){
 				location.href=$(dados).filter(".retorno").html();
 				return false;
 			}
-			swal({
-				title: $(dados).filter(".retorno").html(),
-				type: $(dados).filter(".retorno").attr("data-type")
-			});
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			$(".logIn .allBtn").html(btnText);
+			$(".goBtn").html(btnText);
 			swal({
 				title: "Ocorreu um erro!",
 				text: "<p>Descrição do erro: \""+textStatus+" "+errorThrown+"\".</p><p>Gostaria de tentar novamente?</p>",
@@ -76,9 +72,8 @@ function logIn(){
 				cancelButtonText: "Não, tudo bem.",
 				closeOnConfirm: false
 			},function(isConfirm){
-				if(isConfirm){
-					$(".logIn").submit();
-				}
+				if(isConfirm) $(".logIn").submit();
+				else limparCampos();
 			});
 		}
 	});

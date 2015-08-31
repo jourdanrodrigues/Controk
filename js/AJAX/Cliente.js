@@ -1,5 +1,6 @@
 ﻿function cadastrarCliente(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type: "POST",
 		data: {
@@ -20,15 +21,16 @@
 		},
 		url: "php/actions/cadastrar.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, cadastrarCliente);
+			errorCase(textStatus, errorThrown, btnText, cadastrarCliente);
 		}
 	});
 }
 function buscarDadosCliente(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		data: {
 			alvo: $("input.alvo").val(),
@@ -39,7 +41,7 @@ function buscarDadosCliente(){
 		success: function(dados){
 			returnType=$(dados).filter(".retorno").attr("data-type");
 			if(returnType=="error"||returnType=="success"){
-				successCase(dados);
+				successCase(dados, btnText);
 				return;
 			}
 			$('.cliente h3').html('Atualização de Cliente');
@@ -57,7 +59,7 @@ function buscarDadosCliente(){
 			$("#bairro").val($(dados).filter(".bairro").val());
 			$("#cidade").val($(dados).filter(".cidade").val());
 			$("#estado").val($(dados).filter(".estado").val());
-			$(".allBtn").html("Atualizar").val("atualizar");
+			$(".goBtn").html("Atualizar").val("atualizar");
 			$("input.alvo").val("cliente");
 			$("input.acao").val("atualizar");
 			escondeTudo();
@@ -65,12 +67,13 @@ function buscarDadosCliente(){
 			$('.cliente p').css('display','block').find('input,textarea').attr('required',true);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, buscarDadosCliente);
+			errorCase(textStatus, errorThrown, btnText, buscarDadosCliente);
 		}
 	})
 }
 function atualizarCliente(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type: "POST",
 		data: {
@@ -92,16 +95,16 @@ function atualizarCliente(){
 		},
 		url: "php/actions/atualizar.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, atualizarCliente);
+			errorCase(textStatus, errorThrown, btnText, atualizarCliente);
 		}
 	});
 }
 function excluirCliente(){
-	var btnText = $(".allBtn").html();
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type:"POST",
 		data:{
@@ -110,10 +113,10 @@ function excluirCliente(){
 		},
 		url: "php/actions/excluir.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, excluirCliente);
+			errorCase(textStatus, errorThrown, btnText, excluirCliente);
 		}
 	});
 }

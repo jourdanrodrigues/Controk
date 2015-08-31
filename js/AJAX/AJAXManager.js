@@ -46,18 +46,26 @@ function manageAJAX(){
 				case 'atualizar': atualizarProduto(); break;
 			}
 			break;
+		case 'remessa':
+			loadFile("js/AJAX/Remessa.js");
+			switch(acao){
+				case 'cadastrar': cadastrarRemessa(); break;
+			}
+			break;
 	}
 }
-function successCase(dados){
+function successCase(dados, btnText){
+	$(".goBtn").html(btnText);
 	swal({
 		title:$(dados).filter(".retorno").html(),
 		type:$(dados).filter(".retorno").attr("data-type"),
 		html: true
 	},function(){
-		limparCampos();
+		if($(dados).filter(".retorno").attr("data-type")!="error") limparCampos();
 	});
 }
-function errorCase(textStatus, errorThrown, thisFunction){
+function errorCase(textStatus, errorThrown, btnText, thisFunction){
+	$(".goBtn").html(btnText);
 	swal({
 		title: "Ocorreu um erro!",
 		text: "<p>Descrição do erro: \""+textStatus+" "+errorThrown+"\".</p><p>Gostaria de tentar novamente?</p>",
@@ -73,9 +81,7 @@ function errorCase(textStatus, errorThrown, thisFunction){
 	});
 }
 function limparCampos(){
-	$("input,textarea").val("");
-	$("#obsCliente,#obsFuncionario").val("S. Obs.");
-	$("#complemento").val("S. Comp.");
+	$(".resetBtn").click();
 	$('.direita').css('display','none').find('input,textarea').removeAttr('required');
 }
 function loadFile(url){

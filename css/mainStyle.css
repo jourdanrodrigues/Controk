@@ -13,18 +13,18 @@ textarea{
 	cursor:pointer;
 	transition:.3s;
 	border-radius:5px}
-.allBtn{
-	width:50%;
-	margin:10px 0; padding:20px;
+.goBtn,.resetBtn{
+	width:23%;
+	margin:10px 1%; padding:20px;
 	cursor:pointer;
 	border:none;
-	font-size:25pt;
+	font-size:18pt;
 	color:#CCC;
 	background:#666;
 	border-radius:15px;
 	box-shadow:0 0 15px #666;
 	transition:.3s}
-.allBtn:hover{
+.goBtn:hover,.resetBtn:hover{
 	color:#666;
 	background:#CCC;
 	box-shadow:0 0 15px #999;

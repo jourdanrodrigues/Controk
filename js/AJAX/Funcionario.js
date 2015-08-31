@@ -1,5 +1,6 @@
 ﻿function cadastrarFuncionario(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type: "POST",
 		data: {
@@ -24,12 +25,13 @@
 			successCase(dados);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, cadastrarFuncionario);
+			errorCase(textStatus, errorThrown, btnText, cadastrarFuncionario);
 		}
 	});
 }
 function buscarDadosFuncionario(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		data: {
 			alvo: $("input.alvo").val(),
@@ -40,7 +42,7 @@ function buscarDadosFuncionario(){
 		success: function(dados){
 			returnType=$(dados).filter(".retorno").attr("data-type");
 			if(returnType=="error"||returnType=="success"){
-				successCase(dados);
+				successCase(dados, btnText);
 				return;
 			}
 			$('.funcionario h3').html('Atualização de Funcionário');
@@ -59,7 +61,7 @@ function buscarDadosFuncionario(){
 			$("#bairro").val($(dados).filter(".bairro").val());
 			$("#cidade").val($(dados).filter(".cidade").val());
 			$("#estado").val($(dados).filter(".estado").val());
-			$(".allBtn").html("Atualizar").val("atualizar");
+			$(".goBtn").html("Atualizar").val("atualizar");
 			$("input.alvo").val("funcionario");
 			$("input.acao").val("atualizar");
 			escondeTudo();
@@ -67,12 +69,13 @@ function buscarDadosFuncionario(){
 			$('.funcionario p').css('display','block').find('input,textarea').attr('required',true);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, buscarDadosFuncionario);
+			errorCase(textStatus, errorThrown, btnText, buscarDadosFuncionario);
 		}
 	})
 }
 function atualizarFuncionario(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type: "POST",
 		data: {
@@ -95,16 +98,16 @@ function atualizarFuncionario(){
 		},
 		url: "php/actions/atualizar.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, atualizarFuncionario);
+			errorCase(textStatus, errorThrown, btnText, atualizarFuncionario);
 		}
 	});
 }
 function excluirFuncionario(){
-	var btnText = $(".allBtn").html();
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type:"POST",
 		data:{
@@ -113,10 +116,10 @@ function excluirFuncionario(){
 		},
 		url: "php/actions/excluir.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, excluirFuncionario);
+			errorCase(textStatus, errorThrown, btnText, excluirFuncionario);
 		}
 	});
 }

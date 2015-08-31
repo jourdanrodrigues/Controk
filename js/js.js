@@ -23,23 +23,23 @@ function dbManage(item,proc){
 	switch(proc){
 		case 'Cadastro':
 			$('input.acao').val('cadastrar');
-			$('.mainForm button').html('Cadastrar');
+			$('.goBtn').html('Cadastrar');
 			break;
 		case 'Busca de Dados':
 			$('input.acao').val('buscarDados');
-			$('.mainForm button').html('Buscar dados');
+			$('.goBtn').html('Buscar dados');
 			break;
 		case 'Exclusão':
 			$('input.acao').val('excluir');
-			$('.mainForm button').html('Excluir');
+			$('.goBtn').html('Excluir');
 			break;
 		case 'Inserir':
 			$('input.acao').val('inserir');
-			$('.mainForm button').html('Inserir');
+			$('.goBtn').html('Inserir');
 			break;
 		case 'Retirar':
 			$('input.acao').val('retirar');
-			$('.mainForm button').html('Retirar');
+			$('.goBtn').html('Retirar');
 			break;
 	}
 	switch(item){

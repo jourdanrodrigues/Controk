@@ -1,5 +1,6 @@
 ﻿function cadastrarFornecedor(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type: "POST",
 		data: {
@@ -19,15 +20,16 @@
 		},
 		url: "php/actions/cadastrar.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, cadastrarFornecedor);
+			errorCase(textStatus, errorThrown, btnText, cadastrarFornecedor);
 		}
 	});
 }
 function buscarDadosFornecedor(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		data: {
 			alvo: $("input.alvo").val(),
@@ -38,7 +40,7 @@ function buscarDadosFornecedor(){
 		success: function(dados){
 			returnType=$(dados).filter(".retorno").attr("data-type");
 			if(returnType=="error"||returnType=="success"){
-				successCase(dados);
+				successCase(dados, btnText);
 				return;
 			}
 			$('.fornecedor h3').html('Atualização de Fornecedor');
@@ -55,7 +57,7 @@ function buscarDadosFornecedor(){
 			$("#bairro").val($(dados).filter(".bairro").val());
 			$("#cidade").val($(dados).filter(".cidade").val());
 			$("#estado").val($(dados).filter(".estado").val());
-			$(".allBtn").html("Atualizar").val("atualizar");
+			$(".goBtn").html("Atualizar").val("atualizar");
 			$("input.alvo").val("fornecedor");
 			$("input.acao").val("atualizar");
 			escondeTudo();
@@ -63,12 +65,13 @@ function buscarDadosFornecedor(){
 			$('.fornecedor p').css('display','block').find('input,textarea').attr('required',true);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, buscarDadosFornecedor);
+			errorCase(textStatus, errorThrown, btnText, buscarDadosFornecedor);
 		}
 	})
 }
 function atualizarFornecedor(){
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type: "POST",
 		data: {
@@ -89,16 +92,16 @@ function atualizarFornecedor(){
 		},
 		url: "php/actions/atualizar.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, atualizarFornecedor);
+			errorCase(textStatus, errorThrown, btnText, atualizarFornecedor);
 		}
 	});
 }
 function excluirFornecedor(){
-	var btnText = $(".allBtn").html();
-	$(".allBtn").html("Aguarde...");
+	var btnText=$(".goBtn").html();
+	$(".goBtn").html("Aguarde...");
 	$.ajax({
 		type:"POST",
 		data:{
@@ -107,10 +110,10 @@ function excluirFornecedor(){
 		},
 		url: "php/actions/excluir.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			errorCase(textStatus, errorThrown, excluirFornecedor);
+			errorCase(textStatus, errorThrown, btnText, excluirFornecedor);
 		}
 	});
 }
