@@ -6,13 +6,10 @@ class Historico extends Connection{
 	protected $dataSaida;
 	protected $qtdProd;
 	public function cadastrarHistorico(){
-		$insHistorico='insert into historico(produtoEstq,funcionario,qtdRetProd,dataSaida) values ('.$this->idProduto.','.$this->idFuncionario.','.$this->qtdProd.',"'.$this->dataSaida.'");';
 		$mysqli=$this->conectar();
-		if(!mysqli_query($mysqli,$insHistorico)){
-			die ('<script>alert("Não foi possível cadastrar o histórico:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
-		}else{
-			$this->idHistorico=mysqli_insert_id($mysqli);
-		}
+		$insHistorico=$mysqli->prepare("insert into historico(produtoEstq,funcionario,qtdRetProd,dataSaida) values (?,?,?,?)");
+		$insHistorico->bind_param("ddds",$this->idProduto,$this->idFuncionario,$this->qtdProd,$this->dataSaida);
+		if(!$insHistorico->execute()) echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o histórico:<p><br>$insHistorico->error</p></span>";
 	}
 	public function buscarDadosHistorico(){
 		//Não finalizada!

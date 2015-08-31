@@ -7,43 +7,39 @@ class Estoque extends Historico{
 		$this->dataSaida=$dataSaida;
 	}
 	public function inserirProduto(){
-		if($this->verificarExistencia('produto','id',$this->idProduto)===false){return;}
-		if($this->verificarExistencia('estoque','produto',$this->idProduto)===false){
-			$insEstoque='insert into estoque(produto,qtdProd) values ('.$this->idProduto.','.$this->qtdProd.');';
-		}else{
+		if($this->verificarExistencia('produto','id',$this->idProduto)===false) return;
+		$mysqli=$this->conectar();
+		if($this->verificarExistencia('estoque','produto',$this->idProduto)===false) $insEstoque=$mysqli->prepare("insert into estoque(qtdProd,produto) values (?,?)");
+		else{
 			$qtdProdEstq=$this->pegarValor('qtdProd','estoque','produto',$this->idProduto);
 			$this->qtdProd+=$qtdProdEstq;
-			$insEstoque='update estoque set qtdProd='.$this->qtdProd.' where produto='.$this->idProduto.';';
+			$insEstoque=$mysqli->prepare("update estoque set qtdProd=? where produto=?");
 		}
+		$insEstoque->bind_param("dd",$this->qtdProd,$this->idProduto);
 		$this->nomeProduto=$this->pegarValor('nome','produto','id',$this->idProduto);
-		$mysqli=$this->conectar();
-		if(!mysqli_query($mysqli,$insEstoque)){
-			die ('<script>alert("Não foi possível inserir o produto no estoque:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
-		}else{
-			echo '<script>alert("Produto inserido no estoque com sucesso:\n\nProduto: '.$this->nomeProduto.';\nQuantidade';
-			if(isset($qtdProdEstq)){
-				echo ' anterior: '.$qtdProdEstq.';\nQuantidade atual: '.$this->qtdProd.'.");';
-			}else{
-				echo ': '.$this->qtdProd.'.");location.href="/trabalhos/gti/bda1/";';
-			}
-			echo 'location.href="/trabalhos/gti/bda1/";</script>';
+		if(!$insEstoque->execute()) echo "<span class='retorno' data-type='error'>Não foi possível inserir o produto no estoque:\n\n$insEstoque->error</span>";
+		else{
+			echo "<span class='retorno' data-type='success'>Produto inserido no estoque com sucesso<p><br>Produto: $this->nomeProduto;</p><p>Quantidade";
+			if(isset($qtdProdEstq)) echo " anterior: $qtdProdEstq;</p><p>Quantidade atual: $this->qtdProd.</p>";
+			else echo ": $this->qtdProd.</p>";
+			echo "</span>";
 		}
 	}
 	public function retirarProduto(){
-		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false||$this->verificarExistencia('produto','id',$this->idProduto)===false){return;}
+		if($this->verificarExistencia('funcionario','id',$this->idFuncionario)===false||$this->verificarExistencia('produto','id',$this->idProduto)===false) return;
 		$qtdProdEstq=$this->pegarValor('qtdProd','estoque','produto',$this->idProduto);
 		$nomeProduto=$this->pegarValor('nome','produto','id',$this->idProduto);
-		if($this->qtdProd>$qtdProdEstq){
-			echo '<script>alert("Retirada não pode ser realizada porque não há essa quantidade do produto no estoque!");location.href="/trabalhos/gti/bda1/";</script>';
-		}else{
+		$qtdProdEstq==1?$unidade="unidade":$unidade="unidades";
+		if($this->qtdProd>$qtdProdEstq) echo "<span class='retorno' data-type='error'>Há somente $qtdProdEstq $unidade desse produto no estoque!</span>";
+		else{
 			$qtdProdEstq-=$this->qtdProd;
-			$retQtdEstoque='update estoque set qtdProd='.$qtdProdEstq.' where produto='.$this->idProduto.';';
 			$mysqli=$this->conectar();
-			if(!mysqli_query($mysqli,$retQtdEstoque)){
-				die ('<script>alert("Não foi possível retirar o produto '.$nomeProduto.' do estoque:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
-			}else{
+			$retQtdEstoque=$mysqli->prepare('update estoque set qtdProd=? where produto=?');
+			$retQtdEstoque->bind_param("dd",$qtdProdEstq,$this->idProduto);
+			if(!$retQtdEstoque->execute()) echo "<span class='retorno' data-type='error'>Não foi possível retirar o produto $nomeProduto do estoque:<p><br>$retQtdEstoque->error</p></span>";
+			else{
 				$this->cadastrarHistorico();
-				echo '<script>alert("Retirado do estoque com sucesso:\n\nID do funcionário: '.$this->idFuncionario.';\nProduto: '.$nomeProduto.';\nQuantidade retirada: '.$this->qtdProd.';\nQuantidade no estoque: '.$qtdProdEstq.'");location.href="/trabalhos/gti/bda1/";</script>';
+				echo "<span class='retorno' data-type='success'>Retirado do estoque com sucesso<p><br>ID do funcionário: $this->idFuncionario;</p><p>Produto: $nomeProduto;</p><p>Quantidade retirada: $this->qtdProd;</p><p>Quantidade no estoque: $qtdProdEstq</p></span>";
 			}
 		}
 	}

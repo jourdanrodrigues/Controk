@@ -52,6 +52,13 @@ function manageAJAX(){
 				case 'cadastrar': cadastrarRemessa(); break;
 			}
 			break;
+		case 'estoque':
+			loadFile("js/AJAX/Estoque.js");
+			switch(acao){
+				case 'inserir': inserirEstoque(); break;
+				case 'retirar': retirarEstoque(); break;
+			}
+			break;
 	}
 }
 function successCase(dados, btnText){

@@ -14,33 +14,12 @@ class Remessa extends Estoque {
 		$this->qtdProd=$qtdProd;
 	}
 	public function cadastrarRemessa(){
-		if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false||$this->verificarExistencia('produto','id',$this->idProduto)===false){return;}
+		if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false||$this->verificarExistencia('produto','id',$this->idProduto)===false) return;
 		$mysqli=$this->conectar();
-		$cadRemessa='insert into remessa(produto,fornecedor,dataEntrega,dataPagamento,dataPedido,qtdProd) values ("'.$this->idProduto.'","'.$this->idFornecedor.'","'.$this->dataEntrega.'","'.$this->dataPagamento.'","'.$this->dataPedido.'","'.$this->qtdProd.'");';
-		if(!mysqli_query($mysqli,$cadRemessa)){
-			die ('<script>alert("Não foi possível cadastrar a remessa:\n\n'.mysqli_error($mysqli).'");location.href="/trabalhos/gti/bda1/";</script>');
-		}else{
-			$this->idRemessa=mysqli_insert_id($mysqli);
-			$this->inserirRemessaEstoque();
-		}
-	}
-	public function inserirRemessaEstoque(){
-		echo '
-		<html>
-			<head>
-				<script src="/trabalhos/gti/bda1/js/jQuery.js"></script>
-				<script>
-					alert("Cadastro da remessa nº '.$this->idRemessa.' finalizado com sucesso!");
-					if(confirm("O produto será cadastrado no estoque.")){
-						$(\'body\').html("<form id=\'phpForm\' action=\'/trabalhos/gti/bda1/php/manager.php\' method=\'POST\'><input type=\'hidden\' id=\'idFuncionarioEstq\' name=\'idFuncionarioEstq\' value=\'\'><input type=\'hidden\' id=\'dataSaida\' name=\'dataSaida\' value=\'\'><input type=\'hidden\' id=\'idProdutoEstq\' name=\'idProdutoEstq\' value='.$this->idProduto.'><input type=\'hidden\' id=\'qtdProdEstq\' name=\'qtdProdEstq\' value='.$this->qtdProd.'><input type=\'hidden\' name=\'acao\' value=\'inserir\'><input type=\'hidden\' name=\'alvo\' value=\'estoque\'></form>");
-						$(\'#phpForm\').submit();
-					}else{
-						location.href="/trabalhos/gti/bda1/";
-					}
-				</script>
-			</head>
-			<body></body>
-		</html>';
+		$cadRemessa=$mysqli->prepare('insert into remessa(produto,fornecedor,dataEntrega,dataPagamento,dataPedido,qtdProd) values (?,?,?,?,?,?)');
+		$cadRemessa->bind_param("ddsssd",$this->idProduto,$this->idFornecedor,$this->dataEntrega,$this->dataPagamento,$this->dataPedido,$this->qtdProd);
+		if(!$cadRemessa->execute()) echo "<span class='retorno' data-type='error'Não foi possível cadastrar a remessa:<p>$cadRemessa->error</p></span>";
+		else echo "<span class='retorno' data-type='success'>Cadastro da remessa nº $cadRemessa->insert_id finalizado com sucesso!</span>";
 	}
 }
 ?>

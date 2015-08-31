@@ -151,14 +151,14 @@ function dbManage(item,proc){
 					$('.estoque h3').html('Inserir itens no Estoque');
 					$('.estoque').css('display','block').find('input,textarea').attr('required',true);
 					$('.estoque p').css('display','block').find('input,textarea').attr('required',true);
-					$('.campoIdFuncEstq,#campoDataSaidaEstq').css('display','none').find('input').removeAttr('required');
+					$('.campoIdFuncEstq,.campoDataSaidaEstq').css('display','none').find('input').removeAttr('required');
 					break;
 				case 'Retirar':
 					escondeTudo();
 					$('.estoque h3').html('Retirar itens do Estoque');
 					$('.estoque').css('display','block');
 					$('.estoque p').css('display','block').find('input,textarea').attr('required',true);
-					$('.campoIdFuncEstq,#campoDataSaidaEstq').css('display','block').find('input').attr('required',true);
+					$('.campoIdFuncEstq,.campoDataSaidaEstq').css('display','block').find('input').attr('required',true);
 					break;
 			}
 			break;
