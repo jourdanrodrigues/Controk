@@ -48,7 +48,7 @@ class Fornecedor extends Contato {
 		$delFornecedor=$mysqli->prepare('delete from fornecedor where id=?');
 		$delFornecedor->bind_param("d",$this->idFornecedor);
 		if(!$delFornecedor->execute()) echo "<span class='retorno' data-type='error'>Não foi possível excluir o fornecedor $this->nomeFantasia:<p>$delFornecedor->error</p></span>";
-		else echo "<span class='retorno' data=type='success'>Exclusão do fornecedor $this->nomeFantasia, de ID $this->idFornecedor, finalizada com sucesso!</span>";
+		else echo "<span class='retorno' data-type='success'>Exclusão do fornecedor $this->nomeFantasia, de ID $this->idFornecedor, finalizada com sucesso!</span>";
 	}
 }
 ?>
