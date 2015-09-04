@@ -5,8 +5,8 @@
 		type: "POST",
 		data: {
 			alvo: "estoque",
-			idProdutoEstq: $("#idProdutoEstq").val(),
-			qtdProdEstq: $("#qtdProdEstq").val(),
+			idProdutoEstq: $(".idProdutoEstq").val(),
+			qtdProdEstq: $(".qtdProdEstq").val(),
 		},
 		url: "php/actions/inserir.php",
 		success: function(dados){
@@ -24,10 +24,10 @@ function retirarEstoque(){
 		type: "POST",
 		data: {
 			alvo: "estoque",
-			idProdutoEstq: $("#idProdutoEstq").val(),
-			idFuncionarioEstq: $("#idFuncionarioEstq").val(),
-			dataSaida: $("#dataSaida").val(),
-			qtdProdEstq: $("#qtdProdEstq").val()
+			idProdutoEstq: $(".idProdutoEstq").val(),
+			idFuncionarioEstq: $(".idFuncionarioEstq").val(),
+			dataSaida: $(".dataSaida").val(),
+			qtdProdEstq: $(".qtdProdEstq").val()
 		},
 		url: "php/actions/retirar.php",
 		success: function(dados){

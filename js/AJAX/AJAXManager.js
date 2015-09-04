@@ -92,5 +92,6 @@ function limparCampos(){
 	$('.direita').css('display','none').find('input,textarea').removeAttr('required');
 }
 function loadFile(url){
-	if($("script[src='"+url+"']").length==0) $("head").append("<script src='"+url+"'></script>");
+	if(/css$/.test(url)&&$("link[href='"+url+"']").length==0) $("head").append("<link rel='stylesheet' href='"+url+"'>");
+	else if(/js$/.test(url)&&$("script[src='"+url+"']").length==0) $("head").append("<script src='"+url+"'></script>");
 }

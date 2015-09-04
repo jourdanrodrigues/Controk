@@ -5,12 +5,12 @@
 		type: "POST",
 		data: {
 			alvo: $("input.alvo").val(),
-			idProdutoRem: $("#idProdutoRem").val(),
-			qtdProdRem: $("#qtdProdRem").val(),
-			idFornecedorRem: $("#idFornecedorRem").val(),
-			dataPedido: $("#dataPedido").val(),
-			dataPagamento: $("#dataPagamento").val(),
-			dataEntrega: $("#dataEntrega").val()
+			idProdutoRem: $(".idProdutoRem").val(),
+			qtdProdRem: $(".qtdProdRem").val(),
+			idFornecedorRem: $(".idFornecedorRem").val(),
+			dataPedido: $(".dataPedido").val(),
+			dataPagamento: $(".dataPagamento").val(),
+			dataEntrega: $(".dataEntrega").val()
 		},
 		url: "php/actions/cadastrar.php",
 		success: function(dados){
@@ -37,8 +37,8 @@
 								type: "POST",
 								data: {
 									alvo: "estoque",
-									idProdutoEstq: $("#idProdutoRem").val(),
-									qtdProdEstq: $("#qtdProdRem").val(),
+									idProdutoEstq: $(".idProdutoRem").val(),
+									qtdProdEstq: $(".qtdProdRem").val(),
 								},
 								url: "php/actions/inserir.php",
 								success: function(dados){

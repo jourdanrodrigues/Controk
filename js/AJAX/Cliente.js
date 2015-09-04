@@ -5,19 +5,19 @@
 		type: "POST",
 		data: {
 			alvo: $("input.alvo").val(),
-			nome: $("#nomeCliente").val(),
-			cpf: $("#cpfCliente").val(),
-			obs: $("#obsCliente").val(),
-			email: $("#email").val(),
-			telCel: $("#telCel").val(),
-			telFixo: $("#telFixo").val(),
-			rua: $("#rua").val(),
-			numero: $("#numero").val(),
-			complemento: $("#complemento").val(),
-			cep: $("#cep").val(),
-			bairro: $("#bairro").val(),
-			cidade: $("#cidade").val(),
-			estado: $("#estado").val()
+			nome: $(".nomeCliente").val(),
+			cpf: $(".cpfCliente").val(),
+			obs: $(".obsCliente").val(),
+			email: $(".email").val(),
+			telCel: $(".telCel").val(),
+			telFixo: $(".telFixo").val(),
+			rua: $(".rua").val(),
+			numero: $(".numero").val(),
+			complemento: $(".complemento").val(),
+			cep: $(".cep").val(),
+			bairro: $(".bairro").val(),
+			cidade: $(".cidade").val(),
+			estado: $(".estado").val()
 		},
 		url: "php/actions/cadastrar.php",
 		success: function(dados){
@@ -34,7 +34,7 @@ function buscarDadosCliente(){
 	$.ajax({
 		data: {
 			alvo: $("input.alvo").val(),
-			idCliente: $("#idCliente").val()
+			idCliente: $(".idCliente").val()
 		},
 		type: "POST",
 		url: "php/actions/buscarDados.php",
@@ -45,20 +45,20 @@ function buscarDadosCliente(){
 				return;
 			}
 			$('.cliente h3').html('Atualização de Cliente');
-			$("#idCliente").val($(dados).filter(".idCliente").val()).attr('readonly','readonly').addClass('readonly');
-			$("#nomeCliente").val($(dados).filter(".nome").val());
-			$("#cpfCliente").val($(dados).filter(".cpf").val());
-			$("#obsCliente").val($(dados).filter(".obs").val());
-			$("#email").val($(dados).filter(".email").val());
-			$("#telFixo").val($(dados).filter(".telFixo").val());
-			$("#telCel").val($(dados).filter(".telCel").val());
-			$("#rua").val($(dados).filter(".rua").val());
-			$("#numero").val($(dados).filter(".numero").val());
-			$("#complemento").val($(dados).filter(".complemento").val());
-			$("#cep").val($(dados).filter(".cep").val());
-			$("#bairro").val($(dados).filter(".bairro").val());
-			$("#cidade").val($(dados).filter(".cidade").val());
-			$("#estado").val($(dados).filter(".estado").val());
+			$(".idCliente").val($(dados).filter(".idCliente").val()).attr('readonly','readonly').addClass('readonly');
+			$(".nomeCliente").val($(dados).filter(".nome").val());
+			$(".cpfCliente").val($(dados).filter(".cpf").val());
+			$(".obsCliente").val($(dados).filter(".obs").val());
+			$(".email").val($(dados).filter(".email").val());
+			$(".telFixo").val($(dados).filter(".telFixo").val());
+			$(".telCel").val($(dados).filter(".telCel").val());
+			$(".rua").val($(dados).filter(".rua").val());
+			$(".numero").val($(dados).filter(".numero").val());
+			$(".complemento").val($(dados).filter(".complemento").val());
+			$(".cep").val($(dados).filter(".cep").val());
+			$(".bairro").val($(dados).filter(".bairro").val());
+			$(".cidade").val($(dados).filter(".cidade").val());
+			$(".estado").val($(dados).filter(".estado").val());
 			$(".goBtn").html("Atualizar").val("atualizar");
 			$("input.alvo").val("cliente");
 			$("input.acao").val("atualizar");
@@ -78,20 +78,20 @@ function atualizarCliente(){
 		type: "POST",
 		data: {
 			alvo: $("input.alvo").val(),
-			idCliente: $("#idCliente").val(),
-			nomeCliente: $("#nomeCliente").val(),
-			cpfCliente: $("#cpfCliente").val(),
-			obsCliente: $("#obsCliente").val(),
-			email: $("#email").val(),
-			telCel: $("#telCel").val(),
-			telFixo: $("#telFixo").val(),
-			rua: $("#rua").val(),
-			numero: $("#numero").val(),
-			complemento: $("#complemento").val(),
-			cep: $("#cep").val(),
-			bairro: $("#bairro").val(),
-			cidade: $("#cidade").val(),
-			estado: $("#estado").val()
+			idCliente: $(".idCliente").val(),
+			nomeCliente: $(".nomeCliente").val(),
+			cpfCliente: $(".cpfCliente").val(),
+			obsCliente: $(".obsCliente").val(),
+			email: $(".email").val(),
+			telCel: $(".telCel").val(),
+			telFixo: $(".telFixo").val(),
+			rua: $(".rua").val(),
+			numero: $(".numero").val(),
+			complemento: $(".complemento").val(),
+			cep: $(".cep").val(),
+			bairro: $(".bairro").val(),
+			cidade: $(".cidade").val(),
+			estado: $(".estado").val()
 		},
 		url: "php/actions/atualizar.php",
 		success: function(dados){
@@ -109,7 +109,7 @@ function excluirCliente(){
 		type:"POST",
 		data:{
 			alvo: $("input.alvo").val(),
-			idCliente: $("#idCliente").val()
+			idCliente: $(".idCliente").val()
 		},
 		url: "php/actions/excluir.php",
 		success: function(dados){
