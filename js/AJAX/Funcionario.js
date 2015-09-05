@@ -22,7 +22,7 @@
 		},
 		url: "php/actions/cadastrar.php",
 		success: function(dados){
-			successCase(dados);
+			successCase(dados, btnText);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			errorCase(textStatus, errorThrown, btnText, cadastrarFuncionario);

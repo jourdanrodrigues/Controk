@@ -47,12 +47,12 @@ class Connection {
 				case 'estoque':
 				case 'usuario': break;
 				default:
-					if($alvo=='funcionario'){$alvo=str_replace('a','á',$alvo);}
+					if($alvo=='funcionario') $alvo=str_replace('a','á',$alvo);
 					echo "<span class='retorno' data-type='error'>O $alvo de $campo $valor não existe.</span>";
 					break;
 			}
 			return false;
-		}elseif($alvo=='usuario'){return true;}
+		}elseif($alvo=='usuario') return true;
 	}
 }
 ?>

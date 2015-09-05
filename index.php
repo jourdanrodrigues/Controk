@@ -27,7 +27,8 @@
 						$(document).ready(function(){
 							swal({
 								title:"Sua sessão expirou!",
-								type:"warning"
+								type:"warning",
+								time:1000
 							},function(){
 								location.href="/trabalhos/gti/bda1/login.php";
 							});

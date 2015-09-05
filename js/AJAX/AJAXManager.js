@@ -66,7 +66,7 @@ function successCase(dados, btnText){
 	swal({
 		title:$(dados).filter(".retorno").html(),
 		type:$(dados).filter(".retorno").attr("data-type"),
-		html: true
+		html:true
 	},function(){
 		if($(dados).filter(".retorno").attr("data-type")!="error") limparCampos();
 	});

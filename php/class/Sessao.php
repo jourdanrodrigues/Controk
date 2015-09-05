@@ -3,7 +3,7 @@ class Sessao extends Connection{
 	private $usuario;
 	private $senha;
 	public function setAttrSessao($usuario,$senha){
-		$this->usuario=$usuario;
+		$this->usuario=$this->pegarValor("nome","usuario","nome",$usuario);
 		$this->senha=$senha;
 	}
 	public function login(){

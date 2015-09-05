@@ -40,10 +40,8 @@ function buscarDadosCliente(){
 		url: "php/actions/buscarDados.php",
 		success: function(dados){
 			returnType=$(dados).filter(".retorno").attr("data-type");
-			if(returnType=="error"||returnType=="success"){
-				successCase(dados, btnText);
-				return;
-			}
+			if(returnType=="error"||returnType=="success") successCase(dados, btnText);
+			else{
 			$('.cliente h3').html('Atualização de Cliente');
 			$(".idCliente").val($(dados).filter(".idCliente").val()).attr('readonly','readonly').addClass('readonly');
 			$(".nomeCliente").val($(dados).filter(".nome").val());
@@ -65,6 +63,7 @@ function buscarDadosCliente(){
 			escondeTudo();
 			$('.cliente,.contato,.endereco').css('display','block').find('input,textarea').attr('required',true);
 			$('.cliente p').css('display','block').find('input,textarea').attr('required',true);
+			}
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			errorCase(textStatus, errorThrown, btnText, buscarDadosCliente);
