@@ -35,12 +35,12 @@ textarea {
   background: #666;
   border-radius: 15px;
   box-shadow: 0 0 15px #666;
-  transition: .3s; }
-  .goBtn :hover, .resetBtn :hover {
+  transition: 0.3s; }
+  .goBtn:hover, .resetBtn:hover {
     color: #666;
     background: #CCC;
     box-shadow: 0 0 15px #999;
-    transition: .3s; }
+    transition: 0.3s; }
 
 .topo {
   margin: -25px 0;
@@ -64,7 +64,7 @@ textarea {
 
 .direita, .fornecedor, .cliente, .contato, .endereco, .remessa, .produto, .funcionario {
   display: none;
-  transition: .3s; }
+  transition: 0.3s; }
 
 .logIn {
   margin: 0 30%;
@@ -78,10 +78,10 @@ textarea {
     cursor: pointer;
     font-weight: bold;
     color: blue;
-    transition: .3s; }
-    .logOut span :hover {
+    transition: 0.3s; }
+    .logOut span:hover {
       color: red;
-      transition: .3s; }
+      transition: 0.3s; }
 
 .item {
   background: #AAA;
@@ -91,22 +91,22 @@ textarea {
   cursor: pointer;
   transition: .3s;
   list-style: none; }
-  .item :hover {
+  .item:hover {
     background: #999;
-    transition: .3s; }
+    transition: 0.3s; }
   .item ul {
     display: none;
     transition: .3s; }
-    .item ul :first-child {
+    .item ul:first-child {
       margin-top: 5px; }
     .item ul li {
       margin-left: -20px;
       padding: 5px;
       border-radius: 5px;
       list-style: none; }
-      .item ul li :hover {
+      .item ul li:hover {
         background: #fff;
-        transition: .3s; }
+        transition: 0.3s; }
 
 .field {
   text-align: center;
@@ -118,10 +118,10 @@ textarea {
   transition: .3s;
   border: none;
   border-radius: 5px; }
-  .field :hover {
+  .field:hover {
     box-shadow: 0 0 10px #666;
     background: #CFC; }
-  .field :focus {
+  .field:focus {
     cursor: default;
     box-shadow: 0 0 10px #666;
     background: #FFC; }
