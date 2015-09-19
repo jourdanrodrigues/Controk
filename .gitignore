@@ -3,8 +3,8 @@ $RECYCLE.BIN/
 
 # Files
 *.cab
-css/mainStyle.css.map
-css/mainStyle.scss
+*.css.map
+*.scss
 *.lnk
 *.msi
 *.msm
@@ -15,7 +15,7 @@ Desktop.ini
 
 # Directories
 css/.sass-cache
-diagramas
+documentação
 
 # =========================
 # Operating System Files
