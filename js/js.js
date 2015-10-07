@@ -11,6 +11,7 @@
     });
     $("body").fadeTo(600, 1,"swing");
     $("form label").click(function(){$("."+$(this).attr("data-for")).focus();});
+    $(".backToMain").click(function(){location.href="/";});
 });
 function opcoes(item){
     if($("."+item+" ul").css("display")==="block") $("."+item+" ul").css("display","none");
