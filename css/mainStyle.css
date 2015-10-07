@@ -73,8 +73,9 @@ textarea {
   background: #666; }
 
 .logOut {
-  margin: 10px 0 0 0;
-  float: left; }
+  top: 10px;
+  left: 30px;
+  position: absolute; }
   .logOut span {
     cursor: pointer;
     font-weight: bold;
@@ -83,6 +84,18 @@ textarea {
     .logOut span:hover {
       color: red;
       transition: 0.3s; }
+
+.backToMain {
+  cursor: pointer;
+  font-weight: bold;
+  color: blue;
+  transition: .3s;
+  top: 40px;
+  left: 30px;
+  position: absolute; }
+  .backToMain:hover {
+    color: red;
+    transition: 0.3s; }
 
 .item {
   background: #AAA;

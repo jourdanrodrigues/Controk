@@ -15,6 +15,7 @@
                     logIn();
                     return false;
                 });
+                $(".backToMain").click(function(){location.href="/";});
                 $(".usuario").focus();
             });
             function mudarAcao(){
@@ -70,6 +71,7 @@
         ?>
     </head>
     <body>
+        <span class="backToMain">Voltar à página inicial.</span>
         <form class="logIn" method="POST" autocomplete="off">
             <p class="title">Login para SEFUNC BD</p>
             <p>

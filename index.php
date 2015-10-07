@@ -42,7 +42,8 @@
     </head><!-- Head -->
     <body>
         <div class="topo">
-            <span class="logOut"><?php if(isset($_SESSION['usuario'])) echo "$usuario, fazer <span>logout</span>."; ?></span>
+            <span class="logOut"><?php if(isset($_SESSION['usuario'])) echo "$usuario, fazer <span>logout</span>."; ?></span><br>
+            <span class="backToMain">Voltar à página inicial.</span>
             <h1>SEFUNC BD</h1>
             <h3>Software para Exemplo de Funcionamento do Banco de Dados</h3>
         </div>
