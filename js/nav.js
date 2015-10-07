@@ -42,4 +42,4 @@
     //Estoque
     $(".nav"+alvo[5][0]+" ."+acao[3][0]).click(function(){dbManage(alvo[5][1],acao[3][1]);});
     $(".nav"+alvo[5][0]+" ."+acao[4][0]).click(function(){dbManage(alvo[5][1],acao[4][1]);});
-})
+});

@@ -5,7 +5,7 @@ class Connection {
     protected $user;
     protected $password;
     public function conectar(){
-        if($_SERVER['SERVER_ADDR']=='::1'||$_SERVER['SERVER_ADDR']=='127.0.0.1'){
+        if(server("SERVER_ADDR")=='::1'||server("SERVER_ADDR")=='127.0.0.1'){
             $this->host='localhost';
             $this->db='sefuncbd';
             $this->user='root';
@@ -22,15 +22,12 @@ class Connection {
     }
     public function pegarValor($campo,$tabela,$campoPesquisa,$pesquisa){
         $mysqli=$this->conectar();
-        $getValue='select '.$campo.' from '.$tabela;
+        $getValue="select $campo from $tabela";
         if($campoPesquisa!=""||$pesquisa!=""){
-            $getValue.=' where '.$campoPesquisa.'=?;';
+            $getValue.=" where $campoPesquisa=?";
             $getValue=$mysqli->prepare($getValue);
             $getValue->bind_param("s",$pesquisa);
-        }else{
-            $getValue.=';';
-            $getValue=$mysqli->prepare($getValue);
-        }
+        }else $getValue=$mysqli->prepare($getValue);
         $getValue->execute();
         $getValue->bind_result($value);
         $getValue->fetch();
@@ -49,7 +46,6 @@ class Connection {
                 default:
                     if($alvo=='funcionario') $alvo=str_replace('a','á',$alvo);
                     echo "<span class='retorno' data-type='error'>O $alvo de $campo $valor não existe.</span>";
-                    break;
             }
             return false;
         }elseif($alvo=='usuario') return true;

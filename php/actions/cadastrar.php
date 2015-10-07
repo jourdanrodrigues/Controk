@@ -7,24 +7,18 @@
     <body>
         <?php
             require_once("../funcoesBase.php");
-            function __autoload($class){
-                $pasta="../class";
-                $ext=".php";
-                $file=procurarArquivos($pasta,$class.$ext);
-                if ($file!==false) require_once $file;
-                else echo "<span class='retorno' data-type='error'>Não foi possível encontrar o arquivo \"$class$ext\".</span>";
-            }
-            $alvo=$_POST["alvo"];
+            function __autoload($class){autoload("../",$class);}
+            $alvo=post("alvo");
             $Alvo=ucfirst($alvo);
             $$alvo=new $Alvo();
-            if($alvo=="fornecedor") $fornecedor->setAttrFornecedor("",$_POST["nomeFantasia"],$_POST["cnpj"]);
-            elseif($alvo=="cliente") $cliente->setAttrCliente("",$_POST["nome"],$_POST["cpf"],$_POST["obs"]);
-            elseif($alvo=="funcionario") $funcionario->setAttrFuncionario("",$_POST["nome"],$_POST["cpf"],$_POST["cargo"],$_POST["obs"]);
-            elseif($alvo=="remessa") $remessa->setAttrRemessa($_POST["idProdutoRem"],$_POST["qtdProdRem"],$_POST["idFornecedorRem"],$_POST["dataPedido"],$_POST["dataPagamento"],$_POST["dataEntrega"]);
-            elseif($alvo=="produto") $produto->setAttrProduto("",$_POST["nomeProd"],$_POST["idRemessa"],$_POST["descrProd"],$_POST["custoProd"],$_POST["valorVenda"]);
+            if($alvo=="fornecedor") $fornecedor->setAttrFornecedor("",post("nomeFantasia"),post("cnpj"));
+            elseif($alvo=="cliente") $cliente->setAttrCliente("",post("nome"),post("cpf"),post("obs"));
+            elseif($alvo=="funcionario") $funcionario->setAttrFuncionario("",post("nome"),post("cpf"),post("cargo"),post("obs"));
+            elseif($alvo=="remessa") $remessa->setAttrRemessa(post("idProdutoRem"),post("qtdProdRem"),post("idFornecedorRem"),post("dataPedido"),post("dataPagamento"),post("dataEntrega"));
+            elseif($alvo=="produto") $produto->setAttrProduto("",post("nomeProd"),post("idRemessa"),post("descrProd"),post("custoProd"),post("valorVenda"));
             if($alvo!="remessa"&&$alvo!="produto"){
-                $$alvo->setAttrContato($_POST["email"],$_POST["telCel"],$_POST["telFixo"]);
-                $$alvo->setAttrEndereco($_POST["rua"],$_POST["numero"],$_POST["complemento"],$_POST["cep"],$_POST["bairro"],$_POST["cidade"],$_POST["estado"]);
+                $$alvo->setAttrContato(post("email"),post("telCel"),post("telFixo"));
+                $$alvo->setAttrEndereco(post("rua"),post("numero"),post("complemento"),post("cep"),post("bairro"),post("cidade"),post("estado"));
             }
             $function='cadastrar'.$Alvo;
             $$alvo->$function();

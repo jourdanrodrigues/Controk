@@ -7,20 +7,14 @@
     <body>
         <?php
             require_once('../funcoesBase.php');
-            function __autoload($class){
-                $pasta='../class';
-                $ext='.php';
-                $file=procurarArquivos($pasta,$class.$ext);
-                if ($file!==false) require_once $file;
-                else echo "<span class='retorno' data-type='error'>Não foi possível encontrar o arquivo $class$ext.</span>";
-            }
-            $alvo=$_POST["alvo"];
+            function __autoload($class){autoload("../",$class);}
+            $alvo=post("alvo");
             $Alvo=ucfirst($alvo);
             $$alvo=new $Alvo();
             $setAttr="setAttr".$Alvo;
             $id="id".$Alvo;
             $function='excluir'.$Alvo;
-            $$alvo->$setAttr($_POST[$id]);
+            $$alvo->$setAttr(post($id));
             $$alvo->$function();
         ?>
     </body>

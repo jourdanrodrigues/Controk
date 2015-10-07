@@ -1,6 +1,5 @@
 <?php
 class Historico extends Connection{
-    private $idHistorico;
     protected $idProduto;
     protected $idFuncionario;
     protected $dataSaida;
@@ -15,4 +14,3 @@ class Historico extends Connection{
         //Não finalizada!
     }
 }
-?>
