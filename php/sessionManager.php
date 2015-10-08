@@ -7,7 +7,7 @@
     </head>
     <body>
         <?php
-            require_once('funcoesBase.php');
+            require_once('mainFunctions.php');
             function __autoload($class){autoload("./",$class);}
             $acao=post("acaoSessao");
             $sessao=new Sessao();

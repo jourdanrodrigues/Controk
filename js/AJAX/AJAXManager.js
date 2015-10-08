@@ -7,7 +7,7 @@
             loadFile("js/AJAX/Sessao.js");
             logOut();
 	});
-})
+});
 function manageAJAX(){
     var acao=$("input.acao").val(), alvo=$("input.alvo").val();
     switch(alvo){
@@ -17,7 +17,7 @@ function manageAJAX(){
                 case 'cadastrar': cadastrarCliente(); break;
                 case 'buscarDados': buscarDadosCliente(); break;
                 case 'atualizar': atualizarCliente(); break;
-                case 'excluir': excluirCliente(); break;
+                case 'excluir': excluirCliente();
             }
             break;
         case 'funcionario':
@@ -26,7 +26,7 @@ function manageAJAX(){
                 case 'cadastrar': cadastrarFuncionario(); break;
                 case 'buscarDados': buscarDadosFuncionario(); break;
                 case 'atualizar': atualizarFuncionario(); break;
-                case 'excluir': excluirFuncionario(); break;
+                case 'excluir': excluirFuncionario();
             }
             break;
         case 'fornecedor':
@@ -35,7 +35,7 @@ function manageAJAX(){
                 case 'cadastrar': cadastrarFornecedor(); break;
                 case 'buscarDados': buscarDadosFornecedor(); break;
                 case 'atualizar': atualizarFornecedor(); break;
-                case 'excluir': excluirFornecedor(); break;
+                case 'excluir': excluirFornecedor();
             }
             break;
         case 'produto':
@@ -43,22 +43,21 @@ function manageAJAX(){
             switch(acao){
                 case 'cadastrar': cadastrarProduto(); break;
                 case 'buscarDados': buscarDadosProduto(); break;
-                case 'atualizar': atualizarProduto(); break;
+                case 'atualizar': atualizarProduto();
             }
             break;
         case 'remessa':
             loadFile("js/AJAX/Remessa.js");
             switch(acao){
-                case 'cadastrar': cadastrarRemessa(); break;
+                case 'cadastrar': cadastrarRemessa();
             }
             break;
         case 'estoque':
             loadFile("js/AJAX/Estoque.js");
             switch(acao){
                 case 'inserir': inserirEstoque(); break;
-                case 'retirar': retirarEstoque(); break;
+                case 'retirar': retirarEstoque();
             }
-            break;
     }
 }
 function successCase(dados, btnText){
@@ -67,9 +66,7 @@ function successCase(dados, btnText){
         title:$(dados).filter(".retorno").html(),
         type:$(dados).filter(".retorno").attr("data-type"),
         html:true
-    },function(){
-        if($(dados).filter(".retorno").attr("data-type")!="error") limparCampos();
-    });
+    },function(){if($(dados).filter(".retorno").attr("data-type")!=="error") limparCampos();});
 }
 function errorCase(textStatus, errorThrown, btnText, thisFunction){
     $(".goBtn").html(btnText);
@@ -92,6 +89,6 @@ function limparCampos(){
     $('.direita').css('display','none').find('input,textarea').removeAttr('required');
 }
 function loadFile(url){
-    if(/css$/.test(url)&&$("link[href='"+url+"']").length==0) $("head").append("<link rel='stylesheet' href='"+url+"'>");
-    else if(/js$/.test(url)&&$("script[src='"+url+"']").length==0) $("head").append("<script src='"+url+"'></script>");
+    if(/css$/.test(url)&&$("link[href='"+url+"']").length===0) $("head").append("<link rel='stylesheet' href='"+url+"'>");
+    else if(/js$/.test(url)&&$("script[src='"+url+"']").length===0) $("head").append("<script src='"+url+"'></script>");
 }

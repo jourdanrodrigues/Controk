@@ -9,10 +9,16 @@
         centsSeparator: ",",
         thousandsSeparator: "."
     });
+    $("input[class*='data'").mask("99/99/9999").datepicker({
+        format: "dd/mm/yyyy",
+        language: "pt-BR",
+        autoclose:true
+    });
     $("body").fadeTo(600, 1,"swing");
     $("form label").click(function(){$("."+$(this).attr("data-for")).focus();});
     $(".backToMain").click(function(){location.href="/";});
 });
+function endDateConfig(){$("input.endDate").datepicker("setStartDate", $("startDate").val());}
 function opcoes(item){
     if($("."+item+" ul").css("display")==="block") $("."+item+" ul").css("display","none");
     else $("."+item+" ul").css("display","block");
@@ -44,7 +50,6 @@ function dbManage(item,proc){
         case "Retirar":
             $("input.acao").val("retirar");
             $(".goBtn").html("Retirar");
-            break;
     }
     switch(item){
         case "fornecedor":
@@ -66,7 +71,6 @@ function dbManage(item,proc){
                     $(".fornecedor").css("display","block");
                     $(".fornecedor p").css("display","none").find("input,textarea").removeAttr("required");
                     $(".campoIdFornecedor").css("display","block").find("input").attr("required",true).removeAttr("readonly").removeClass("readonly");
-                    break;
             }
             break;
         case "cliente":
@@ -84,7 +88,6 @@ function dbManage(item,proc){
                     $(".cliente").css("display","block");
                     $(".cliente p").css("display","none").find("input,textarea").removeAttr("required");
                     $(".campoIdCliente").css("display","block").find("input").attr("required",true).removeAttr("readonly").removeClass("readonly");
-                    break;
             }
             break;
         case "funcionario":
@@ -102,7 +105,6 @@ function dbManage(item,proc){
                     $(".funcionario").css("display","block");
                     $(".funcionario p").css("display","none").find("input,textarea").removeAttr("required");
                     $(".campoIdFuncionario").css("display","block").find("input").attr("required",true).removeAttr("readonly").removeClass("readonly");
-                    break;
             }
             break;
         case "remessa":
@@ -110,9 +112,7 @@ function dbManage(item,proc){
             setTitle(".remessa","<h3>"+proc+" de Remessa</h3>");
             escondeTudo();
             switch(proc){
-                case "Cadastro":
-                    $(".remessa").css("display","block").find("input,textarea").attr("required",true);
-                    break;
+                case "Cadastro": $(".remessa").css("display","block").find("input,textarea").attr("required",true);
             }
             break;
         case "produto":
@@ -129,7 +129,6 @@ function dbManage(item,proc){
                     $(".produto").css("display","block");
                     $(".produto p").css("display","none").find("input,textarea").removeAttr("required");
                     $(".campoIdProduto").css("display","block").find("input").attr("required",true).removeAttr("readonly").removeClass("readonly");
-                    break;
             }
             break;
         case "estoque":
@@ -146,7 +145,6 @@ function dbManage(item,proc){
                     $(".estoque").css("display","block");
                     $(".estoque p").css("display","block").find("input,textarea").attr("required",true);
                     $(".campoIdFuncEstq,.campoDataSaidaEstq").css("display","block").find("input").attr("required",true);
-                    break;
             }
             break;
         default:$(".direita").css("display","none");

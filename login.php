@@ -6,7 +6,7 @@
         <title>Login para SEFUNC BD</title>
         <script src="js/jQuery.js"></script>
         <script src="js/AJAX/AJAXManager.js"></script>
-        <script src="js/sweetalert.js"></script>
+        <script src="js/plugins/sweetalert.js"></script>
         <script>
             $(document).ready(function (){
                 $('body').css('opacity', '0').fadeTo(600, 1,'swing');
@@ -66,6 +66,7 @@
                 padding:2px 0}
         </style>
         <?php
+            require_once("php/mainFunctions.php");
             session_start();
             if(!empty($_SESSION['usuario'])||isset($_SESSION['usuario'])) header("location:/trabalhos/gti/bda1/");
         ?>
@@ -74,13 +75,10 @@
         <span class="backToMain">Voltar à página inicial.</span>
         <form class="logIn" method="POST" autocomplete="off">
             <p class="title">Login para SEFUNC BD</p>
-            <p>
-                <label for="usuario">Usuário</label><br>
-                <input type="text" class="field usuario" required>
-            </p><p>
-                <label for="senha">Senha</label><br>
-                <input type="password" class="field senha" required>
-            </p>
+            <?php
+                generateField(array("field"=>"usuario","lblContent"=>"Usuário","required"=>1));
+                generateField(array("field"=>"senha","lblContent"=>"Senha","inputType"=>"password","required"=>1));
+            ?>
             <input type="hidden" class="acaoSessao" name="acaoSessao" value="login">
             <input type="button" class="mudaAcao" name="mudaAcao" onclick="mudarAcao();" value="Cadastre-se">
             <button class="goBtn">Acessar</button>

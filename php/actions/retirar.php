@@ -6,7 +6,7 @@
     </head>
     <body>
         <?php
-            require_once("../funcoesBase.php");
+            require_once("../mainFunctions.php");
             function __autoload($class){autoload("../",$class);}
             $estoque=new Estoque();
             $estoque->setAttrEstoque(post("idProdutoEstq"),post("idFuncionarioEstq"),post("qtdProdEstq"),post("dataSaida"));

@@ -6,10 +6,8 @@
     </head>
     <body>
         <?php
-            require_once('../funcoesBase.php');
-            function __autoload($class){
-                autoload("../",$class);
-            }
+            require_once('../mainFunctions.php');
+            function __autoload($class){autoload("../",$class);}
             $alvo=post("alvo");
             $Alvo=ucfirst($alvo);
             $$alvo=new $Alvo();
