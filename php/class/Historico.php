@@ -5,7 +5,7 @@ class Historico extends Connection{
     protected $dataSaida;
     protected $qtdProd;
     public function cadastrarHistorico(){
-        $mysqli=$this->conectar();
+        $mysqli=$this->connect();
         $insHistorico=$mysqli->prepare("insert into historico(produtoEstq,funcionario,qtdRetProd,dataSaida) values (?,?,?,?)");
         $insHistorico->bind_param("ddds",$this->idProduto,$this->idFuncionario,$this->qtdProd,$this->dataSaida);
         if(!$insHistorico->execute()) echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o histórico:<p><br>$insHistorico->error</p></span>";

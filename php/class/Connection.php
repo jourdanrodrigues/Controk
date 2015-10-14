@@ -4,7 +4,7 @@ class Connection {
     protected $db;
     protected $user;
     protected $password;
-    public function conectar(){
+    public function connect(){
         if(server("SERVER_ADDR")=='::1'||server("SERVER_ADDR")=='127.0.0.1'){
             $this->host='localhost';
             $this->db='sefuncbd';
@@ -16,38 +16,38 @@ class Connection {
             $this->user='u398318873_tj';
             $this->password='Knowledge1';
         }
-        $mysqli=mysqli_connect($this->host,$this->user,$this->password,$this->db);
-        if(mysqli_connect_errno()) echo "<span class='retorno' data-type='error'>Falha ao se conectar ao MySQL:<p>($mysqli->connect_errno)</p><p>$mysqli->connect_error</p></span>";
-        else return $mysqli;
+        $conn=mysqli_connect($this->host,$this->user,$this->password,$this->db);
+        if(mysqli_connect_errno()) echo "<span class='retorno' data-type='error'>Falha ao se conectar ao MySQL:<p>($conn->connect_errno)</p><p>$conn->connect_error</p></span>";
+        else return $conn;
     }
-    public function pegarValor($campo,$tabela,$campoPesquisa,$pesquisa){
-        $mysqli=$this->conectar();
-        $getValue="select $campo from $tabela";
-        if($campoPesquisa!=""||$pesquisa!=""){
-            $getValue.=" where $campoPesquisa=?";
-            $getValue=$mysqli->prepare($getValue);
-            $getValue->bind_param("s",$pesquisa);
-        }else $getValue=$mysqli->prepare($getValue);
-        $getValue->execute();
-        $getValue->bind_result($value);
-        $getValue->fetch();
+    public function getValue($field,$table,$searchField,$search){
+        $mysqli=$this->connect();
+        $query="select $field from $table";
+        if($searchField!=""||$search!=""){
+            $query.=" where $searchField=?";
+            $query=$mysqli->prepare($query);
+            $query->bind_param("s",$search);
+        }else $query=$mysqli->prepare($query);
+        $query->execute();
+        $query->bind_result($value);
+        $query->fetch();
         return $value;
     }
-    public function verificarExistencia($alvo,$campo,$valor){
-        $mysqli=$this->conectar();
-        $query=$mysqli->prepare("select * from $alvo where $campo=?");
-        $query->bind_param("s",$valor);
+    public function checkExistence($target,$field,$value){
+        $mysqli=$this->connect();
+        $query=$mysqli->prepare("select * from $target where $field=?");
+        $query->bind_param("s",$value);
         $query->execute();
         $query->store_result();
         if($query->num_rows==0){
-            switch($alvo){
+            switch($target){
                 case 'estoque':
                 case 'usuario': break;
                 default:
-                    if($alvo=='funcionario') $alvo=str_replace('a','á',$alvo);
-                    echo "<span class='retorno' data-type='error'>O $alvo de $campo $valor não existe.</span>";
+                    if($target=='funcionario') $target=str_replace('a','á',$target);
+                    echo "<span class='retorno' data-type='error'>O $target de $field $value não existe.</span>";
             }
             return false;
-        }elseif($alvo=='usuario') return true;
+        }elseif($target=='usuario') return true;
     }
 }

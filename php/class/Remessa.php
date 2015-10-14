@@ -14,8 +14,8 @@ class Remessa extends Estoque {
         $this->qtdProd=$qtdProd;
     }
     public function cadastrarRemessa(){
-        if($this->verificarExistencia('fornecedor','id',$this->idFornecedor)===false||$this->verificarExistencia('produto','id',$this->idProduto)===false) return;
-        $mysqli=$this->conectar();
+        if($this->checkExistence('fornecedor','id',$this->idFornecedor)===false||$this->checkExistence('produto','id',$this->idProduto)===false) return;
+        $mysqli=$this->connect();
         $cadRemessa=$mysqli->prepare('insert into remessa(produto,fornecedor,dataEntrega,dataPagamento,dataPedido,qtdProd) values (?,?,?,?,?,?)');
         $cadRemessa->bind_param("ddsssd",$this->idProduto,$this->idFornecedor,$this->dataEntrega,$this->dataPagamento,$this->dataPedido,$this->qtdProd);
         if(!$cadRemessa->execute()) echo "<span class='retorno' data-type='error'Não foi possível cadastrar a remessa:<p>$cadRemessa->error</p></span>";

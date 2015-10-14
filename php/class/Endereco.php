@@ -18,7 +18,7 @@ class Endereco extends Connection {
         $this->estado=$estado;
     }
     public function cadastrarEndereco(){
-        $mysqli=$this->conectar();
+        $mysqli=$this->connect();
         $cadEndereco=$mysqli->prepare('insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values (?,?,?,?,?,?,?)');
         $cadEndereco->bind_param("sdsssss",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado);
         if(!$cadEndereco->execute()){
@@ -30,13 +30,13 @@ class Endereco extends Connection {
         }
     }
     public function buscarDadosEndereco(){
-        $this->rua=$this->pegarValor('rua','endereco','id',$this->idEndereco);
-        $this->numero=$this->pegarValor('numero','endereco','id',$this->idEndereco);
-        $this->complemento=$this->pegarValor('complemento','endereco','id',$this->idEndereco);
-        $this->cep=$this->pegarValor('cep','endereco','id',$this->idEndereco);
-        $this->bairro=$this->pegarValor('bairro','endereco','id',$this->idEndereco);
-        $this->cidade=$this->pegarValor('cidade','endereco','id',$this->idEndereco);
-        $this->estado=$this->pegarValor('estado','endereco','id',$this->idEndereco);
+        $this->rua=$this->getValue('rua','endereco','id',$this->idEndereco);
+        $this->numero=$this->getValue('numero','endereco','id',$this->idEndereco);
+        $this->complemento=$this->getValue('complemento','endereco','id',$this->idEndereco);
+        $this->cep=$this->getValue('cep','endereco','id',$this->idEndereco);
+        $this->bairro=$this->getValue('bairro','endereco','id',$this->idEndereco);
+        $this->cidade=$this->getValue('cidade','endereco','id',$this->idEndereco);
+        $this->estado=$this->getValue('estado','endereco','id',$this->idEndereco);
         echo "<input type='text' class='rua' value='$this->rua'>";
         echo "<input type='text' class='numero' value='$this->numero'>";
         echo "<input type='text' class='complemento' value='$this->complemento'>";
@@ -46,7 +46,7 @@ class Endereco extends Connection {
         echo "<input type='text' class='estado' value='$this->estado'>";
     }
     public function atualizarEndereco(){
-        $mysqli=$this->conectar();
+        $mysqli=$this->connect();
         $updEndereco=$mysqli->prepare("update endereco set rua=?,numero=?,complemento=?,cep=?,bairro=?,cidade=?,estado=? where id=?");
         $updEndereco->bind_param("sdsssssd",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado,$this->idEndereco);
         if(!$updEndereco->execute()){
@@ -56,7 +56,7 @@ class Endereco extends Connection {
         return true;
     }
     public function excluirEndereco(){
-        $mysqli=$this->conectar();
+        $mysqli=$this->connect();
         $delEndereco=$mysqli->prepare("delete from endereco where id=?");
         $delEndereco->bind_param("d",$this->idEndereco);
         if(!$delEndereco->execute()){

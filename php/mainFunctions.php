@@ -4,10 +4,9 @@ function searchFiles($folder,$file,$ds="/"){
     if (is_dir($folder)){
         if (file_exists($folder.$ds.$file)) return $folder.$ds.$file;
         $dirs=array_diff(scandir($folder, 1), array(".",".."));
-        foreach ($dirs as $dir) {
+        foreach ($dirs as $dir)
             if (is_dir($folder.$ds.$dir)&&searchFiles($folder.$ds.$dir, $file, $ds)!==false)
                 return searchFiles($folder.$ds.$dir, $file, $ds);
-        }
     }else return false;
 }
 function autoload($path,$class){

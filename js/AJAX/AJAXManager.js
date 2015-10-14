@@ -48,9 +48,7 @@ function manageAJAX(){
             break;
         case 'remessa':
             loadFile("js/AJAX/Remessa.js");
-            switch(acao){
-                case 'cadastrar': cadastrarRemessa();
-            }
+            cadastrarRemessa();
             break;
         case 'estoque':
             loadFile("js/AJAX/Estoque.js");
