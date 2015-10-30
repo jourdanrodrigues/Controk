@@ -21,7 +21,7 @@
                 html: true,
                 closeOnConfirm: false
             },function(){
-                if($(dados).filter(".retorno").attr("data-type")=="error") swal.close();
+                if($(dados).filter(".retorno").attr("data-type")==="error") swal.close();
                 else{
                     swal({
                         title:"O produto será inserido no estoque.",

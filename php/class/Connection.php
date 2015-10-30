@@ -17,13 +17,13 @@ class Connection {
             $this->password='Knowledge1';
         }
         $conn=mysqli_connect($this->host,$this->user,$this->password,$this->db);
-        if(mysqli_connect_errno()) echo "<span class='retorno' data-type='error'>Falha ao se conectar ao MySQL:<p>($conn->connect_errno)</p><p>$conn->connect_error</p></span>";
+        if(mysqli_connect_errno()) AJAXReturn("{'type':'error','msg':'Falha ao se conectar ao MySQL:<p>($conn->connect_errno)</p><p>$conn->connect_error</p>'}");
         else return $conn;
     }
     public function getValue($field,$table,$searchField,$search){
         $mysqli=$this->connect();
         $query="select $field from $table";
-        if($searchField!=""||$search!=""){
+        if($searchField!=""){
             $query.=" where $searchField=?";
             $query=$mysqli->prepare($query);
             $query->bind_param("s",$search);
@@ -41,11 +41,11 @@ class Connection {
         $query->store_result();
         if($query->num_rows==0){
             switch($target){
-                case 'estoque':
-                case 'usuario': break;
+                case "estoque":
+                case "usuario": break;
                 default:
-                    if($target=='funcionario') $target=str_replace('a','á',$target);
-                    echo "<span class='retorno' data-type='error'>O $target de $field $value não existe.</span>";
+                    if($target=="funcionario") $target=str_replace("a","á",$target);
+                    AJAXReturn("{'type':'error','msg':'O $target de $field $value não existe.'}");
             }
             return false;
         }elseif($target=='usuario') return true;

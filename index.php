@@ -13,7 +13,7 @@
             else{
                 if($_SESSION['tempo']<(time()-1000)){
                     session_unset();
-                    swal('{"title":"Sua sessão expirou!","type":"warning","time":1000,"funcScope":"location.href=\'/trabalhos/gti/bda1/login.php\';"}');
+                    swal("{'title':'Sua sessão expirou!','type':'warning','time':1000,'funcScope':'location.href=\'/trabalhos/gti/bda1/login.php\';'}");
                 }else{
                     $_SESSION['tempo']=time();
                     $usuario=$_SESSION['usuario'];

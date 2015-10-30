@@ -50,7 +50,7 @@ function logIn(){
             acaoSessao: $(".acaoSessao").val()
         },
         success: function(dados){
-            if($(dados).filter(".retorno").attr("data-type")=="redirect"){
+            if($(dados).filter(".retorno").attr("data-type")==="redirect"){
                 location.href=$(dados).filter(".retorno").html();
                 return false;
             }

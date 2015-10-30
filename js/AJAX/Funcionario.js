@@ -41,26 +41,28 @@ function buscarDadosFuncionario(){
         url: "php/actions/buscarDados.php",
         success: function(dados){
             returnType=$(dados).filter(".retorno").attr("data-type");
-            if(returnType=="error"||returnType=="success"){
+            if(returnType==="error"||returnType==="success"){
                 successCase(dados, btnText);
                 return;
             }
             $('.funcionario h3').html('Atualização de Funcionário');
             $(".idFuncionario").val($(dados).filter(".idFuncionario").val()).attr('readonly','readonly').addClass('readonly');
-            $(".nomeFuncionario").val($(dados).filter(".nome").val());
-            $(".cpfFuncionario").val($(dados).filter(".cpf").val());
-            $(".obsFuncionario").val($(dados).filter(".obs").val());
-            $(".cargo").val($(dados).filter(".cargo").val());
-            $(".email").val($(dados).filter(".email").val());
-            $(".telFixo").val($(dados).filter(".telFixo").val());
-            $(".telCel").val($(dados).filter(".telCel").val());
-            $(".rua").val($(dados).filter(".rua").val());
-            $(".numero").val($(dados).filter(".numero").val());
-            $(".complemento").val($(dados).filter(".complemento").val());
-            $(".cep").val($(dados).filter(".cep").val());
-            $(".bairro").val($(dados).filter(".bairro").val());
-            $(".cidade").val($(dados).filter(".cidade").val());
-            $(".estado").val($(dados).filter(".estado").val());
+            putDataValues(dados,[
+                [".nomeFuncionario",".nome"],
+                [".cpfFuncionario",".cpf"],
+                [".obsFuncionario",".obs"],
+                [".cargo",".cargo"],
+                [".email",".email"],
+                [".telFixo",".telFixo"],
+                [".telCel",".telCel"],
+                [".cep",".cep"],
+                [".rua",".rua"],
+                [".numero",".numero"],
+                [".complemento",".complemento"],
+                [".bairro",".bairro"],
+                [".cidade",".cidade"],
+                [".estado",".estado"]
+            ]);
             $(".goBtn").html("Atualizar").val("atualizar");
             $("input.alvo").val("funcionario");
             $("input.acao").val("atualizar");

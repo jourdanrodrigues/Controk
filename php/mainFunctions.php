@@ -15,7 +15,7 @@ function autoload($path,$class){
     $class.=".php";
     $file=searchFiles($folder,$class);
     if ($file!==false) require_once $file;
-    else echo "<span class='retorno' data-type='error'>Não foi possível encontrar o arquivo \"$class\".</span>";
+    else AJAXReturn("{'type':'error','message':'Não foi possível encontrar o arquivo \'$class\'.'}");
 }
 function post($var){return filter_input(INPUT_POST,$var);} // Filtro para variáveis $_POST
 function server($var){return filter_input(INPUT_SERVER,$var);} // Filtro para variáveis $_SERVER
@@ -28,14 +28,13 @@ function generateField($var){
      * inputValue - valor inicial de campo input (opcional);
      * lblContent - Conteúdo da label de identificação do campo;
      */
-    $obj=json_decode($var);
+    $obj=json_decode(fixJSON($var));
     echo "<p"; if(isset($obj->id)) echo " class='campoId$obj->id'";
     echo "><label data-for='$obj->field'>$obj->lblContent</label><br>";
     if(isset($obj->fieldType)&&$obj->fieldType==="textarea") echo "<textarea class='$obj->field'></textarea></p>";
     else{
-        echo "<input class='field $obj->field";
+        echo "<input type='text' class='field $obj->field";
         if(isset($obj->inputType)) echo "' type='$obj->inputType";
-        else echo "' type='text";
         if(isset($obj->inputValue)) echo "' value='$obj->inputValue";
         if(isset($obj->required)&&$obj->required===1) echo "' required='required";
         echo "'></p>";
@@ -47,7 +46,7 @@ function generateItemMenu($var){
      * label => Título do item com caractere espacial
      * cadastrar, buscarDados, excluir, inserir e retirar => Opções
      */
-    $obj=json_decode($var);
+    $obj=json_decode(fixJSON($var));
     echo "<li class='item nav".str_replace("á","a",$obj->item)."'>$obj->item<ul>";
     if (isset($obj->cadastrar)&&$obj->cadastrar==1) echo "<li class='cadastrar'>Cadastrar</li>";
     if (isset($obj->buscarDados)&&$obj->buscarDados==1) echo "<li class='buscarDados'>Buscar Dados</li>";
@@ -56,13 +55,16 @@ function generateItemMenu($var){
     if (isset($obj->retirar)&&$obj->retirar==1) echo "<li class='retirar'>Retirar itens</li>";
     echo "</ul></li>";
 }
+function generateReturnInputs($var){
+    for($i=0;$i<count($var);$i++) echo "<input type='text' class='".$var[$i][0]."' value='".$var[$i][1]."'>";
+}
 function loadFiles($type,$files){
     // Carregamento de arquivos CSS e JS
     if($type==="js") for($i=0;$i<count($files);$i++) echo "<script src='js/".$files[$i].".js'></script>";
     else if($type==="css") for($i=0;$i<count($files);$i++) echo "<link rel='stylesheet' href='css/".$files[$i].".css' />";
 }
 function swal($var){
-    $obj=json_decode($var);
+    $obj=json_decode(fixJSON($var));
     echo "<script>$(document).ready(function(){swal({title:'$obj->title',type:'$obj->type'";
     if(isset($obj->time)) echo ",time:$obj->time";
     echo "}";
@@ -71,4 +73,11 @@ function swal($var){
         echo ",function($obj->funcParam){ $obj->funcScope}";
     }
     echo ");});</script>";
+}
+function AJAXReturn($var){
+    $obj=json_decode(fixJSON($var));
+    echo "<span class='retorno' data-type='$obj->type'>$obj->msg</span>";
+}
+function fixJSON($var){
+    return str_replace("'","\"",$var);
 }

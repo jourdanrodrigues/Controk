@@ -11,14 +11,46 @@
             $alvo=post("alvo");
             $Alvo=ucfirst($alvo);
             $$alvo=new $Alvo();
-            if($alvo=="fornecedor") $fornecedor->setAttrFornecedor("",post("nomeFantasia"),post("cnpj"));
-            elseif($alvo=="cliente") $cliente->setAttrCliente("",post("nome"),post("cpf"),post("obs"));
-            elseif($alvo=="funcionario") $funcionario->setAttrFuncionario("",post("nome"),post("cpf"),post("cargo"),post("obs"));
-            elseif($alvo=="remessa") $remessa->setAttrRemessa(post("idProdutoRem"),post("qtdProdRem"),post("idFornecedorRem"),post("dataPedido"),post("dataPagamento"),post("dataEntrega"));
-            elseif($alvo=="produto") $produto->setAttrProduto("",post("nomeProd"),post("idRemessa"),post("descrProd"),post("custoProd"),post("valorVenda"));
+            switch($alvo){
+                case "fornecedor": $$alvo->setAttrFornecedor("{
+                'nomeFantasia':'".post("nomeFantasia")."',
+                'cnpj':'".post("cnpj")."'}"); break;
+                case "cliente": $$alvo->setAttrCliente("{
+                'nome':'".post("nome")."',
+                'cpf':'".post("cpf")."',
+                'obs':'".post("obs")."'}"); break;
+                case "funcionario": $$alvo->setAttrFuncionario("{
+                'nome':'".post("nome")."',
+                'cpf':'".post("cpf")."',
+                'cargo':'".post("cargo")."',
+                'obs':'".post("obs")."'}"); break;
+                case "remessa": $$alvo->setAttrRemessa("{
+                'idProdutoRem':'".post("idProdutoRem")."',
+                'qtdProdRem':'".post("qtdProdRem")."',
+                'idFornecedorRem':'".post("idFornecedorRem")."',
+                'dataPedido':'".post("dataPedido")."',
+                'dataPagamento':'".post("dataPagamento")."',
+                'dataEntrega':'".post("dataEntrega")."'}"); break;
+                case "produto": $$alvo->setAttrProduto("{
+                'nomeProd':'".post("nomeProd")."',
+                'idRemessa':'".post("idRemessa")."',
+                'descrProd':'".post("descrProd")."',
+                'custoProd':'".post("custoProd")."',
+                'valorVenda':'".post("valorVenda")."'}"); break;
+            }
             if($alvo!="remessa"&&$alvo!="produto"){
-                $$alvo->setAttrContato(post("email"),post("telCel"),post("telFixo"));
-                $$alvo->setAttrEndereco(post("rua"),post("numero"),post("complemento"),post("cep"),post("bairro"),post("cidade"),post("estado"));
+                $$alvo->setAttrContato("{
+                    'email':'".post("email")."',
+                    'telCel':'".post("telCel")."',
+                    'telFixo':'".post("telFixo")."'}");
+                $$alvo->setAttrEndereco("{
+                    'rua':'".post("rua")."',
+                    'numero':'".post("numero")."',
+                    'complemento':'".post("complemento")."',
+                    'cep':'".post("cep")."',
+                    'bairro':'".post("bairro")."',
+                    'cidade':'".post("cidade")."',
+                    'estado':'".post("estado")."'}");
             }
             $function='cadastrar'.$Alvo;
             $$alvo->$function();

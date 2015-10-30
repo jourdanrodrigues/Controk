@@ -45,21 +45,20 @@ function buscarDadosFornecedor(){
             }
             $('.fornecedor h3').html('Atualização de Fornecedor');
             $(".idFornecedor").val($(dados).filter(".idFornecedor").val()).attr('readonly','readonly').addClass('readonly');
-            $(".nomeFantasia").val($(dados).filter(".nomeFantasia").val());
-            $(".cnpj").val($(dados).filter(".cnpj").val());
-            $(".email").val($(dados).filter(".email").val());
-            $(".telFixo").val($(dados).filter(".telFixo").val());
-            $(".telCel").val($(dados).filter(".telCel").val());
-            $(".rua").val($(dados).filter(".rua").val());
-            $(".numero").val($(dados).filter(".numero").val());
-            $(".complemento").val($(dados).filter(".complemento").val());
-            $(".cep").val($(dados).filter(".cep").val());
-            $(".bairro").val($(dados).filter(".bairro").val());
-            $(".cidade").val($(dados).filter(".cidade").val());
-            $(".estado").val($(dados).filter(".estado").val());
-            $(".goBtn").html("Atualizar").val("atualizar");
-            $("input.alvo").val("fornecedor");
-            $("input.acao").val("atualizar");
+            putDataValues(dados,[
+                [".nomeFantasia",".nomeFantasia"],
+                [".cnpj",".cnpj"],
+                [".email",".email"],
+                [".telFixo",".telFixo"],
+                [".telCel",".telCel"],
+                [".cep",".cep"],
+                [".rua",".rua"],
+                [".numero",".numero"],
+                [".complemento",".complemento"],
+                [".bairro",".bairro"],
+                [".cidade",".cidade"],
+                [".estado",".estado"]
+            ]);
             escondeTudo();
             $('.fornecedor,.contato,.endereco').css('display','block').find('input,textarea').attr('required',true);
             $('.fornecedor p').css('display','block').find('input,textarea').attr('required',true);

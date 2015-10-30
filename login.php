@@ -2,11 +2,12 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="css/sweetalert.css" />
         <title>Login para SEFUNC BD</title>
-        <script src="js/jQuery.js"></script>
-        <script src="js/AJAX/AJAXManager.js"></script>
-        <script src="js/plugins/sweetalert.js"></script>
+        <?php
+            require_once("php/mainFunctions.php");
+            loadFiles("css",array("sweetalert","mainStyle"));
+            loadFiles("js",array("jQuery","plugins/sweetalert","AJAX/AJAXManager"));
+        ?>
         <script>
             $(document).ready(function (){
                 $('body').css('opacity', '0').fadeTo(600, 1,'swing');
@@ -33,7 +34,6 @@
                 }
             }
         </script>
-        <link rel="stylesheet" href="css/mainStyle.css" />
         <style>
             body{
                 padding:2% 0;
@@ -76,8 +76,8 @@
         <form class="logIn" method="POST" autocomplete="off">
             <p class="title">Login para SEFUNC BD</p>
             <?php
-                generateField('{"field":"usuario","lblContent":"Usuário","required":1}');
-                generateField('{"field":"senha","lblContent":"Senha","inputType":"password","required":1}');
+                generateField("{'field':'usuario','lblContent':'Usuário','required':1}");
+                generateField("{'field':'senha','lblContent':'Senha','inputType':'password','required':1}");
             ?>
             <input type="hidden" class="acaoSessao" name="acaoSessao" value="login">
             <input type="button" class="mudaAcao" name="mudaAcao" onclick="mudarAcao();" value="Cadastre-se">

@@ -12,13 +12,43 @@
             $alvo=post("alvo");
             $Alvo=ucfirst($alvo);
             $$alvo=new $Alvo();
-            if($alvo==="fornecedor"||$alvo==="funcionario"||$alvo==="cliente"){
-                $$alvo->setAttrContato(post("email"),post("telCel"),post("telFixo"));
-                $$alvo->setAttrEndereco(post("rua"),post("numero"),post("complemento"),post("cep"),post("bairro"),post("cidade"),post("estado"));
-                if($alvo==="fornecedor") $$alvo->setAttrFornecedor(post("idFornecedor"),post("nomeFantasia"),post("cnpj"));
-                elseif($alvo==="cliente") $$alvo->setAttrCliente(post("idCliente"),post("nomeCliente"),post("cpfCliente"),post("obsCliente"));
-                elseif($alvo==="funcionario") $$alvo->setAttrFuncionario(post("idFuncionario"),post("nomeFuncionario"),post("cpfFuncionario"),post("cargo"),post("obsFuncionario"));
-            }elseif($alvo==="produto") $$alvo->setAttrProduto(post("idProduto"),post("nomeProd"),post("idRemessa"),post("descrProd"),post("custoProd"),post("valorVenda"));
+            if($alvo!=="produto"){
+                $$alvo->setAttrContato("{
+                    'email':'".post("email")."',
+                    'telCel':'".post("telCel")."',
+                    'telFixo':'".post("telFixo")."'}");
+                $$alvo->setAttrEndereco("{
+                    'rua':'".post("rua")."',
+                    'numero':'".post("numero")."',
+                    'complemento':'".post("complemento")."',
+                    'cep':'".post("cep")."',
+                    'bairro':'".post("bairro")."',
+                    'cidade':'".post("cidade")."',
+                    'estado':'".post("estado")."'}");
+                switch($alvo){
+                    case "fornecedor": $$alvo->setAttrFornecedor("{
+                    'idFornecedor':'".post("idFornecedor")."',
+                    'nomeFantasia':'".post("nomeFantasia")."',
+                    'cnpj':'".post("cnpj")."'}"); break;
+                    case "cliente": $$alvo->setAttrCliente("{
+                    'idCliente':'".post("idCliente")."',
+                    'nome':'".post("nome")."',
+                    'cpf':'".post("cpf")."',
+                    'obs':'".post("obs")."'}"); break;
+                    case "funcionario": $$alvo->setAttrFuncionario("{
+                    'idFuncionario':'".post("idFuncionario")."',
+                    'nome':'".post("nomeFuncionario")."',
+                    'cpf':'".post("cpfFuncionario")."',
+                    'cargo':'".post("cargo")."',
+                    'obs':'".post("obsFuncionario")."'}"); break;
+                }
+            }else $$alvo->setAttrProduto("{
+                'idProduto':'".post("idProduto")."',
+                'nomeProd':'".post("nomeProd")."',
+                'idRemessa':'".post("idRemessa")."',
+                'descrProd':'".post("descrProd")."',
+                'custoProd':'".post("custoProd")."',
+                'valorVenda':'".post("valorVenda")."'}");
             $atualizar="atualizar".$Alvo;
             $$alvo->$atualizar();
         ?>

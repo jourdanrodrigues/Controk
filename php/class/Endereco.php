@@ -8,21 +8,22 @@ class Endereco extends Connection {
     protected $bairro;
     protected $cidade;
     protected $estado;
-    public function setAttrEndereco($rua,$numero,$complemento,$cep,$bairro,$cidade,$estado){
-        $this->rua=$rua;
-        $this->numero=$numero;
-        $this->complemento=$complemento;
-        $this->cep=$cep;
-        $this->bairro=$bairro;
-        $this->cidade=$cidade;
-        $this->estado=$estado;
+    public function setAttrEndereco($var){
+        $obj=json_decode(fixJSON($var));
+        $this->rua=$obj->rua;
+        $this->numero=$obj->numero;
+        $this->complemento=$obj->complemento;
+        $this->cep=$obj->cep;
+        $this->bairro=$obj->bairro;
+        $this->cidade=$obj->cidade;
+        $this->estado=$obj->estado;
     }
     public function cadastrarEndereco(){
         $mysqli=$this->connect();
         $cadEndereco=$mysqli->prepare('insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values (?,?,?,?,?,?,?)');
         $cadEndereco->bind_param("sdsssss",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado);
         if(!$cadEndereco->execute()){
-            echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o endereço:<p>$cadEndereco->error</p></span>";
+            AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o endereço:<p>$cadEndereco->error</p>'}");
             return false;
         }else{
             $this->idEndereco=$cadEndereco->insert_id;
@@ -37,20 +38,22 @@ class Endereco extends Connection {
         $this->bairro=$this->getValue('bairro','endereco','id',$this->idEndereco);
         $this->cidade=$this->getValue('cidade','endereco','id',$this->idEndereco);
         $this->estado=$this->getValue('estado','endereco','id',$this->idEndereco);
-        echo "<input type='text' class='rua' value='$this->rua'>";
-        echo "<input type='text' class='numero' value='$this->numero'>";
-        echo "<input type='text' class='complemento' value='$this->complemento'>";
-        echo "<input type='text' class='cep' value='$this->cep'>";
-        echo "<input type='text' class='bairro' value='$this->bairro'>";
-        echo "<input type='text' class='cidade' value='$this->cidade'>";
-        echo "<input type='text' class='estado' value='$this->estado'>";
+        generateReturnInputs(array(
+            array("rua",$this->rua),
+            array("numero",$this->numero),
+            array("complemento",$this->complemento),
+            array("cep",$this->cep),
+            array("bairro",$this->bairro),
+            array("cidade",$this->cidade),
+            array("estado",$this->estado)
+        ));
     }
     public function atualizarEndereco(){
         $mysqli=$this->connect();
         $updEndereco=$mysqli->prepare("update endereco set rua=?,numero=?,complemento=?,cep=?,bairro=?,cidade=?,estado=? where id=?");
         $updEndereco->bind_param("sdsssssd",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado,$this->idEndereco);
         if(!$updEndereco->execute()){
-            echo "<span class='retorno' data-type='error'>Não foi possível atualizar o endereço:<p>$updEndereco->error</p></span>";
+            AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o endereço:<p>$updEndereco->error</p>'}");
             return false;
         }
         return true;
@@ -60,7 +63,7 @@ class Endereco extends Connection {
         $delEndereco=$mysqli->prepare("delete from endereco where id=?");
         $delEndereco->bind_param("d",$this->idEndereco);
         if(!$delEndereco->execute()){
-            echo "<span class='retorno' data-type='error'>Não foi possível excluir o endereço:<p>$delEndereco->error</p></span>";
+            AJAXReturn("{'type':'error','msg':'Não foi possível excluir o endereço:<p>$delEndereco->error</p>'}");
             return false;
         }
         return true;

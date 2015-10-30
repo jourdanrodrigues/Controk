@@ -4,13 +4,16 @@ class Produto extends Remessa{
     private $descricao;
     private $custoProd;
     private $valorVenda;
-    public function setAttrProduto($idProduto,$nome="",$idRemessa="",$descricao="",$custoProd="",$valorVenda=""){
-        $this->idProduto=$idProduto;
-        $this->nome=$nome;
-        $this->idRemessa=$idRemessa;
-        $this->descricao=$descricao;
-        $this->custoProd=$custoProd;
-        $this->valorVenda=$valorVenda;
+    public function setAttrProduto($var){
+        $obj=json_decode(fixJSON($var));
+        if(isset($obj->idProduto)) $this->idProduto=$obj->idProduto;
+        if(isset($obj->nome)){
+            $this->nome=$obj->nome;
+            $this->idRemessa=$obj->idRemessa;
+            $this->descricao=$obj->descricao;
+            $this->custoProd=$obj->custoProd;
+            $this->valorVenda=$obj->valorVenda;
+        }
     }
     public function cadastrarProduto(){
         $this->custoProd=str_replace('R$ ','',$this->custoProd);
@@ -20,8 +23,8 @@ class Produto extends Remessa{
         $mysqli=$this->connect();
         $cadProduto=$mysqli->prepare("insert into produto(remessa,descricao,nome,custo,valorVenda) values (?,?,?,?,?)");
         $cadProduto->bind_param("dssdd",$this->idRemessa,$this->descricao,$this->nome,$this->custoProd,$this->valorVenda);
-        if(!$cadProduto->execute()) echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o produto:<p>$cadProduto->error</p></span>";
-        else echo "<span class='retorno' data-type='success'>Cadastro do produto $this->nome, de ID $cadProduto->insert_id, finalizado com sucesso!</span>";
+        if(!$cadProduto->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o produto:<p>$cadProduto->error</p>'}");
+        else AJAXReturn("{'type':'success','msg':'Cadastro do produto $this->nome, de ID $cadProduto->insert_id, finalizado com sucesso!'}");
     }
     public function buscarDadosProduto(){
         if($this->checkExistence('produto','id',$this->idProduto)===false){return;}
@@ -32,12 +35,14 @@ class Produto extends Remessa{
         $custoProd=str_replace('.',',',$this->custoProd);
         $this->valorVenda=$this->getValue('valorVenda','produto','id',$this->idProduto);
         $valorVenda=str_replace('.',',',$this->valorVenda);
-        echo "<input type='text' class='idProduto' value='$this->idProduto'>";
-        echo "<input type='text' class='nomeProd' value='$this->nome'>";
-        echo "<input type='text' class='idRemessa' value='$this->idRemessa'>";
-        echo "<input type='text' class='descrProd' value='$this->descricao'>";
-        echo "<input type='text' class='custoProd' value='R$ $custoProd'>";
-        echo "<input type='text' class='valorVenda' value='R$ $valorVenda'>";
+        generateReturnInputs(array(
+            array("idProduto",$this->idProduto),
+            array("nomeProd",$this->nome),
+            array("idRemessa",$this->idRemessa),
+            array("descrProd",$this->descricao),
+            array("custoProd","R$ $custoProd"),
+            array("valorVenda","R$ $valorVenda")
+        ));
     }
     public function atualizarProduto(){
         $this->custoProd=str_replace('R$ ','',$this->custoProd);
@@ -47,7 +52,7 @@ class Produto extends Remessa{
         $mysqli=$this->connect();
         $updProduto=$mysqli->prepare("update produto set descricao=?,nome=?,custo=?,valorVenda=? where id=?");
         $updProduto->bind_param("ssddd",$this->descricao,$this->nome,$custoProd,$valorVenda,$this->idProduto);
-        if(!$updProduto->execute()) echo "<span class='retorno' data-type='error'>Não foi possível atualizar o produto:<p>$updProduto->error</p></span>";
-        else echo "<span class='retorno' data-type='success'>Atualização do produto $this->nome, de ID $this->idProduto, finalizada com sucesso!</span>";
+        if(!$updProduto->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o produto:<p>$updProduto->error</p>'}");
+        else AJAXReturn("{'type':'success','msg':'Atualização do produto $this->nome, de ID $this->idProduto, finalizada com sucesso!'}");
     }
 }

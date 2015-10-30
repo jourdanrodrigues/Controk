@@ -40,7 +40,7 @@ function buscarDadosCliente(){
         url: "php/actions/buscarDados.php",
         success: function(dados){
             returnType=$(dados).filter(".retorno").attr("data-type");
-            if(returnType=="error"||returnType=="success") successCase(dados, btnText);
+            if(returnType==="error"||returnType==="success") successCase(dados, btnText);
             else{
             $('.cliente h3').html('Atualização de Cliente');
             $(".idCliente").val($(dados).filter(".idCliente").val()).attr('readonly','readonly').addClass('readonly');
@@ -78,9 +78,9 @@ function atualizarCliente(){
         data: {
             alvo: $("input.alvo").val(),
             idCliente: $(".idCliente").val(),
-            nomeCliente: $(".nomeCliente").val(),
-            cpfCliente: $(".cpfCliente").val(),
-            obsCliente: $(".obsCliente").val(),
+            nome: $(".nomeCliente").val(),
+            cpf: $(".cpfCliente").val(),
+            obs: $(".obsCliente").val(),
             email: $(".email").val(),
             telCel: $(".telCel").val(),
             telFixo: $(".telFixo").val(),

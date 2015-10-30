@@ -37,12 +37,14 @@ function buscarDadosProduto(){
                     return;
             }
             $('.produto h3').html('Atualização de Produto');
-            $(".idProduto").val($(dados).filter(".idProduto").val()).attr('readonly','readonly').addClass('readonly'),
-            $(".idRemessa").val($(dados).filter(".idRemessa").val()),
-            $(".nomeProd").val($(dados).filter(".nomeProd").val()),
-            $(".descrProd").val($(dados).filter(".descrProd").val()),
-            $(".custoProd").val($(dados).filter(".custoProd").val()),
-            $(".valorVenda").val($(dados).filter(".valorVenda").val()),
+            $(".idProduto").val($(dados).filter(".idProduto").val()).attr('readonly','readonly').addClass('readonly');
+            putDataValues(dados,[
+                [".idRemessa",".idRemessa"],
+                [".nomeProd",".nomeProd"],
+                [".descrProd",".descrProd"],
+                [".custoProd",".custoProd"],
+                [".valorVenda",".valorVenda"],
+            ]);
             $(".goBtn").html("Atualizar").val("atualizar");
             $("input.alvo").val("produto");
             $("input.acao").val("atualizar");

@@ -7,12 +7,11 @@ class Sessao extends Connection{
         $this->senha=$senha;
     }
     public function login(){
-        if($this->checkExistence('usuario','nome',$this->usuario)!==true) echo "<span class='retorno' data-type='error'>O usuário \"$this->usuario\" não está cadastrado no sistema.</span>";
+        if($this->checkExistence('usuario','nome',$this->usuario)!==true) AJAXReturn("{'type':'error','msg':'O usuário \'$this->usuario\' não está cadastrado no sistema.'}");
         else{
-            $pw=$this->getValue('senha','usuario','nome',$this->usuario);
-            if($this->senha!=$pw) echo "<span class='retorno' data-type='error'>Não foi possível realizar o login pois a senha digitada está incorreta.</span>";
+            if($this->senha!=$this->getValue('senha','usuario','nome',$this->usuario)) AJAXReturn("{'type':'error','msg':'Não foi possível realizar o login pois a senha digitada está incorreta.'}");
             else{
-                echo "<span class='retorno' data-type='redirect'>/trabalhos/gti/bda1/</span>";
+                AJAXReturn("{'type':'redirect','msg':'/trabalhos/gti/bda1/'}");
                 $this->iniciarSessao();
             }
         }
@@ -22,14 +21,14 @@ class Sessao extends Connection{
         session_unset();
     }
     public function cadastrarUsuario(){
-        if($this->checkExistence('usuario','nome',$this->usuario)===true) echo "<span class='retorno' data-type='error'>O usuário \"$this->usuario\" já está cadastrado no sistema.</span>";
+        if($this->checkExistence('usuario','nome',$this->usuario)===true) AJAXReturn("{'type':'error','msg':'O usuário \'$this->usuario\' já está cadastrado no sistema.'}");
         else{
             $mysqli=$this->connect();
             $cadUsuario=$mysqli->prepare('insert into usuario(nome,senha) values (?,?)');
             $cadUsuario->bind_param("ss",$this->usuario,$this->senha);
-            if(!$cadUsuario->execute()) echo "<span class='retorno' data-type='error'>Não foi possível cadastrar o usuário \"$this->usuario\":<p>$cadUsuario->error.</p></span>";
+            if(!$cadUsuario->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o usuário \'$this->usuario\':<p>$cadUsuario->error.</p>'}");
             else{
-                echo "<span class='retorno' data-type='success'>O usuário \"$this->usuario\" foi cadastrado com sucesso!</span>";
+                AJAXReturn("{'type':'success','msg':'O usuário \'$this->usuario\' foi cadastrado com sucesso!'}");
                 $this->iniciarSessao();
             }
         }
