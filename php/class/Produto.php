@@ -1,4 +1,5 @@
 <?php
+require_once("Remessa.php");
 class Produto extends Remessa{
     private $nome;
     private $descricao;
@@ -15,11 +16,15 @@ class Produto extends Remessa{
             $this->valorVenda=$obj->valorVenda;
         }
     }
+    public function handleMonetary(&$value,$action,$return=0){
+        if($action=="goNum") $result=str_replace(',','.',str_replace('R$ ','',$value));
+        else if($action=="goCur") $result="R$ ".str_replace('.',',',$value);
+        if($return==1) return $result;
+        else if($return==0) $value=$result;
+    }
     public function cadastrarProduto(){
-        $this->custoProd=str_replace('R$ ','',$this->custoProd);
-        $this->custoProd=str_replace(',','.',$this->custoProd);
-        $this->valorVenda=str_replace('R$ ','',$this->valorVenda);
-        $this->valorVenda=str_replace(',','.',$this->valorVenda);
+        handleMonetary($this->custoProd,"goNum");
+        handleMonetary($this->valorVenda,"goNum");
         $mysqli=$this->connect();
         $cadProduto=$mysqli->prepare("insert into produto(remessa,descricao,nome,custo,valorVenda) values (?,?,?,?,?)");
         $cadProduto->bind_param("dssdd",$this->idRemessa,$this->descricao,$this->nome,$this->custoProd,$this->valorVenda);
@@ -32,26 +37,22 @@ class Produto extends Remessa{
         $this->idRemessa=$this->getValue('remessa','produto','id',$this->idProduto);
         $this->descricao=$this->getValue('descricao','produto','id',$this->idProduto);
         $this->custoProd=$this->getValue('custo','produto','id',$this->idProduto);
-        $custoProd=str_replace('.',',',$this->custoProd);
+        $custoProd=handleMonetary($this->custoProd,"goCur",1);
         $this->valorVenda=$this->getValue('valorVenda','produto','id',$this->idProduto);
-        $valorVenda=str_replace('.',',',$this->valorVenda);
+        $valorVenda=handleMonetary($this->valorVenda,"goCur",1);
         generateReturnInputs(array(
             array("idProduto",$this->idProduto),
             array("nomeProd",$this->nome),
             array("idRemessa",$this->idRemessa),
             array("descrProd",$this->descricao),
-            array("custoProd","R$ $custoProd"),
-            array("valorVenda","R$ $valorVenda")
+            array("custoProd",$custoProd),
+            array("valorVenda",$valorVenda)
         ));
     }
     public function atualizarProduto(){
-        $this->custoProd=str_replace('R$ ','',$this->custoProd);
-        $custoProd=str_replace(',','.',$this->custoProd);
-        $this->valorVenda=str_replace('R$ ','',$this->valorVenda);
-        $valorVenda=str_replace(',','.',$this->valorVenda);
         $mysqli=$this->connect();
         $updProduto=$mysqli->prepare("update produto set descricao=?,nome=?,custo=?,valorVenda=? where id=?");
-        $updProduto->bind_param("ssddd",$this->descricao,$this->nome,$custoProd,$valorVenda,$this->idProduto);
+        $updProduto->bind_param("ssddd",$this->descricao,$this->nome,handleMonetary($this->custoProd,"goNum",1),handleMonetary($this->valorVenda,"goNum",1),$this->idProduto);
         if(!$updProduto->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o produto:<p>$updProduto->error</p>'}");
         else AJAXReturn("{'type':'success','msg':'Atualização do produto $this->nome, de ID $this->idProduto, finalizada com sucesso!'}");
     }

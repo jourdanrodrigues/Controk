@@ -4,9 +4,11 @@
         <meta charset="utf-8" />
         <title>Login para SEFUNC BD</title>
         <?php
+            session_start();
+            if(!empty($_SESSION['usuario'])||isset($_SESSION['usuario'])) header("location:/trabalhos/gti/bda1/");
             require_once("php/mainFunctions.php");
-            loadFiles("css",array("sweetalert","mainStyle"));
-            loadFiles("js",array("jQuery","plugins/sweetalert","AJAX/AJAXManager"));
+            loadFiles("{'css':['sweetalert','mainStyle']}");
+            loadFiles("{'js':['jQuery','plugins/sweetalert','AJAX/AJAXManager']}");
         ?>
         <script>
             $(document).ready(function (){
@@ -65,11 +67,6 @@
                 color:#666;
                 padding:2px 0}
         </style>
-        <?php
-            require_once("php/mainFunctions.php");
-            session_start();
-            if(!empty($_SESSION['usuario'])||isset($_SESSION['usuario'])) header("location:/trabalhos/gti/bda1/");
-        ?>
     </head>
     <body>
         <span class="backToMain">Voltar à página inicial.</span>

@@ -2,11 +2,11 @@
 function searchFiles($folder,$file){
     // Função para inserção automática de classes
     if (is_dir($folder)){
-        if (file_exists($folder."/".$file)) return $folder."/".$file;
+        if (file_exists("$folder/$file")) return "$folder/$file";
         $dirs=array_diff(scandir($folder,1),array(".",".."));
         foreach ($dirs as $dir)
-            if (is_dir($folder."/".$dir)&&searchFiles($folder."/".$dir,$file)!==false)
-                return searchFiles($folder."/".$dir,$file);
+            if (is_dir("$folder/$dir")&&searchFiles("$folder/$dir",$file)!==false)
+                return searchFiles("$folder/$dir",$file);
     }else return false;
 }
 function autoload($path,$class){
@@ -22,23 +22,37 @@ function server($var){return filter_input(INPUT_SERVER,$var);} // Filtro para va
 function generateField($var){
     /* Parâmetros para geração de campos
      * id - classe de identificação da tag <p> (opcional);
-     * field - classe de idetificação do campo;
+     * field - classe de identificação do campo;
      * fieldType - tipo do campo (default: "input");
-     * inputType - tipo de dado do campo (default: "text");
-     * inputValue - valor inicial de campo input (opcional);
+     * type - tipo de dado do campo (default: "text");
+     * value - valor inicial de campo input (opcional);
      * lblContent - Conteúdo da label de identificação do campo;
+     * plcHolder - Conteúdo do placeholder (opcional);
+     * required - Setar campo como requerido (opcional);
+     * rows - Linhas para type "textarea" (opcional);
+     * cols - Colunas para type "textarea" (opcional);
      */
     $obj=json_decode(fixJSON($var));
-    echo "<p"; if(isset($obj->id)) echo " class='campoId$obj->id'";
+    echo "<p"; echo isset($obj->id)?" class='campoId$obj->id'":"";
     echo "><label data-for='$obj->field'>$obj->lblContent</label><br>";
-    if(isset($obj->fieldType)&&$obj->fieldType==="textarea") echo "<textarea class='$obj->field'></textarea></p>";
+    //Início do campo
+    if(isset($obj->fieldType)&&$obj->fieldType==="textarea") echo "<textarea class='";
     else{
-        echo "<input type='text' class='field $obj->field";
-        if(isset($obj->inputType)) echo "' type='$obj->inputType";
-        if(isset($obj->inputValue)) echo "' value='$obj->inputValue";
-        if(isset($obj->required)&&$obj->required===1) echo "' required='required";
-        echo "'></p>";
+        echo "<input type='";
+        echo isset($obj->type)?"$obj->type'":"text'";
+        echo " class='field ";
     }
+    echo "$obj->field";
+    if(isset($obj->classes)) foreach($obj->classes as $class) echo " $class";
+    echo "'";
+    //Atributos
+    echo isset($obj->rows)?" row=$obj->rows":"";
+    echo isset($obj->cols)?" cols=$obj->cols":"";
+    echo isset($obj->value)?" value='$obj->value'":"";
+    echo isset($obj->plcHolder)?" placeholder='$obj->plcHolder'":"";
+    echo isset($obj->required)&&$obj->required===1?" required='required'":"";
+    //Fechamento do campo
+    echo isset($obj->fieldType)&&$obj->fieldType==="textarea"?"></textarea></p>":"></p>";
 }
 function generateItemMenu($var){
     /*
@@ -58,10 +72,11 @@ function generateItemMenu($var){
 function generateReturnInputs($var){
     for($i=0;$i<count($var);$i++) echo "<input type='text' class='".$var[$i][0]."' value='".$var[$i][1]."'>";
 }
-function loadFiles($type,$files){
+function loadFiles($var){
     // Carregamento de arquivos CSS e JS
-    if($type==="js") for($i=0;$i<count($files);$i++) echo "<script src='js/".$files[$i].".js'></script>";
-    else if($type==="css") for($i=0;$i<count($files);$i++) echo "<link rel='stylesheet' href='css/".$files[$i].".css' />";
+    $obj=json_decode(fixJSON($var));
+    if(isset($obj->js)) foreach($obj->js as $file) echo "<script src='js/$file.js'></script>";
+    else if(isset($obj->css)) foreach($obj->css as $file) echo "<link rel='stylesheet' href='css/$file.css' />";
 }
 function swal($var){
     $obj=json_decode(fixJSON($var));

@@ -1,4 +1,5 @@
 <?php
+require_once("Estoque.php");
 class Remessa extends Estoque {
     protected $idRemessa;
     private $idFornecedor;
