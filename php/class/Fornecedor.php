@@ -20,25 +20,21 @@ class Fornecedor extends Contato {
         else AJAXReturn("{'type':'success','msg':'Cadastro do fornecedor $this->nomeFantasia, de ID $cadFornecedor->insert_id, finalizado com sucesso!'}");
     }
     public function buscarDadosFornecedor(){
-        if($this->checkExistence('fornecedor','id',$this->idFornecedor)===false){return;}
-        $this->nomeFantasia=$this->getValue('nomeFantasia','fornecedor','id',$this->idFornecedor);
-        $this->cnpj=$this->getValue('cnpj','fornecedor','id',$this->idFornecedor);
-        $this->idEndereco=$this->getValue('endereco','fornecedor','id',$this->idFornecedor);
-        $this->idContato=$this->getValue('contato','fornecedor','id',$this->idFornecedor);
-        generateReturnInputs(array(
-            array("idFornecedor",$this->idFornecedor),
-            array("nomeFantasia",$this->nomeFantasia),
-            array("cnpj",$this->cnpj)
-        ));
-        $this->buscarDadosEndereco();
-        $this->buscarDadosContato();
+        if($this->checkExistence("fornecedor","id",$this->idFornecedor)===false){return;}
+        $this->idEndereco=$this->getValue("endereco","fornecedor","id",$this->idFornecedor);
+        $this->idContato=$this->getValue("contato","fornecedor","id",$this->idFornecedor);
+        echo fixJSON("{'idFornecedor':'$this->idFornecedor',
+            'nomeFantasia':'".$this->getValue('nomeFantasia','fornecedor','id',$this->idFornecedor)."',
+            'cnpj':'".$this->getValue('cnpj','fornecedor','id',$this->idFornecedor)."',".
+            $this->buscarDadosEndereco().",".
+            $this->buscarDadosContato()."}");
     }
     public function atualizarFornecedor(){
-        $this->idContato=$this->getValue('contato','fornecedor','id',$this->idFornecedor);
-        $this->idEndereco=$this->getValue('endereco','fornecedor','id',$this->idFornecedor);
+        $this->idContato=$this->getValue("contato","fornecedor","id",$this->idFornecedor);
+        $this->idEndereco=$this->getValue("endereco","fornecedor","id",$this->idFornecedor);
         if($this->atualizarEndereco()===false||$this->atualizarContato()===false) return;
-        $mysqli=$this->connect();
-        $updFornecedor=$mysqli->prepare("update fornecedor set cnpj=?,nomeFantasia=? where id=?");
+        $conn=$this->connect();
+        $updFornecedor=$conn->prepare("update fornecedor set cnpj=?,nomeFantasia=? where id=?");
         $updFornecedor->bind_param("ssd",$this->cnpj,$this->nomeFantasia,$this->idFornecedor);
         if(!$updFornecedor->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o fornecedor:<p>$updFornecedor->error</p>'}");
         else AJAXReturn("{'type':'success','msg':'Atualização do fornecedor $this->nomeFantasia, de ID $this->idFornecedor, finalizada com sucesso!'}");
@@ -49,8 +45,8 @@ class Fornecedor extends Contato {
         $this->idContato=$this->getValue('contato','fornecedor','id',$this->idFornecedor);
         $this->idEndereco=$this->getValue('endereco','fornecedor','id',$this->idFornecedor);
         if($this->excluirEndereco()===false||$this->excluirContato()===false) return;
-        $mysqli=$this->connect();
-        $delFornecedor=$mysqli->prepare('delete from fornecedor where id=?');
+        $conn=$this->connect();
+        $delFornecedor=$conn->prepare('delete from fornecedor where id=?');
         $delFornecedor->bind_param("d",$this->idFornecedor);
         if(!$delFornecedor->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível excluir o fornecedor $this->nomeFantasia:<p>$delFornecedor->error</p>'}");
         else AJAXReturn("{'type':'success','msg':'Exclusão do fornecedor $this->nomeFantasia, de ID $this->idFornecedor, finalizada com sucesso!'}");

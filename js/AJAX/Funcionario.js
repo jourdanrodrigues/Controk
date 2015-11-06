@@ -40,35 +40,33 @@ function buscarDadosFuncionario(){
         type: "POST",
         url: "php/actions/buscarDados.php",
         success: function(dados){
-            returnType=$(dados).filter(".retorno").attr("data-type");
-            if(returnType==="error"||returnType==="success"){
-                successCase(dados, btnText);
-                return;
+            alert(dados);
+            var obj=JSON.parse(dados);
+            if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
+            else{
+                $(".funcionario h3").html("Atualização de Funcionário");
+                $(".idFuncionario").val(obj.idFuncionario).attr('readonly','readonly').addClass('readonly');
+                $(".nomeFuncionario").val(obj.nome);
+                $(".cpfFuncionario").val(obj.cpf);
+                $(".obsFuncionario").val(obj.obs);
+                $(".cargo").val(obj.cargo);
+                $(".email").val(obj.email);
+                $(".telFixo").val(obj.telFixo);
+                $(".telCel").val(obj.telCel);
+                $(".cep").val(obj.cep);
+                $(".rua").val(obj.rua);
+                $(".numero").val(obj.numero);
+                $(".complemento").val(obj.complemento);
+                $(".bairro").val(obj.bairro);
+                $(".cidade").val(obj.cidade);
+                $(".estado").val(obj.estado);
+                $(".goBtn").html("Atualizar").val("atualizar");
+                $("input.alvo").val("funcionario");
+                $("input.acao").val("atualizar");
+                escondeTudo();
+                $(".funcionario,.contato,.endereco").css("display","block").find("input,textarea").attr("required",true);
+                $(".funcionario p").css("display","block").find("input,textarea").attr("required",true);
             }
-            $('.funcionario h3').html('Atualização de Funcionário');
-            $(".idFuncionario").val($(dados).filter(".idFuncionario").val()).attr('readonly','readonly').addClass('readonly');
-            putDataValues(dados,[
-                [".nomeFuncionario",".nome"],
-                [".cpfFuncionario",".cpf"],
-                [".obsFuncionario",".obs"],
-                [".cargo",".cargo"],
-                [".email",".email"],
-                [".telFixo",".telFixo"],
-                [".telCel",".telCel"],
-                [".cep",".cep"],
-                [".rua",".rua"],
-                [".numero",".numero"],
-                [".complemento",".complemento"],
-                [".bairro",".bairro"],
-                [".cidade",".cidade"],
-                [".estado",".estado"]
-            ]);
-            $(".goBtn").html("Atualizar").val("atualizar");
-            $("input.alvo").val("funcionario");
-            $("input.acao").val("atualizar");
-            escondeTudo();
-            $('.funcionario,.contato,.endereco').css('display','block').find('input,textarea').attr('required',true);
-            $('.funcionario p').css('display','block').find('input,textarea').attr('required',true);
         },
         error: function(jqXHR, textStatus, errorThrown){
             errorCase(textStatus, errorThrown, btnText, buscarDadosFuncionario);

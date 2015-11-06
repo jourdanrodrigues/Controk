@@ -22,21 +22,15 @@ class Funcionario extends Cliente{
     }
     public function buscarDadosFuncionario(){
         if($this->checkExistence('funcionario','id',$this->idFuncionario)===false) return;
-        $this->nome=$this->getValue('nome','funcionario','id',$this->idFuncionario);
-        $this->cpf=$this->getValue('cpf','funcionario','id',$this->idFuncionario);
-        $this->cargo=$this->getValue('cargo','funcionario','id',$this->idFuncionario);
-        $this->obs=$this->getValue('obs','funcionario','id',$this->idFuncionario);
         $this->idEndereco=$this->getValue('endereco','funcionario','id',$this->idFuncionario);
         $this->idContato=$this->getValue('contato','funcionario','id',$this->idFuncionario);
-        generateReturnInputs(array(
-            array("idFuncionario",$this->idFuncionario),
-            array("nome",$this->nome),
-            array("cpf",$this->cpf),
-            array("cargo",$this->cargo),
-            array("obs",$this->obs),
-        ));
-        $this->buscarDadosEndereco();
-        $this->buscarDadosContato();
+        echo fixJSON("{'idFuncionario':$this->idFuncionario,
+            'nome':'".$this->getValue('nome','funcionario','id',$this->idFuncionario)."',
+            'cpf':'".$this->getValue('cpf','funcionario','id',$this->idFuncionario)."',
+            'cargo':'".$this->getValue('cargo','funcionario','id',$this->idFuncionario)."',
+            'obs':'".$this->getValue('obs','funcionario','id',$this->idFuncionario)."',".
+            $this->buscarDadosEndereco().",".
+            $this->buscarDadosContato()."}");
     }
     public function atualizarFuncionario(){
         $this->idEndereco=$this->getValue('endereco','funcionario','id',$this->idFuncionario);

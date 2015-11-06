@@ -22,7 +22,7 @@ function logOut(){
                 cancelButtonText: "Não, tudo bem.",
                 closeOnConfirm: false
             },function(){
-                if((count+1)<5){
+                if(count+1<5){
                     count++;
                     $(".logOut span").click();
                 }else{
@@ -50,11 +50,9 @@ function logIn(){
             acaoSessao: $(".acaoSessao").val()
         },
         success: function(dados){
-            if($(dados).filter(".retorno").attr("data-type")==="redirect"){
-                location.href=$(dados).filter(".retorno").html();
-                return false;
-            }
-            successCase(dados, btnText);
+            var obj=JSON.parse(dados);
+            if(obj.type==="redirect")location.href=obj.msg;
+            else successCase(dados, btnText);
         },
         error: function(jqXHR, textStatus, errorThrown){
             $(".goBtn").html(btnText);

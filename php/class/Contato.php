@@ -23,14 +23,9 @@ class Contato extends Endereco {
         }
     }
     public function buscarDadosContato(){
-        $this->email=$this->getValue('email','contato','id',$this->idContato);
-        $this->telCel=$this->getValue('telCel','contato','id',$this->idContato);
-        $this->telFixo=$this->getValue('telFixo','contato','id',$this->idContato);
-        generateReturnInputs(array(
-            array("email",$this->email),
-            array("telCel",$this->telCel),
-            array("telFixo",$this->telFixo)
-        ));
+        return "'email':'".$this->getValue('email','contato','id',$this->idContato)."',
+                'telCel':'".$this->getValue('telCel','contato','id',$this->idContato)."',
+                'telFixo':'".$this->getValue('telFixo','contato','id',$this->idContato)."'";
     }
     public function atualizarContato(){
         $mysqli=$this->connect();

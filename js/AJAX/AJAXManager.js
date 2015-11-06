@@ -1,12 +1,12 @@
 ﻿$(document).ready(function(){
-	$(".mainForm").submit(function(){
-            manageAJAX();
-            return false;
-	});
-	$(".logOut span").click(function(){
-            loadFile("js/AJAX/Sessao.js");
-            logOut();
-	});
+    $(".mainForm").submit(function(){
+        manageAJAX();
+        return false;
+    });
+    $(".logOut span").click(function(){
+        loadFile("js/AJAX/Sessao.js");
+        logOut();
+    });
 });
 function manageAJAX(){
     var acao=$("input.acao").val(), alvo=$("input.alvo").val();
@@ -59,12 +59,13 @@ function manageAJAX(){
     }
 }
 function successCase(dados, btnText){
+    var obj=JSON.parse(dados);
     $(".goBtn").html(btnText);
     swal({
-        title:$(dados).filter(".retorno").html(),
-        type:$(dados).filter(".retorno").attr("data-type"),
+        title:obj.msg,
+        type:obj.type,
         html:true
-    },function(){if($(dados).filter(".retorno").attr("data-type")!=="error") limparCampos();});
+    },function(){if(obj.type!=="error") limparCampos();});
 }
 function errorCase(textStatus, errorThrown, btnText, thisFunction){
     $(".goBtn").html(btnText);

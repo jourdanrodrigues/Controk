@@ -27,9 +27,6 @@ function setTitle(target,content){
     if($(target+" h3").length===0) $(target).prepend(content);
     else $(target+" h3").html($(content).filter("h3").html());
 }
-function putDataValues(dados,item){
-    for(i=0;i<item.length;i++) $(item[i][0]).val($(dados).filter(item[i][1]).val());
-}
 function escondeTudo(){$(".remessa,.produto,.fornecedor,.cliente,.funcionario,.estoque,.contato,.endereco").css("display","none").find("input,textarea").removeAttr("required");}
 function dbManage(item,proc){
     if($(".direita").css("display")==="none") $(".direita").css("display","block");

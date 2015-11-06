@@ -16,15 +16,16 @@ class Produto extends Remessa{
             $this->valorVenda=$obj->valorVenda;
         }
     }
-    public function handleMonetary(&$value,$action,$return=0){
-        if($action=="goNum") $result=str_replace(',','.',str_replace('R$ ','',$value));
-        else if($action=="goCur") $result="R$ ".str_replace('.',',',$value);
-        if($return==1) return $result;
-        else if($return==0) $value=$result;
+    public function handleMonetary(&$value,$var){
+        //a -> default: go currency; r -> default: atribuição
+        $obj=json_decode(fixJSON($var));
+        $result=$obj->a==="goNum"?str_replace(',','.',str_replace('R$ ','',$value)):"R$ ".str_replace('.',',',$value);
+        if(isset($obj->r)) return $result;
+        else $value=$result;
     }
     public function cadastrarProduto(){
-        handleMonetary($this->custoProd,"goNum");
-        handleMonetary($this->valorVenda,"goNum");
+        handleMonetary($this->custoProd,"{'a':'goNum'}");
+        handleMonetary($this->valorVenda,"{'a':'goNum'}");
         $mysqli=$this->connect();
         $cadProduto=$mysqli->prepare("insert into produto(remessa,descricao,nome,custo,valorVenda) values (?,?,?,?,?)");
         $cadProduto->bind_param("dssdd",$this->idRemessa,$this->descricao,$this->nome,$this->custoProd,$this->valorVenda);
@@ -33,21 +34,12 @@ class Produto extends Remessa{
     }
     public function buscarDadosProduto(){
         if($this->checkExistence('produto','id',$this->idProduto)===false){return;}
-        $this->nome=$this->getValue('nome','produto','id',$this->idProduto);
-        $this->idRemessa=$this->getValue('remessa','produto','id',$this->idProduto);
-        $this->descricao=$this->getValue('descricao','produto','id',$this->idProduto);
-        $this->custoProd=$this->getValue('custo','produto','id',$this->idProduto);
-        $custoProd=handleMonetary($this->custoProd,"goCur",1);
-        $this->valorVenda=$this->getValue('valorVenda','produto','id',$this->idProduto);
-        $valorVenda=handleMonetary($this->valorVenda,"goCur",1);
-        generateReturnInputs(array(
-            array("idProduto",$this->idProduto),
-            array("nomeProd",$this->nome),
-            array("idRemessa",$this->idRemessa),
-            array("descrProd",$this->descricao),
-            array("custoProd",$custoProd),
-            array("valorVenda",$valorVenda)
-        ));
+        return "{'idProduto':'$this->idProduto',
+            'custoProd':'".handleMonetary($this->getValue('custo','produto','id',$this->idProduto),"{'a':'goCur','r':1}")."',
+            'valorVenda':'".handleMonetary($this->getValue('valorVenda','produto','id',$this->idProduto),"{'a':'goCur','r':1}")."',
+            'nomeProd':'".$this->getValue('nome','produto','id',$this->idProduto)."',
+            'idRemessa':'".$this->getValue('remessa','produto','id',$this->idProduto)."',
+            'descrProd':'".$this->getValue('descricao','produto','id',$this->idProduto)."'}";
     }
     public function atualizarProduto(){
         $mysqli=$this->connect();

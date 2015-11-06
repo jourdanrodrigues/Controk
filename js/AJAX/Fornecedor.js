@@ -38,30 +38,27 @@ function buscarDadosFornecedor(){
         type: "POST",
         url: "php/actions/buscarDados.php",
         success: function(dados){
-            returnType=$(dados).filter(".retorno").attr("data-type");
-            if(returnType=="error"||returnType=="success"){
-                successCase(dados, btnText);
-                return;
+            var obj=JSON.parse(dados);
+            if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
+            else{
+                $(".fornecedor h3").html("Atualização de Fornecedor");
+                $(".idFornecedor").val(obj.idFornecedor).attr("readonly","readonly").addClass("readonly");
+                $(".nomeFantasia").val(obj.nomeFantasia);
+                $(".cnpj").val(obj.cnpj);
+                $(".email").val(obj.email);
+                $(".telFixo").val(obj.telFixo);
+                $(".telCel").val(obj.telCel);
+                $(".cep").val(obj.cep);
+                $(".rua").val(obj.rua);
+                $(".numero").val(obj.numero);
+                $(".complemento").val(obj.complemento);
+                $(".bairro").val(obj.bairro);
+                $(".cidade").val(obj.cidade);
+                $(".estado").val(obj.estado);
+                escondeTudo();
+                $(".fornecedor,.contato,.endereco").css("display","block").find("input,textarea").attr("required",true);
+                $(".fornecedor p").css("display","block").find("input,textarea").attr("required",true);
             }
-            $('.fornecedor h3').html('Atualização de Fornecedor');
-            $(".idFornecedor").val($(dados).filter(".idFornecedor").val()).attr('readonly','readonly').addClass('readonly');
-            putDataValues(dados,[
-                [".nomeFantasia",".nomeFantasia"],
-                [".cnpj",".cnpj"],
-                [".email",".email"],
-                [".telFixo",".telFixo"],
-                [".telCel",".telCel"],
-                [".cep",".cep"],
-                [".rua",".rua"],
-                [".numero",".numero"],
-                [".complemento",".complemento"],
-                [".bairro",".bairro"],
-                [".cidade",".cidade"],
-                [".estado",".estado"]
-            ]);
-            escondeTudo();
-            $('.fornecedor,.contato,.endereco').css('display','block').find('input,textarea').attr('required',true);
-            $('.fornecedor p').css('display','block').find('input,textarea').attr('required',true);
         },
         error: function(jqXHR, textStatus, errorThrown){
             errorCase(textStatus, errorThrown, btnText, buscarDadosFornecedor);

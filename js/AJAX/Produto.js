@@ -31,26 +31,23 @@ function buscarDadosProduto(){
         type: "POST",
         url: "php/actions/buscarDados.php",
         success: function(dados){
-            returnType=$(dados).filter(".retorno").attr("data-type");
-            if(returnType=="error"||returnType=="success"){
-                    successCase(dados, btnText);
-                    return;
+            var obj=JSON.parse(dados);
+            if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
+            else{
+                $(".produto h3").html("Atualização de Produto");
+                $(".idProduto").val(obj.idProduto).attr("readonly","readonly").addClass("readonly");
+                $(".idRemessa").val(obj.idRemessa);
+                $(".nomeProd").val(obj.nomeProd);
+                $(".descrProd").val(obj.descrProd);
+                $(".custoProd").val(obj.custoProd);
+                $(".valorVenda").val(obj.valorVenda);
+                $(".goBtn").html("Atualizar").val("atualizar");
+                $("input.alvo").val("produto");
+                $("input.acao").val("atualizar");
+                escondeTudo();
+                $(".produto").css("display","block").find("input,textarea").attr("required",true);
+                $(".produto p").css("display","block").find("input,textarea").attr("required",true);
             }
-            $('.produto h3').html('Atualização de Produto');
-            $(".idProduto").val($(dados).filter(".idProduto").val()).attr('readonly','readonly').addClass('readonly');
-            putDataValues(dados,[
-                [".idRemessa",".idRemessa"],
-                [".nomeProd",".nomeProd"],
-                [".descrProd",".descrProd"],
-                [".custoProd",".custoProd"],
-                [".valorVenda",".valorVenda"],
-            ]);
-            $(".goBtn").html("Atualizar").val("atualizar");
-            $("input.alvo").val("produto");
-            $("input.acao").val("atualizar");
-            escondeTudo();
-            $('.produto').css('display','block').find('input,textarea').attr('required',true);
-            $('.produto p').css('display','block').find('input,textarea').attr('required',true);
         },
         error: function(jqXHR, textStatus, errorThrown){
             errorCase(textStatus, errorThrown, btnText, buscarDadosProduto);

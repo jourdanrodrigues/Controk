@@ -31,22 +31,13 @@ class Endereco extends Connection {
         }
     }
     public function buscarDadosEndereco(){
-        $this->rua=$this->getValue('rua','endereco','id',$this->idEndereco);
-        $this->numero=$this->getValue('numero','endereco','id',$this->idEndereco);
-        $this->complemento=$this->getValue('complemento','endereco','id',$this->idEndereco);
-        $this->cep=$this->getValue('cep','endereco','id',$this->idEndereco);
-        $this->bairro=$this->getValue('bairro','endereco','id',$this->idEndereco);
-        $this->cidade=$this->getValue('cidade','endereco','id',$this->idEndereco);
-        $this->estado=$this->getValue('estado','endereco','id',$this->idEndereco);
-        generateReturnInputs(array(
-            array("rua",$this->rua),
-            array("numero",$this->numero),
-            array("complemento",$this->complemento),
-            array("cep",$this->cep),
-            array("bairro",$this->bairro),
-            array("cidade",$this->cidade),
-            array("estado",$this->estado)
-        ));
+        return "'rua':'".$this->getValue('rua','endereco','id',$this->idEndereco)."',
+                'numero':".$this->getValue('numero','endereco','id',$this->idEndereco).",
+                'complemento':'".$this->getValue('complemento','endereco','id',$this->idEndereco)."',
+                'cep':'".$this->getValue('cep','endereco','id',$this->idEndereco)."',
+                'bairro':'".$this->getValue('bairro','endereco','id',$this->idEndereco)."',
+                'cidade':'".$this->getValue('cidade','endereco','id',$this->idEndereco)."',
+                'estado':'".$this->getValue('estado','endereco','id',$this->idEndereco)."'";
     }
     public function atualizarEndereco(){
         $mysqli=$this->connect();

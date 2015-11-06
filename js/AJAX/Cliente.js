@@ -39,24 +39,24 @@ function buscarDadosCliente(){
         type: "POST",
         url: "php/actions/buscarDados.php",
         success: function(dados){
-            returnType=$(dados).filter(".retorno").attr("data-type");
-            if(returnType==="error"||returnType==="success") successCase(dados, btnText);
+            var obj=JSON.parse(dados);
+            if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
             else{
             $('.cliente h3').html('Atualização de Cliente');
-            $(".idCliente").val($(dados).filter(".idCliente").val()).attr('readonly','readonly').addClass('readonly');
-            $(".nomeCliente").val($(dados).filter(".nome").val());
-            $(".cpfCliente").val($(dados).filter(".cpf").val());
-            $(".obsCliente").val($(dados).filter(".obs").val());
-            $(".email").val($(dados).filter(".email").val());
-            $(".telFixo").val($(dados).filter(".telFixo").val());
-            $(".telCel").val($(dados).filter(".telCel").val());
-            $(".rua").val($(dados).filter(".rua").val());
-            $(".numero").val($(dados).filter(".numero").val());
-            $(".complemento").val($(dados).filter(".complemento").val());
-            $(".cep").val($(dados).filter(".cep").val());
-            $(".bairro").val($(dados).filter(".bairro").val());
-            $(".cidade").val($(dados).filter(".cidade").val());
-            $(".estado").val($(dados).filter(".estado").val());
+            $(".idCliente").val(obj.idCliente).attr('readonly','readonly').addClass('readonly');
+            $(".nomeCliente").val(obj.nome);
+            $(".cpfCliente").val(obj.cpf);
+            $(".obsCliente").val(obj.obs);
+            $(".email").val(obj.email);
+            $(".telFixo").val(obj.telFixo);
+            $(".telCel").val(obj.telCel);
+            $(".rua").val(obj.rua);
+            $(".numero").val(obj.numero);
+            $(".complemento").val(obj.complemento);
+            $(".cep").val(obj.cep);
+            $(".bairro").val(obj.bairro);
+            $(".cidade").val(obj.cidade);
+            $(".estado").val(obj.estado);
             $(".goBtn").html("Atualizar").val("atualizar");
             $("input.alvo").val("cliente");
             $("input.acao").val("atualizar");

@@ -48,6 +48,6 @@ class Connection {
                     AJAXReturn("{'type':'error','msg':'O $target de $field $value não existe.'}");
             }
             return false;
-        }elseif($target=='usuario') return true;
+        }elseif($target=="usuario") return true;
     }
 }

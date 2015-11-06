@@ -14,14 +14,15 @@
         },
         url: "php/actions/cadastrar.php",
         success: function(dados){
+            var obj=JSON.parse(dados);
             $(".goBtn").html(btnText);
             swal({
-                title:$(dados).filter(".retorno").html(),
-                type:$(dados).filter(".retorno").attr("data-type"),
+                title:obj.msg,
+                type:obj.type,
                 html: true,
                 closeOnConfirm: false
             },function(){
-                if($(dados).filter(".retorno").attr("data-type")==="error") swal.close();
+                if(obj.type==="error") swal.close();
                 else{
                     swal({
                         title:"O produto será inserido no estoque.",

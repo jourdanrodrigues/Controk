@@ -62,15 +62,12 @@ function generateItemMenu($var){
      */
     $obj=json_decode(fixJSON($var));
     echo "<li class='item nav".str_replace("á","a",$obj->item)."'>$obj->item<ul>";
-    if (isset($obj->cadastrar)&&$obj->cadastrar==1) echo "<li class='cadastrar'>Cadastrar</li>";
-    if (isset($obj->buscarDados)&&$obj->buscarDados==1) echo "<li class='buscarDados'>Buscar Dados</li>";
-    if (isset($obj->excluir)&&$obj->excluir==1) echo "<li class='excluir'>Excluir</li>";
-    if (isset($obj->inserir)&&$obj->inserir==1) echo "<li class='inserir'>Inserir itens</li>";
-    if (isset($obj->retirar)&&$obj->retirar==1) echo "<li class='retirar'>Retirar itens</li>";
+    if(isset($obj->cadastrar)&&$obj->cadastrar==1) echo "<li class='cadastrar'>Cadastrar</li>";
+    if(isset($obj->buscarDados)&&$obj->buscarDados==1) echo "<li class='buscarDados'>Buscar Dados</li>";
+    if(isset($obj->excluir)&&$obj->excluir==1) echo "<li class='excluir'>Excluir</li>";
+    if(isset($obj->inserir)&&$obj->inserir==1) echo "<li class='inserir'>Inserir itens</li>";
+    if(isset($obj->retirar)&&$obj->retirar==1) echo "<li class='retirar'>Retirar itens</li>";
     echo "</ul></li>";
-}
-function generateReturnInputs($var){
-    for($i=0;$i<count($var);$i++) echo "<input type='text' class='".$var[$i][0]."' value='".$var[$i][1]."'>";
 }
 function loadFiles($var){
     // Carregamento de arquivos CSS e JS
@@ -91,7 +88,7 @@ function swal($var){
 }
 function AJAXReturn($var){
     $obj=json_decode(fixJSON($var));
-    echo "<span class='retorno' data-type='$obj->type'>$obj->msg</span>";
+    echo fixJSON("{'type':'$obj->type','msg':'$obj->msg'}");
 }
 function fixJSON($var){
     return str_replace("'","\"",$var);

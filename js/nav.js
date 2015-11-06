@@ -1,11 +1,4 @@
 ﻿$(document).ready(function(){
-// Itens principais
-    $(".navFuncionario").click(function(){opcoes("navFuncionario");});
-    $(".navCliente").click(function(){opcoes("navCliente");});
-    $(".navFornecedor").click(function(){opcoes("navFornecedor");});
-    $(".navRemessa").click(function(){opcoes("navRemessa");});
-    $(".navProduto").click(function(){opcoes("navProduto");});
-    $(".navEstoque").click(function(){opcoes("navEstoque");});
 //Sub-itens
     var alvo=[
         ["Funcionario","funcionario"],//0
@@ -22,6 +15,13 @@
         ["inserir","Inserir"],//3
         ["retirar","Retirar"]//4
     ];
+// Itens principais
+    $(".nav"+alvo[0][0]).click(function(){opcoes("nav"+alvo[0][0]);});
+    $(".nav"+alvo[1][0]).click(function(){opcoes("nav"+alvo[1][0]);});
+    $(".nav"+alvo[2][0]).click(function(){opcoes("nav"+alvo[2][0]);});
+    $(".nav"+alvo[3][0]).click(function(){opcoes("nav"+alvo[3][0]);});
+    $(".nav"+alvo[4][0]).click(function(){opcoes("nav"+alvo[4][0]);});
+    $(".nav"+alvo[5][0]).click(function(){opcoes("nav"+alvo[5][0]);});
     //Funcionário
     $(".nav"+alvo[0][0]+" ."+acao[0][0]).click(function(){dbManage(alvo[0][1],acao[0][1]);});
     $(".nav"+alvo[0][0]+" ."+acao[1][0]).click(function(){dbManage(alvo[0][1],acao[1][1]);});
