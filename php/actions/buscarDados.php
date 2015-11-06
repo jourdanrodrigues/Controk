@@ -5,6 +5,6 @@ $alvo=post("alvo");
 $Alvo=ucfirst($alvo);
 $$alvo=new $Alvo();
 $setAttr="setAttr".$Alvo;
-$$alvo->$setAttr("{'id$Alvo':'".post("id".$Alvo)."'}");
+$$alvo->$setAttr("{'id$Alvo':".post("id".$Alvo)."}");
 $buscarDados="buscarDados".$Alvo;
 $$alvo->$buscarDados();

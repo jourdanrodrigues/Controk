@@ -42,27 +42,27 @@ function buscarDadosCliente(){
             var obj=JSON.parse(dados);
             if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
             else{
-            $('.cliente h3').html('Atualização de Cliente');
-            $(".idCliente").val(obj.idCliente).attr('readonly','readonly').addClass('readonly');
-            $(".nomeCliente").val(obj.nome);
-            $(".cpfCliente").val(obj.cpf);
-            $(".obsCliente").val(obj.obs);
-            $(".email").val(obj.email);
-            $(".telFixo").val(obj.telFixo);
-            $(".telCel").val(obj.telCel);
-            $(".rua").val(obj.rua);
-            $(".numero").val(obj.numero);
-            $(".complemento").val(obj.complemento);
-            $(".cep").val(obj.cep);
-            $(".bairro").val(obj.bairro);
-            $(".cidade").val(obj.cidade);
-            $(".estado").val(obj.estado);
-            $(".goBtn").html("Atualizar").val("atualizar");
-            $("input.alvo").val("cliente");
-            $("input.acao").val("atualizar");
-            escondeTudo();
-            $('.cliente,.contato,.endereco').css('display','block').find('input,textarea').attr('required',true);
-            $('.cliente p').css('display','block').find('input,textarea').attr('required',true);
+                $('.cliente h3').html('Atualização de Cliente');
+                $(".idCliente").val(obj.idCliente).attr('readonly','readonly').addClass('readonly');
+                $(".nomeCliente").val(obj.nome);
+                $(".cpfCliente").val(obj.cpf);
+                $(".obsCliente").val(obj.obs);
+                $(".email").val(obj.email);
+                $(".telFixo").val(obj.telFixo);
+                $(".telCel").val(obj.telCel);
+                $(".rua").val(obj.rua);
+                $(".numero").val(obj.numero);
+                $(".complemento").val(obj.complemento);
+                $(".cep").val(obj.cep);
+                $(".bairro").val(obj.bairro);
+                $(".cidade").val(obj.cidade);
+                $(".estado").val(obj.estado);
+                escondeTudo();
+                $(".goBtn").html("Atualizar");
+                $("input.alvo").val("cliente");
+                $("input.acao").val("atualizar");
+                $('.cliente,.contato,.endereco').css('display','block').find('input,textarea').attr('required',true);
+                $('.cliente p').css('display','block').find('input,textarea').attr('required',true);
             }
         },
         error: function(jqXHR, textStatus, errorThrown){

@@ -5,9 +5,9 @@
         type: "POST",
         data: {
             alvo: $("input.alvo").val(),
-            idProdutoRem: $(".idProdutoRem").val(),
-            qtdProdRem: $(".qtdProdRem").val(),
-            idFornecedorRem: $(".idFornecedorRem").val(),
+            idProduto: $(".idProdutoRem").val(),
+            qtdProd: $(".qtdProdRem").val(),
+            idFornecedor: $(".idFornecedorRem").val(),
             dataPedido: $(".dataPedido").val(),
             dataPagamento: $(".dataPagamento").val(),
             dataEntrega: $(".dataEntrega").val()

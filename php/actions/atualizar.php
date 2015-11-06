@@ -36,9 +36,9 @@ if($alvo!=="produto"){
     }
 }else $$alvo->setAttrProduto("{
     'idProduto':'".post("idProduto")."',
-    'nomeProd':'".post("nomeProd")."',
+    'nome':'".post("nome")."',
     'idRemessa':'".post("idRemessa")."',
-    'descrProd':'".post("descrProd")."',
+    'descricao':'".post("descricao")."',
     'custoProd':'".post("custoProd")."',
     'valorVenda':'".post("valorVenda")."'}");
 $atualizar="atualizar".$Alvo;

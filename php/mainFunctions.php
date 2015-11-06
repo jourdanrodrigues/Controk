@@ -88,7 +88,7 @@ function swal($var){
 }
 function AJAXReturn($var){
     $obj=json_decode(fixJSON($var));
-    echo fixJSON("{'type':'$obj->type','msg':'$obj->msg'}");
+    echo fixJSON("{'type':'$obj->type','msg':'".str_replace('"',"\'",$obj->msg)."'}");
 }
 function fixJSON($var){
     return str_replace("'","\"",$var);

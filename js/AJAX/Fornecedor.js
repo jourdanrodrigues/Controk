@@ -56,6 +56,9 @@ function buscarDadosFornecedor(){
                 $(".cidade").val(obj.cidade);
                 $(".estado").val(obj.estado);
                 escondeTudo();
+                $(".goBtn").html("Atualizar");
+                $("input.alvo").val("fornecedor");
+                $("input.acao").val("atualizar");
                 $(".fornecedor,.contato,.endereco").css("display","block").find("input,textarea").attr("required",true);
                 $(".fornecedor p").css("display","block").find("input,textarea").attr("required",true);
             }

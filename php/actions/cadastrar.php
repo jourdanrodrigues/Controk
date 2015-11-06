@@ -18,16 +18,16 @@ switch($alvo){
     'cargo':'".post("cargo")."',
     'obs':'".post("obs")."'}"); break;
     case "remessa": $$alvo->setAttrRemessa("{
-    'idProdutoRem':'".post("idProdutoRem")."',
-    'qtdProdRem':'".post("qtdProdRem")."',
-    'idFornecedorRem':'".post("idFornecedorRem")."',
+    'idProduto':".post("idProduto").",
+    'qtdProd':".post("qtdProd").",
+    'idFornecedor':".post("idFornecedor").",
     'dataPedido':'".post("dataPedido")."',
     'dataPagamento':'".post("dataPagamento")."',
     'dataEntrega':'".post("dataEntrega")."'}"); break;
     case "produto": $$alvo->setAttrProduto("{
-    'nomeProd':'".post("nomeProd")."',
-    'idRemessa':'".post("idRemessa")."',
-    'descrProd':'".post("descrProd")."',
+    'nome':'".post("nomeProd")."',
+    'idRemessa':".post("idRemessa").",
+    'descricao':'".post("descrProd")."',
     'custoProd':'".post("custoProd")."',
     'valorVenda':'".post("valorVenda")."'}"); break;
 }
@@ -38,7 +38,7 @@ if($alvo!="remessa"&&$alvo!="produto"){
         'telFixo':'".post("telFixo")."'}");
     $$alvo->setAttrEndereco("{
         'rua':'".post("rua")."',
-        'numero':'".post("numero")."',
+        'numero':".post("numero").",
         'complemento':'".post("complemento")."',
         'cep':'".post("cep")."',
         'bairro':'".post("bairro")."',

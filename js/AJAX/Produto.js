@@ -63,8 +63,8 @@ function atualizarProduto(){
             alvo: $("input.alvo").val(),
             idProduto: $(".idProduto").val(),
             idRemessa: $(".idRemessa").val(),
-            nomeProd: $(".nomeProd").val(),
-            descrProd: $(".descrProd").val(),
+            nome: $(".nomeProd").val(),
+            descricao: $(".descrProd").val(),
             custoProd: $(".custoProd").val(),
             valorVenda: $(".valorVenda").val()
         },
