@@ -74,7 +74,7 @@
             <p class="title">Login para SEFUNC BD</p>
             <?php
                 generateField("{'field':'usuario','lblContent':'Usuário','required':1}");
-                generateField("{'field':'senha','lblContent':'Senha','inputType':'password','required':1}");
+                generateField("{'field':'senha','lblContent':'Senha','type':'password','required':1}");
             ?>
             <input type="hidden" class="acaoSessao" name="acaoSessao" value="login">
             <input type="button" class="mudaAcao" name="mudaAcao" onclick="mudarAcao();" value="Cadastre-se">
