@@ -96,7 +96,7 @@ function Cliente(){
                 id: $(".id").val()
             },
             url: "php/actions/excluir.php",
-            success: function(data){alert(data);successCase(data,btnText);},
+            success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.excluir);}
         });
     };
