@@ -6,9 +6,9 @@ function Funcionario(){
             type: "POST",
             data: {
                 alvo: $("input.alvo").val(),
-                nome: $(".nomeFuncionario").val(),
-                cpf: $(".cpfFuncionario").val(),
-                obs: $(".obsFuncionario").val(),
+                nome: $(".nome").val(),
+                cpf: $(".cpf").val(),
+                obs: $(".obs").val(),
                 cargo: $(".cargo").val(),
                 email: $(".email").val(),
                 telCel: $(".telCel").val(),
@@ -22,8 +22,8 @@ function Funcionario(){
                 estado: $(".estado").val()
             },
             url: "php/actions/cadastrar.php",
-            success: function(dados){successCase(dados, btnText);},
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, cadastrarFuncionario);}
+            success: function(data){successCase(data,btnText);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
     };
     this.buscarDados=function(){
@@ -32,19 +32,19 @@ function Funcionario(){
         $.ajax({
             data: {
                 alvo: $("input.alvo").val(),
-                idFuncionario: $(".idFuncionario").val()
+                id: $(".id").val()
             },
             type: "POST",
             url: "php/actions/buscarDados.php",
-            success: function(dados){
-                var obj=JSON.parse(dados);
-                if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
+            success: function(data){
+                var obj=JSON.parse(data);
+                if(obj.type==="error"||obj.type==="success") successCase(data, btnText);
                 else{
                     content("funcionario","Atualização");
-                    $(".idFuncionario").val(obj.idFuncionario);
-                    $(".nomeFuncionario").val(obj.nome);
-                    $(".cpfFuncionario").val(obj.cpf);
-                    $(".obsFuncionario").val(obj.obs);
+                    $(".id").val(obj.id);
+                    $(".nome").val(obj.nome);
+                    $(".cpf").val(obj.cpf);
+                    $(".obs").val(obj.obs);
                     $(".cargo").val(obj.cargo);
                     $(".email").val(obj.email);
                     $(".telFixo").val(obj.telFixo);
@@ -58,7 +58,7 @@ function Funcionario(){
                     $(".estado").val(obj.estado);
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, buscarDadosFuncionario);}
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.buscarDados);}
         });
     };
     this.atualizar=function(){
@@ -68,10 +68,10 @@ function Funcionario(){
             type: "POST",
             data: {
                 alvo: $("input.alvo").val(),
-                idFuncionario: $(".idFuncionario").val(),
-                nomeFuncionario: $(".nomeFuncionario").val(),
-                cpfFuncionario: $(".cpfFuncionario").val(),
-                obsFuncionario: $(".obsFuncionario").val(),
+                id: $(".id").val(),
+                nome: $(".nome").val(),
+                cpf: $(".cpf").val(),
+                obs: $(".obs").val(),
                 cargo: $(".cargo").val(),
                 email: $(".email").val(),
                 telCel: $(".telCel").val(),
@@ -85,8 +85,8 @@ function Funcionario(){
                 estado: $(".estado").val()
             },
             url: "php/actions/atualizar.php",
-            success: function(dados){successCase(dados, btnText);},
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, atualizarFuncionario);}
+            success: function(data){successCase(data,btnText);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
         });
     };
     this.excluir=function(){
@@ -96,11 +96,24 @@ function Funcionario(){
             type:"POST",
             data:{
                 alvo: $("input.alvo").val(),
-                idFuncionario: $(".idFuncionario").val()
+                id: $(".id").val()
             },
             url: "php/actions/excluir.php",
-            success: function(dados){successCase(dados, btnText);},
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, excluirFuncionario);}
+            success: function(data){successCase(data,btnText);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.excluir);}
         });
+    };
+    this.genFields=function(action){
+        var container="";
+        switch(action){
+            case "Atualização": container+=generateField({id:"Funcionario",type:"number",field:"id",lblContent:"ID do Funcionário",readonly:1,classes:["readonly"]});
+            case "Cadastro": container+=generateField({field:"nome",lblContent:"Nome"})+
+            generateField({field:"cpf",lblContent:"CPF"})+
+            generateField({field:"cargo",lblContent:"Cargo"})+
+            generateField({field:"obs",lblContent:"Observação",value:"S. Obs."}); break;
+            case "Busca de dados":
+            case "Exclusão": container+=generateField({id:"Funcionario",type:"number",field:"id",lblContent:"ID do Funcionário"});
+        }
+        return container;
     };
 }

@@ -1,68 +1,13 @@
 function content(target,action){
+    var Target=upperCaseFL(target);
+    loadFile("class/"+Target+".js");
+    eval("var obj=new "+Target+"()");
     $(".estoque,.fornecedor,.endereco,.cliente,.funcionario,.contato,.produto,.remessa").remove();
     $("input.alvo").val(target);
     setButtons(action);
     var container="<div class='"+target+"'>"+
-    "<h3>"+action+" "+(target!="estoque"?"de":"itens no")+" "+(target!="funcionario"?target:target.replace("a","á"))+"</h3>";
-    switch(target){
-        case "fornecedor":
-            switch(action){
-                case "Atualização": container+=generateField({id:"Fornecedor",field:"idFornecedor",type:"number",lblContent:"ID do Fornecedor",readonly:1,classes:["readonly"]});
-                case "Cadastro": container+=generateField({field:"nomeFantasia",lblContent:"Nome Fantasia"})+
-                generateField({field:"cnpj",lblContent:"CNPJ"}); break;
-                case "Busca de dados":
-                case "Exclusão": container+=generateField({id:"Fornecedor",type:"number",field:"idFornecedor",lblContent:"ID do Fornecedor"});
-            }
-            break;
-        case "cliente":
-            switch(action){
-                case "Atualização": container+=generateField({id:"Cliente",type:"number",field:"idCliente",lblContent:"ID do Cliente",readonly:1,classes:["readonly"]});
-                case "Cadastro": container+=generateField({field:"nomeCliente",lblContent:"Nome"})+
-                generateField({field:"cpfCliente",lblContent:"CPF"})+
-                generateField({field:"obsCliente",lblContent:"Observação",value:"S. Obs."}); break;
-                case "Busca de dados":
-                case "Exclusão": container+=generateField({id:"Cliente",type:"number",field:"idCliente",lblContent:"ID do Cliente"});
-            }
-            break;
-        case "funcionario":
-            switch(action){
-                case "Atualização": container+=generateField({id:"Funcionario",type:"number",field:"idFuncionario",lblContent:"ID do Funcionário",readonly:1,classes:["readonly"]});
-                case "Cadastro": container+=generateField({field:"nomeFuncionario",lblContent:"Nome"})+
-                generateField({field:"cpfFuncionario",lblContent:"CPF"})+
-                generateField({field:"cargo",lblContent:"Cargo"})+
-                generateField({field:"obsFuncionario",lblContent:"Observação",value:"S. Obs."}); break;
-                case "Busca de dados":
-                case "Exclusão": container+=generateField({id:"Funcionario",type:"number",field:"idFuncionario",lblContent:"ID do Funcionário"});
-            }
-            break;
-        case "remessa":
-            container+=generateField({field:"idProdutoRem",type:"number",lblContent:"ID do produto"})+
-            generateField({field:"qtdProdRem",type:"number",lblContent:"Quantidade do produto (un.)"})+
-            generateField({field:"idFornecedorRem",type:"number",lblContent:"ID do fornecedor"})+
-            generateField({field:"dataPedido",lblContent:"Data do Pedido"})+
-            generateField({field:"dataPagamento",lblContent:"Data do Pagamento"})+
-            generateField({field:"dataEntrega",lblContent:"Data da Entrega"}); break;
-        case "produto":
-            switch(action){
-                case "Atualização": container+=generateField({id:"Produto",type:"number",field:"idProduto",lblContent:"ID do Produto",readonly:1,classes:["readonly"]});
-                case "Cadastro": container+=generateField({field:"idRemessa",type:"number",lblContent:"ID da remessa"})+
-                generateField({field:"nomeProd",lblContent:"Nome do produto"})+
-                generateField({field:"descrProd",fieldTag:"textarea",lblContent:"Descrição do produto"})+
-                generateField({field:"custoProd",lblContent:"Custo do produto"})+
-                generateField({field:"valorVenda",lblContent:"Valor de venda do produto"}); break;
-                case "Busca de dados": container+=generateField({id:"Produto",type:"number",field:"idProduto",lblContent:"ID do Produto"});
-            }
-            break;
-        case "estoque":
-            switch(action){
-                case "Retirar": container+=generateField({id:"FuncEstq",type:"number",field:"idFuncionarioEstq",lblContent:"ID do funcionário"});
-                case "Inserir": container+=generateField({field:"idProdutoEstq",type:"number",lblContent:"ID do produto"})+
-                generateField({field:"qtdProdEstq",type:"number",lblContent:"Quantidade do produto (un.)"})+
-                generateField({id:"DataSaidaEstq",field:"dataSaida",lblContent:"Data Saída"}); break;
-            }
-            break;
-        default: container=""; container(target);
-    }
+    "<h3>"+action+" "+(target!="estoque"?"de":"itens no")+" "+(target!="funcionario"?Target:Target.replace("a","á"))+"</h3>";
+    container+=obj.genFields(action);
     container+="</div>";
     if((target==="fornecedor"||target==="cliente"||target==="funcionario")&&(action==="Cadastro"||action==="Atualização"))
         container+=contentContato()+contentEndereco();

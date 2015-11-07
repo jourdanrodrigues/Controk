@@ -6,7 +6,7 @@ function Fornecedor(){
             type: "POST",
             data: {
                 alvo: $("input.alvo").val(),
-                nomeFantasia: $(".nomeFantasia").val(),
+                nome: $(".nome").val(),
                 cnpj: $(".cnpj").val(),
                 email: $(".email").val(),
                 telCel: $(".telCel").val(),
@@ -20,8 +20,8 @@ function Fornecedor(){
                 estado: $(".estado").val()
             },
             url: "php/actions/cadastrar.php",
-            success: function(dados){successCase(dados, btnText);},
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, cadastrarFornecedor);}
+            success: function(data){successCase(data,btnText);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
     };
     this.buscarDados=function(){
@@ -30,17 +30,17 @@ function Fornecedor(){
         $.ajax({
             data: {
                 alvo: $("input.alvo").val(),
-                idFornecedor: $(".idFornecedor").val()
+                id: $(".id").val()
             },
             type: "POST",
             url: "php/actions/buscarDados.php",
-            success: function(dados){
-                var obj=JSON.parse(dados);
-                if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
+            success: function(data){
+                var obj=JSON.parse(data);
+                if(obj.type==="error"||obj.type==="success") successCase(data, btnText);
                 else{
                     content("fornecedor","Atualização");
-                    $(".idFornecedor").val(obj.idFornecedor);
-                    $(".nomeFantasia").val(obj.nomeFantasia);
+                    $(".id").val(obj.id);
+                    $(".nome").val(obj.nome);
                     $(".cnpj").val(obj.cnpj);
                     $(".email").val(obj.email);
                     $(".telFixo").val(obj.telFixo);
@@ -54,7 +54,7 @@ function Fornecedor(){
                     $(".estado").val(obj.estado);
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, buscarDadosFornecedor);}
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.buscarDados);}
         });
     };
     this.atualizar=function(){
@@ -64,8 +64,8 @@ function Fornecedor(){
             type: "POST",
             data: {
                 alvo: $("input.alvo").val(),
-                idFornecedor: $(".idFornecedor").val(),
-                nomeFantasia: $(".nomeFantasia").val(),
+                id: $(".id").val(),
+                nome: $(".nome").val(),
                 cnpj: $(".cnpj").val(),
                 email: $(".email").val(),
                 telCel: $(".telCel").val(),
@@ -79,8 +79,8 @@ function Fornecedor(){
                 estado: $(".estado").val()
             },
             url: "php/actions/atualizar.php",
-            success: function(dados){successCase(dados, btnText);},
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, atualizarFornecedor);}
+            success: function(data){successCase(data,btnText);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
         });
     };
     this.excluir=function(){
@@ -90,11 +90,22 @@ function Fornecedor(){
             type:"POST",
             data:{
                 alvo: $("input.alvo").val(),
-                idFornecedor: $(".idFornecedor").val()
+                id: $(".id").val()
             },
             url: "php/actions/excluir.php",
-            success: function(dados){successCase(dados, btnText);},
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, excluirFornecedor);}
+            success: function(data){successCase(data,btnText);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.excluir);}
         });
-    }
+    };
+    this.genFields=function(action){
+        var container="";
+        switch(action){
+            case "Atualização": container+=generateField({id:"Fornecedor",field:"id",type:"number",lblContent:"ID do Fornecedor",readonly:1,classes:["readonly"]});
+            case "Cadastro": container+=generateField({field:"nome",lblContent:"Nome Fantasia"})+
+            generateField({field:"cnpj",lblContent:"CNPJ"}); break;
+            case "Busca de dados":
+            case "Exclusão": container+=generateField({id:"Fornecedor",type:"number",field:"id",lblContent:"ID do Fornecedor"});
+        }
+        return container;
+    };
 }

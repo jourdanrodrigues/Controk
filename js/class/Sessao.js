@@ -12,10 +12,10 @@ function Sessao(){
                     type: "success"
                 },function(){location.href="/trabalhos/gti/bda1/login.php";});
             },
-            error:function(jqXHR, textStatus, errorThrown){
+            error:function(jqXHR,textStatus,errorThrown){
                 swal({
                     title: "Ocorreu um erro!",
-                    text: "<p>Descrição: \""+textStatus+" "+errorThrown+"\".</p><p>Gostaria de tentar novamente?</p><p>"+(count+1)+"ª tentativa</p>",
+                    text: "<p>Descrição: \""+textStatus+" "+errorThrown+"\".</p><p>Gostaria de tentar novamente?</p><p>"+(this.count+1)+"ª tentativa</p>",
                     type: "error",
                     html: true,
                     showCancelButton: true,
@@ -50,12 +50,12 @@ function Sessao(){
                 senha: $(".senha").val(),
                 acaoSessao: $(".acaoSessao").val()
             },
-            success: function(dados){
-                var obj=JSON.parse(dados);
+            success: function(data){
+                var obj=JSON.parse(data);
                 if(obj.type==="redirect")location.href=obj.msg;
-                else successCase(dados, btnText);
+                else successCase(data,btnText);
             },
-            error: function(jqXHR, textStatus, errorThrown){
+            error: function(jqXHR,textStatus,errorThrown){
                 $(".goBtn").html(btnText);
                 swal({
                     title: "Ocorreu um erro!",
@@ -68,7 +68,10 @@ function Sessao(){
                     closeOnConfirm: false
                 },function(isConfirm){
                     if(isConfirm) $(".logIn").submit();
-                    else limparCampos();
+                    else{
+                        $(".resetBtn").click();
+                        $('.direita').css('display','none');
+                    }
                 });
             }
         });

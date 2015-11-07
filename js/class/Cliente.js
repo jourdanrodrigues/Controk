@@ -6,9 +6,9 @@ function Cliente(){
             type: "POST",
             data: {
                 alvo: $("input.alvo").val(),
-                nome: $(".nomeCliente").val(),
-                cpf: $(".cpfCliente").val(),
-                obs: $(".obsCliente").val(),
+                nome: $(".nome").val(),
+                cpf: $(".cpf").val(),
+                obs: $(".obs").val(),
                 email: $(".email").val(),
                 telCel: $(".telCel").val(),
                 telFixo: $(".telFixo").val(),
@@ -21,8 +21,8 @@ function Cliente(){
                 estado: $(".estado").val()
             },
             url: "php/actions/cadastrar.php",
-            success: function(dados){successCase(dados, btnText);},
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, cadastrarCliente);}
+            success: function(data){successCase(data,btnText);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
     };
     this.buscarDados=function(){
@@ -31,19 +31,19 @@ function Cliente(){
         $.ajax({
             data: {
                 alvo: $("input.alvo").val(),
-                idCliente: $(".idCliente").val()
+                id: $(".id").val()
             },
             type: "POST",
             url: "php/actions/buscarDados.php",
-            success: function(dados){
-                var obj=JSON.parse(dados);
-                if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
+            success: function(data){
+                var obj=JSON.parse(data);
+                if(obj.type==="error"||obj.type==="success") successCase(data,btnText);
                 else{
                     content("cliente","Atualização");
-                    $(".idCliente").val(obj.idCliente);
-                    $(".nomeCliente").val(obj.nome);
-                    $(".cpfCliente").val(obj.cpf);
-                    $(".obsCliente").val(obj.obs);
+                    $(".id").val(obj.id);
+                    $(".nome").val(obj.nome);
+                    $(".cpf").val(obj.cpf);
+                    $(".obs").val(obj.obs);
                     $(".email").val(obj.email);
                     $(".telFixo").val(obj.telFixo);
                     $(".telCel").val(obj.telCel);
@@ -56,7 +56,7 @@ function Cliente(){
                     $(".estado").val(obj.estado);
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, buscarDadosCliente);}
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.buscarDados);}
         });
     };
     this.atualizar=function(){
@@ -66,10 +66,10 @@ function Cliente(){
             type: "POST",
             data: {
                 alvo: $("input.alvo").val(),
-                idCliente: $(".idCliente").val(),
-                nome: $(".nomeCliente").val(),
-                cpf: $(".cpfCliente").val(),
-                obs: $(".obsCliente").val(),
+                id: $(".id").val(),
+                nome: $(".nome").val(),
+                cpf: $(".cpf").val(),
+                obs: $(".obs").val(),
                 email: $(".email").val(),
                 telCel: $(".telCel").val(),
                 telFixo: $(".telFixo").val(),
@@ -82,8 +82,8 @@ function Cliente(){
                 estado: $(".estado").val()
             },
             url: "php/actions/atualizar.php",
-            success: function(dados){successCase(dados, btnText);},
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, atualizarCliente);}
+            success: function(data){successCase(data,btnText);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
         });
     };
     this.excluir=function(){
@@ -93,11 +93,23 @@ function Cliente(){
             type:"POST",
             data:{
                 alvo: $("input.alvo").val(),
-                idCliente: $(".idCliente").val()
+                id: $(".id").val()
             },
             url: "php/actions/excluir.php",
-            success: function(dados){successCase(dados, btnText);},
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, excluirCliente);}
+            success: function(data){alert(data);successCase(data,btnText);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.excluir);}
         });
+    };
+    this.genFields=function(action){
+        var container="";
+        switch(action){
+            case "Atualização": container+=generateField({id:"Cliente",type:"number",field:"id",lblContent:"ID do Cliente",readonly:1,classes:["readonly"]});
+            case "Cadastro": container+=generateField({field:"nome",lblContent:"Nome"})+
+            generateField({field:"cpf",lblContent:"CPF"})+
+            generateField({field:"obs",lblContent:"Observação",value:"S. Obs."}); break;
+            case "Busca de dados":
+            case "Exclusão": container+=generateField({id:"Cliente",type:"number",field:"id",lblContent:"ID do Cliente"});
+        }
+        return container;
     };
 }

@@ -4,59 +4,21 @@
         return false;
     });
     $(".logOut span").click(function(){
-        loadFile("js/class/Sessao.js");
-        logOut();
+        loadFile("class/Sessao.js"); var sessao=new Sessao();
+        sessao.logOut();
     });
 });
 function manageAJAX(){
-    var action=$("input.acao").val(),target=$("input.alvo").val();
-    loadFile("class/"+upperCaseFL(target)+".js");
-    switch(target){
-        case "cliente":
-            var cliente=new Cliente();
-            switch(action){
-                case 'cadastrar': cliente.cadastrar(); break;
-                case 'buscarDados': cliente.buscarDados(); break;
-                case 'atualizar': cliente.atualizar(); break;
-                case 'excluir': cliente.excluir();
-            }
-            break;
-        case "funcionario":
-            var funcionario=new Funcionario();
-            switch(action){
-                case 'cadastrar': funcionario.cadastrar(); break;
-                case 'buscarDados': funcionario.buscarDados(); break;
-                case 'atualizar': funcionario.atualizar(); break;
-                case 'excluir': funcionario.excluir();
-            }
-            break;
-        case 'fornecedor':
-            var fornecedor=new Fornecedor();
-            switch(action){
-                case 'cadastrar': fornecedor.cadastrar(); break;
-                case 'buscarDados': fornecedor.buscarDados(); break;
-                case 'atualizar': fornecedor.atualizar(); break;
-                case 'excluir': fornecedor.excluir();
-            }
-            break;
-        case 'produto':
-            var produto=new Produto();
-            switch(action){
-                case 'cadastrar': produto.cadastrar(); break;
-                case 'buscarDados': produto.buscarDados(); break;
-                case 'atualizar': produto.atualizar();
-            }
-            break;
-        case 'remessa':
-            var remessa=new Remessa();
-            remessa.cadastrar();
-            break;
-        case 'estoque':
-            var estoque=new Estoque();
-            switch(action){
-                case 'inserir': estoque.inserir(); break;
-                case 'retirar': estoque.retirar();
-            }
+    var action=$("input.acao").val(),target=$("input.alvo").val(),Target=upperCaseFL(target);
+    loadFile("class/"+Target+".js");
+    eval("var obj=new "+Target+"()");
+    switch(action){
+        case 'cadastrar': obj.cadastrar(); break;
+        case 'buscarDados': obj.buscarDados(); break;
+        case 'atualizar': obj.atualizar(); break;
+        case 'excluir': obj.excluir(); break;
+        case 'inserir': obj.inserir(); break;
+        case 'retirar': obj.retirar();
     }
 }
 function successCase(dados, btnText){

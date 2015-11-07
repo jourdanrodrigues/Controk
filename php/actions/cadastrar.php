@@ -4,38 +4,24 @@ function __autoload($class){autoload("../",$class);}
 $alvo=post("alvo");
 $Alvo=ucfirst($alvo);
 $$alvo=new $Alvo();
+$nome="nome':'".post("nome");
+$cpf="cpf':'".post("cpf");
+$obs="obs':'".post("obs");
 switch($alvo){
-    case "fornecedor": $$alvo->setAttrFornecedor("{
-    'nomeFantasia':'".post("nomeFantasia")."',
-    'cnpj':'".post("cnpj")."'}"); break;
-    case "cliente": $$alvo->setAttrCliente("{
-    'nome':'".post("nome")."',
-    'cpf':'".post("cpf")."',
-    'obs':'".post("obs")."'}"); break;
-    case "funcionario": $$alvo->setAttrFuncionario("{
-    'nome':'".post("nome")."',
-    'cpf':'".post("cpf")."',
-    'cargo':'".post("cargo")."',
-    'obs':'".post("obs")."'}"); break;
-    case "remessa": $$alvo->setAttrRemessa("{
+    case "fornecedor": $attr="{'$nome','cnpj':'".post("cnpj")."'}"; break;
+    case "cliente": $attr="{'$nome','$cpf','$obs'}"; break;
+    case "funcionario": $attr="{'$nome','$cpf','$cargo','$obs'}"; break;
+    case "remessa": $attr="{
     'idProduto':".post("idProduto").",
     'qtdProd':".post("qtdProd").",
     'idFornecedor':".post("idFornecedor").",
     'dataPedido':'".post("dataPedido")."',
     'dataPagamento':'".post("dataPagamento")."',
-    'dataEntrega':'".post("dataEntrega")."'}"); break;
-    case "produto": $$alvo->setAttrProduto("{
-    'nome':'".post("nomeProd")."',
-    'idRemessa':".post("idRemessa").",
-    'descricao':'".post("descrProd")."',
-    'custoProd':'".post("custoProd")."',
-    'valorVenda':'".post("valorVenda")."'}"); break;
+    'dataEntrega':'".post("dataEntrega")."'}"; break;
+    case "produto": $attr="{'$nome','idRemessa':".post("idRemessa").",'descricao':'".post("descricao")."','custo':'".post("custo")."','valorVenda':'".post("valorVenda")."'}"; break;
 }
 if($alvo!="remessa"&&$alvo!="produto"){
-    $$alvo->setAttrContato("{
-        'email':'".post("email")."',
-        'telCel':'".post("telCel")."',
-        'telFixo':'".post("telFixo")."'}");
+    $$alvo->setAttrContato("{'email':'".post("email")."','telCel':'".post("telCel")."','telFixo':'".post("telFixo")."'}");
     $$alvo->setAttrEndereco("{
         'rua':'".post("rua")."',
         'numero':".post("numero").",
@@ -45,5 +31,5 @@ if($alvo!="remessa"&&$alvo!="produto"){
         'cidade':'".post("cidade")."',
         'estado':'".post("estado")."'}");
 }
-$function='cadastrar'.$Alvo;
-$$alvo->$function();
+$$alvo->setAttr($attr);
+$$alvo->cadastrar();

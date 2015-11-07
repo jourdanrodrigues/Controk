@@ -4,11 +4,12 @@ function __autoload($class){autoload("../",$class);}
 $alvo=post("alvo");
 $Alvo=ucfirst($alvo);
 $$alvo=new $Alvo();
+$id="id':".post("id");
+$nome="nome':'".post("nome");
+$cpf="cpf':'".post("cpf");
+$obs="obs':'".post("obs");
 if($alvo!=="produto"){
-    $$alvo->setAttrContato("{
-        'email':'".post("email")."',
-        'telCel':'".post("telCel")."',
-        'telFixo':'".post("telFixo")."'}");
+    $$alvo->setAttrContato("{'email':'".post("email")."','telCel':'".post("telCel")."','telFixo':'".post("telFixo")."'}");
     $$alvo->setAttrEndereco("{
         'rua':'".post("rua")."',
         'numero':'".post("numero")."',
@@ -18,28 +19,10 @@ if($alvo!=="produto"){
         'cidade':'".post("cidade")."',
         'estado':'".post("estado")."'}");
     switch($alvo){
-        case "fornecedor": $$alvo->setAttrFornecedor("{
-        'idFornecedor':'".post("idFornecedor")."',
-        'nomeFantasia':'".post("nomeFantasia")."',
-        'cnpj':'".post("cnpj")."'}"); break;
-        case "cliente": $$alvo->setAttrCliente("{
-        'idCliente':'".post("idCliente")."',
-        'nome':'".post("nome")."',
-        'cpf':'".post("cpf")."',
-        'obs':'".post("obs")."'}"); break;
-        case "funcionario": $$alvo->setAttrFuncionario("{
-        'idFuncionario':'".post("idFuncionario")."',
-        'nome':'".post("nomeFuncionario")."',
-        'cpf':'".post("cpfFuncionario")."',
-        'cargo':'".post("cargo")."',
-        'obs':'".post("obsFuncionario")."'}"); break;
+        case "fornecedor": $attr="{'$id,'$nome','cnpj':'".post("cnpj")."'}"; break;
+        case "cliente": $attr="{'$id,'$nome','$cpf','$obs'}"; break;
+        case "funcionario": $attr="{'$id,'$nome','$cpf','cargo':'".post("cargo")."','$obs'}"; break;
     }
-}else $$alvo->setAttrProduto("{
-    'idProduto':'".post("idProduto")."',
-    'nome':'".post("nome")."',
-    'idRemessa':'".post("idRemessa")."',
-    'descricao':'".post("descricao")."',
-    'custoProd':'".post("custoProd")."',
-    'valorVenda':'".post("valorVenda")."'}");
-$atualizar="atualizar".$Alvo;
-$$alvo->$atualizar();
+}else $attr="{'$id,'$nome','idRemessa':'".post("idRemessa")."','descricao':'".post("descricao")."','custo':'".post("custo")."','valorVenda':'".post("valorVenda")."'}";
+$$alvo->setAttr($attr);
+$$alvo->atualizar();

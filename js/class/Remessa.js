@@ -1,4 +1,12 @@
 function Remessa(){
+    this.genFields=function(){
+        return generateField({field:"idProduto",type:"number",lblContent:"ID do produto"})+
+        generateField({field:"qtdProd",type:"number",lblContent:"Quantidade do produto (un.)"})+
+        generateField({field:"idFornecedor",type:"number",lblContent:"ID do fornecedor"})+
+        generateField({field:"dataPedido",lblContent:"Data do Pedido"})+
+        generateField({field:"dataPagamento",lblContent:"Data do Pagamento"})+
+        generateField({field:"dataEntrega",lblContent:"Data da Entrega"});
+    };
     this.cadastrar=function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
@@ -6,16 +14,16 @@ function Remessa(){
             type: "POST",
             data: {
                 alvo: $("input.alvo").val(),
-                idProduto: $(".idProdutoRem").val(),
-                qtdProd: $(".qtdProdRem").val(),
-                idFornecedor: $(".idFornecedorRem").val(),
+                idProduto: $(".idProduto").val(),
+                qtdProd: $(".qtdProd").val(),
+                idFornecedor: $(".idFornecedor").val(),
                 dataPedido: $(".dataPedido").val(),
                 dataPagamento: $(".dataPagamento").val(),
                 dataEntrega: $(".dataEntrega").val()
             },
             url: "php/actions/cadastrar.php",
-            success: function(dados){
-                var obj=JSON.parse(dados);
+            success: function(data){
+                var obj=JSON.parse(data);
                 $(".goBtn").html(btnText);
                 swal({
                     title:obj.msg,
@@ -39,19 +47,22 @@ function Remessa(){
                                     type: "POST",
                                     data: {
                                         alvo: "estoque",
-                                        idProdutoEstq: $(".idProdutoRem").val(),
-                                        qtdProdEstq: $(".qtdProdRem").val()
+                                        idProduto: $(".idProduto").val(),
+                                        qtdProd: $(".qtdProd").val()
                                     },
                                     url: "php/actions/inserir.php",
-                                    success: function(dados){successCase(dados, btnText);},
-                                    error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, cadastrarRemessa);}
+                                    success: function(data){successCase(data,btnText);},
+                                    error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
                                 });
-                            }else limparCampos();
+                            }else{
+                                $(".resetBtn").click();
+                                $('.direita').css('display','none');
+                            }
                         });
                     }
                 });
             },
-            error: function(jqXHR, textStatus, errorThrown){errorCase(textStatus, errorThrown, btnText, cadastrarRemessa);}
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
     };
 }

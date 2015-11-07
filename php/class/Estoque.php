@@ -1,7 +1,7 @@
 <?php
 require_once("Historico.php");
 class Estoque extends Historico{
-    public function setAttrEstoque($var){
+    public function setAttr($var){
         $obj=json_decode(fixJSON($var));
         $this->idProduto=$obj->idProduto;
         $this->qtdProd=$obj->qtdProd;

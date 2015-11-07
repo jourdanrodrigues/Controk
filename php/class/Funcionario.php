@@ -1,10 +1,10 @@
 <?php
 class Funcionario extends Cliente{
-    private $idFuncionario;
+    private $id;
     private $cargo;
     public function setAttrFuncionario($var){
         $obj=json_decode(fixJSON($var));
-        if(isset($obj->idFuncionario)) $this->idFuncionario=$obj->idFuncionario;
+        if(isset($obj->id)) $this->id=$obj->id;
         if(isset($obj->cpf)){
             $this->nome=$obj->nome;
             $this->cpf=$obj->cpf;
@@ -21,37 +21,37 @@ class Funcionario extends Cliente{
         else AJAXReturn("{'type':'success','msg':'Cadastro do funcionário $this->nome, de ID $cadFuncionario->insert_id, finalizado com sucesso!'}");
     }
     public function buscarDadosFuncionario(){
-        if($this->checkExistence('funcionario','id',$this->idFuncionario)===false) return;
-        $this->idEndereco=$this->getValue('endereco','funcionario','id',$this->idFuncionario);
-        $this->idContato=$this->getValue('contato','funcionario','id',$this->idFuncionario);
-        echo fixJSON("{'idFuncionario':$this->idFuncionario,
-            'nome':'".$this->getValue('nome','funcionario','id',$this->idFuncionario)."',
-            'cpf':'".$this->getValue('cpf','funcionario','id',$this->idFuncionario)."',
-            'cargo':'".$this->getValue('cargo','funcionario','id',$this->idFuncionario)."',
-            'obs':'".$this->getValue('obs','funcionario','id',$this->idFuncionario)."',".
+        if($this->checkExistence('funcionario','id',$this->id)===false) return;
+        $this->idEndereco=$this->getValue('endereco','funcionario','id',$this->id);
+        $this->idContato=$this->getValue('contato','funcionario','id',$this->id);
+        echo fixJSON("{'id':$this->id,
+            'nome':'".$this->getValue('nome','funcionario','id',$this->id)."',
+            'cpf':'".$this->getValue('cpf','funcionario','id',$this->id)."',
+            'cargo':'".$this->getValue('cargo','funcionario','id',$this->id)."',
+            'obs':'".$this->getValue('obs','funcionario','id',$this->id)."',".
             $this->buscarDadosEndereco().",".
             $this->buscarDadosContato()."}");
     }
     public function atualizarFuncionario(){
-        $this->idEndereco=$this->getValue('endereco','funcionario','id',$this->idFuncionario);
-        $this->idContato=$this->getValue('contato','funcionario','id',$this->idFuncionario);
+        $this->idEndereco=$this->getValue('endereco','funcionario','id',$this->id);
+        $this->idContato=$this->getValue('contato','funcionario','id',$this->id);
         if($this->atualizarEndereco()===false||$this->atualizarContato()===false) return;
         $mysqli=$this->connect();
         $updFuncionario=$mysqli->prepare("update funcionario set nome=?,cpf=?,obs=?,cargo=? where id=?");
-        $updFuncionario->bind_param("ssssd",$this->nome,$this->cpf,$this->obs,$this->cargo,$this->idFuncionario);
+        $updFuncionario->bind_param("ssssd",$this->nome,$this->cpf,$this->obs,$this->cargo,$this->id);
         if(!$updFuncionario->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o funcionário:<p>$updFuncionario->error</p>'}");
-        else AJAXReturn("{'type':'success','msg':'Atualização do funcionário $this->nome, de ID $this->idFuncionario, finalizada com sucesso!'}");
+        else AJAXReturn("{'type':'success','msg':'Atualização do funcionário $this->nome, de ID $this->id, finalizada com sucesso!'}");
     }
     public function excluirFuncionario(){
-        if($this->checkExistence('funcionario','id',$this->idFuncionario)===false) return;
-        $this->nome=$this->getValue('nome','funcionario','id',$this->idFuncionario);
-        $this->idContato=$this->getValue('contato','funcionario','id',$this->idFuncionario);
-        $this->idEndereco=$this->getValue('endereco','funcionario','id',$this->idFuncionario);
+        if($this->checkExistence('funcionario','id',$this->id)===false) return;
+        $this->nome=$this->getValue('nome','funcionario','id',$this->id);
+        $this->idContato=$this->getValue('contato','funcionario','id',$this->id);
+        $this->idEndereco=$this->getValue('endereco','funcionario','id',$this->id);
         if($this->excluirEndereco()===false||$this->excluirContato()===false) return;
         $mysqli=$this->connect();
         $delFuncionario=$mysqli->prepare("delete from funcionario where id=?");
-        $delFuncionario->bind_param("d",$this->idFuncionario);
+        $delFuncionario->bind_param("d",$this->id);
         if(!$delFuncionario->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível excluir o funcionário:<p>$delFuncionario->error</p>'}");
-        else AJAXReturn("{'type':'success','msg':'Exclusão do funcionário $this->nome, de ID $this->idFuncionario, finalizada com sucesso!'}");
+        else AJAXReturn("{'type':'success','msg':'Exclusão do funcionário $this->nome, de ID $this->id, finalizada com sucesso!'}");
     }
 }
