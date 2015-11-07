@@ -44,8 +44,8 @@ function buscarDadosFuncionario(){
             var obj=JSON.parse(dados);
             if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
             else{
-                $(".funcionario h3").html("Atualização de Funcionário");
-                $(".idFuncionario").val(obj.idFuncionario).attr('readonly','readonly').addClass('readonly');
+                content("funcionario","Atualização");
+                $(".idFuncionario").val(obj.idFuncionario);
                 $(".nomeFuncionario").val(obj.nome);
                 $(".cpfFuncionario").val(obj.cpf);
                 $(".obsFuncionario").val(obj.obs);
@@ -60,12 +60,6 @@ function buscarDadosFuncionario(){
                 $(".bairro").val(obj.bairro);
                 $(".cidade").val(obj.cidade);
                 $(".estado").val(obj.estado);
-                $(".goBtn").html("Atualizar").val("atualizar");
-                $("input.alvo").val("funcionario");
-                $("input.acao").val("atualizar");
-                escondeTudo();
-                $(".funcionario,.contato,.endereco").css("display","block").find("input,textarea").attr("required",true);
-                $(".funcionario p").css("display","block").find("input,textarea").attr("required",true);
             }
         },
         error: function(jqXHR, textStatus, errorThrown){

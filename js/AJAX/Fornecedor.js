@@ -41,8 +41,8 @@ function buscarDadosFornecedor(){
             var obj=JSON.parse(dados);
             if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
             else{
-                $(".fornecedor h3").html("Atualização de Fornecedor");
-                $(".idFornecedor").val(obj.idFornecedor).attr("readonly","readonly").addClass("readonly");
+                content("fornecedor","Atualização");
+                $(".idFornecedor").val(obj.idFornecedor);
                 $(".nomeFantasia").val(obj.nomeFantasia);
                 $(".cnpj").val(obj.cnpj);
                 $(".email").val(obj.email);
@@ -55,12 +55,6 @@ function buscarDadosFornecedor(){
                 $(".bairro").val(obj.bairro);
                 $(".cidade").val(obj.cidade);
                 $(".estado").val(obj.estado);
-                escondeTudo();
-                $(".goBtn").html("Atualizar");
-                $("input.alvo").val("fornecedor");
-                $("input.acao").val("atualizar");
-                $(".fornecedor,.contato,.endereco").css("display","block").find("input,textarea").attr("required",true);
-                $(".fornecedor p").css("display","block").find("input,textarea").attr("required",true);
             }
         },
         error: function(jqXHR, textStatus, errorThrown){

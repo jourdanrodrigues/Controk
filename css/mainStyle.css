@@ -63,7 +63,7 @@ textarea {
 .direita {
   width: 80%; }
 
-.direita, .fornecedor, .cliente, .contato, .endereco, .remessa, .estoque, .produto, .funcionario {
+.direita {
   display: none;
   transition: 0.3s; }
 

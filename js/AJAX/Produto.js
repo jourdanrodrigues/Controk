@@ -34,19 +34,13 @@ function buscarDadosProduto(){
             var obj=JSON.parse(dados);
             if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
             else{
-                $(".produto h3").html("Atualização de Produto");
-                $(".idProduto").val(obj.idProduto).attr("readonly","readonly").addClass("readonly");
+                content("produto","Atualização");
+                $(".idProduto").val(obj.idProduto);
                 $(".idRemessa").val(obj.idRemessa);
                 $(".nomeProd").val(obj.nomeProd);
                 $(".descrProd").val(obj.descrProd);
                 $(".custoProd").val(obj.custoProd);
                 $(".valorVenda").val(obj.valorVenda);
-                $(".goBtn").html("Atualizar").val("atualizar");
-                $("input.alvo").val("produto");
-                $("input.acao").val("atualizar");
-                escondeTudo();
-                $(".produto").css("display","block").find("input,textarea").attr("required",true);
-                $(".produto p").css("display","block").find("input,textarea").attr("required",true);
             }
         },
         error: function(jqXHR, textStatus, errorThrown){

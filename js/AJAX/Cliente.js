@@ -42,8 +42,8 @@ function buscarDadosCliente(){
             var obj=JSON.parse(dados);
             if(obj.type==="error"||obj.type==="success") successCase(dados, btnText);
             else{
-                $('.cliente h3').html('Atualização de Cliente');
-                $(".idCliente").val(obj.idCliente).attr('readonly','readonly').addClass('readonly');
+                content("cliente","Atualização");
+                $(".idCliente").val(obj.idCliente);
                 $(".nomeCliente").val(obj.nome);
                 $(".cpfCliente").val(obj.cpf);
                 $(".obsCliente").val(obj.obs);
@@ -57,12 +57,6 @@ function buscarDadosCliente(){
                 $(".bairro").val(obj.bairro);
                 $(".cidade").val(obj.cidade);
                 $(".estado").val(obj.estado);
-                escondeTudo();
-                $(".goBtn").html("Atualizar");
-                $("input.alvo").val("cliente");
-                $("input.acao").val("atualizar");
-                $('.cliente,.contato,.endereco').css('display','block').find('input,textarea').attr('required',true);
-                $('.cliente p').css('display','block').find('input,textarea').attr('required',true);
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
