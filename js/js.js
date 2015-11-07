@@ -2,6 +2,9 @@
     $("body").fadeTo(600,1,"swing");
     $(".backToMain").click(function(){location.href="/";});
 });
+function upperCaseFL(string){
+    return string.replace(string[0],string[0].toUpperCase());
+}
 function generateField(obj){
     /* Parâmetros para geração de campos
      * id - classe de identificação da tag <p> (opcional);

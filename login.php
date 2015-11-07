@@ -8,14 +8,14 @@
             if(!empty($_SESSION['usuario'])||isset($_SESSION['usuario'])) header("location:/trabalhos/gti/bda1/");
             require_once("php/mainFunctions.php");
             loadFiles("{'css':['sweetalert','mainStyle']}");
-            loadFiles("{'js':['jQuery','plugins/sweetalert','AJAX/AJAXManager']}");
+            loadFiles("{'js':['jQuery','plugins/sweetalert','js','AJAXManager']}");
         ?>
         <script>
             $(document).ready(function (){
                 $('body').css('opacity', '0').fadeTo(600, 1,'swing');
                 $(".logIn").submit(function(){
-                    loadFile("js/AJAX/Sessao.js");
-                    logIn();
+                    loadFile("class/Sessao.js"); var sessao=new Sessao();
+                    sessao.logIn();
                     return false;
                 });
                 $(".backToMain").click(function(){location.href="/";});
