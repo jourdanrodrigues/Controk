@@ -1,26 +1,41 @@
 function Cliente(){
+    this.dataAJAX=function(action){
+        switch(action){
+            case "cadastrar":
+            case "atualizar": var data={
+                    target: $("input.alvo").val(),
+                    action: action,
+                    id: $(".id").val(),
+                    nome: $(".nome").val(),
+                    cpf: format($(".cpf").val(),"cpf"),
+                    obs: $(".obs").val(),
+                    email: $(".email").val(),
+                    telCel: format($(".telCel").val(),"telCel"),
+                    telFixo: format($(".telFixo").val(),"telFixo"),
+                    rua: $(".rua").val(),
+                    numero: $(".numero").val(),
+                    complemento: $(".complemento").val(),
+                    cep: format($(".cep").val(),"cep"),
+                    bairro: $(".bairro").val(),
+                    cidade: $(".cidade").val(),
+                    estado: $(".estado").val()
+                }; break;
+            case "excluir":
+            case "buscarDados": var data={
+                    target: $("input.alvo").val(),
+                    action: action,
+                    id: $(".id").val()
+                }; break;
+        }
+        return data;
+    };
     this.cadastrar=function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
-            type: "POST",
-            data: {
-                alvo: $("input.alvo").val(),
-                nome: $(".nome").val(),
-                cpf: $(".cpf").val(),
-                obs: $(".obs").val(),
-                email: $(".email").val(),
-                telCel: $(".telCel").val(),
-                telFixo: $(".telFixo").val(),
-                rua: $(".rua").val(),
-                numero: $(".numero").val(),
-                complemento: $(".complemento").val(),
-                cep: $(".cep").val(),
-                bairro: $(".bairro").val(),
-                cidade: $(".cidade").val(),
-                estado: $(".estado").val()
-            },
-            url: "php/actions/cadastrar.php",
+            type:"POST",
+            data:this.dataAJAX("cadastrar"),
+            url:"php/manager.php",
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
@@ -29,12 +44,9 @@ function Cliente(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
-            data: {
-                alvo: $("input.alvo").val(),
-                id: $(".id").val()
-            },
-            type: "POST",
-            url: "php/actions/buscarDados.php",
+            data:this.dataAJAX("buscarDados"),
+            type:"POST",
+            url:"php/manager.php",
             success: function(data){
                 var obj=JSON.parse(data);
                 if(obj.type==="error"||obj.type==="success") successCase(data,btnText);
@@ -42,15 +54,15 @@ function Cliente(){
                     content("cliente","Atualização");
                     $(".id").val(obj.id);
                     $(".nome").val(obj.nome);
-                    $(".cpf").val(obj.cpf);
+                    $(".cpf").val(format(obj.cpf,"cpf",0));
                     $(".obs").val(obj.obs);
                     $(".email").val(obj.email);
-                    $(".telFixo").val(obj.telFixo);
-                    $(".telCel").val(obj.telCel);
+                    $(".telFixo").val(format(obj.telFixo,"telFixo"));
+                    $(".telCel").val(format(obj.telCel,"telCel"));
+                    $(".cep").val(format(obj.cep,"cep"));
                     $(".rua").val(obj.rua);
                     $(".numero").val(obj.numero);
                     $(".complemento").val(obj.complemento);
-                    $(".cep").val(obj.cep);
                     $(".bairro").val(obj.bairro);
                     $(".cidade").val(obj.cidade);
                     $(".estado").val(obj.estado);
@@ -63,25 +75,9 @@ function Cliente(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
-            type: "POST",
-            data: {
-                alvo: $("input.alvo").val(),
-                id: $(".id").val(),
-                nome: $(".nome").val(),
-                cpf: $(".cpf").val(),
-                obs: $(".obs").val(),
-                email: $(".email").val(),
-                telCel: $(".telCel").val(),
-                telFixo: $(".telFixo").val(),
-                rua: $(".rua").val(),
-                numero: $(".numero").val(),
-                complemento: $(".complemento").val(),
-                cep: $(".cep").val(),
-                bairro: $(".bairro").val(),
-                cidade: $(".cidade").val(),
-                estado: $(".estado").val()
-            },
-            url: "php/actions/atualizar.php",
+            type:"POST",
+            data:this.dataAJAX("atualizar"),
+            url:"php/manager.php",
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
         });
@@ -91,11 +87,8 @@ function Cliente(){
         $(".goBtn").html("Aguarde...");
         $.ajax({
             type:"POST",
-            data:{
-                alvo: $("input.alvo").val(),
-                id: $(".id").val()
-            },
-            url: "php/actions/excluir.php",
+            data:this.dataAJAX("excluir"),
+            url: "php/manager.php",
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.excluir);}
         });

@@ -13,7 +13,8 @@ function Remessa(){
         $.ajax({
             type: "POST",
             data: {
-                alvo: $("input.alvo").val(),
+                target: $("input.alvo").val(),
+                action: "cadastrar",
                 idProduto: $(".idProduto").val(),
                 qtdProd: $(".qtdProd").val(),
                 idFornecedor: $(".idFornecedor").val(),
@@ -21,7 +22,7 @@ function Remessa(){
                 dataPagamento: $(".dataPagamento").val(),
                 dataEntrega: $(".dataEntrega").val()
             },
-            url: "php/actions/cadastrar.php",
+            url: "php/manager.php",
             success: function(data){
                 var obj=JSON.parse(data);
                 $(".goBtn").html(btnText);
@@ -46,13 +47,18 @@ function Remessa(){
                                 $.ajax({
                                     type: "POST",
                                     data: {
-                                        alvo: "estoque",
+                                        target: "estoque",
+                                        action: "inserir",
                                         idProduto: $(".idProduto").val(),
                                         qtdProd: $(".qtdProd").val()
                                     },
-                                    url: "php/actions/inserir.php",
+                                    url: "php/manager.php",
                                     success: function(data){successCase(data,btnText);},
-                                    error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
+                                    error: function(jqXHR,textStatus,errorThrown){
+                                        loadFile("Estoque.js");
+                                        var estoque=new Estoque();
+                                        errorCase(textStatus,errorThrown,btnText,estoque.inserir);
+                                    }
                                 });
                             }else{
                                 $(".resetBtn").click();

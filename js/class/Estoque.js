@@ -5,11 +5,12 @@ function Estoque(){
         $.ajax({
             type: "POST",
             data: {
-                alvo: "estoque",
+                target: "estoque",
+                action: "inserir",
                 idProduto: $(".idProduto").val(),
                 qtdProd: $(".qtdProd").val()
             },
-            url: "php/actions/inserir.php",
+            url: "php/manager.php",
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
@@ -20,13 +21,14 @@ function Estoque(){
         $.ajax({
             type: "POST",
             data: {
-                alvo: "estoque",
+                target: "estoque",
+                action: "retirar",
                 idProduto: $(".idProduto").val(),
                 idFuncionario: $(".idFuncionario").val(),
                 dataSaida: $(".dataSaida").val(),
                 qtdProd: $(".qtdProd").val()
             },
-            url: "php/actions/retirar.php",
+            url: "php/manager.php",
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });

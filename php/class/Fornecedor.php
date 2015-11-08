@@ -11,11 +11,11 @@ class Fornecedor extends Contato {
             $this->cnpj=$obj->cnpj;
         }
     }
-    public function cadastrarFornecedor(){
+    public function cadastrar(){
         if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false) return;
         $conn=$this->connect();
         $cadFornecedor=$conn->prepare("insert into fornecedor(nomeFantasia,cnpj,endereco,contato) values (?,?,?,?)");
-        $cadFornecedor->bind_param("ssdd",$this->nome,$this->cnpj,$this->idEndereco,$this->idContato);
+        $cadFornecedor->bind_param("sddd",$this->nome,$this->cnpj,$this->idEndereco,$this->idContato);
         if(!$cadFornecedor->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o fornecedor:<p>$cadFornecedor->error</p>'}");
         else AJAXReturn("{'type':'success','msg':'Cadastro do fornecedor $this->nome, de ID $cadFornecedor->insert_id, finalizado com sucesso!'}");
     }
@@ -25,7 +25,7 @@ class Fornecedor extends Contato {
         $this->idContato=$this->getValue("contato","fornecedor","id",$this->id);
         echo fixJSON("{'id':$this->id,
             'nome':'".$this->getValue('nomeFantasia','fornecedor','id',$this->id)."',
-            'cnpj':'".$this->getValue('cnpj','fornecedor','id',$this->id)."',".
+            'cnpj':".$this->getValue('cnpj','fornecedor','id',$this->id).",".
             $this->buscarDadosEndereco().",".
             $this->buscarDadosContato()."}");
     }
@@ -35,7 +35,7 @@ class Fornecedor extends Contato {
         if($this->atualizarEndereco()===false||$this->atualizarContato()===false) return;
         $conn=$this->connect();
         $updFornecedor=$conn->prepare("update fornecedor set cnpj=?,nomeFantasia=? where id=?");
-        $updFornecedor->bind_param("ssd",$this->cnpj,$this->nome,$this->id);
+        $updFornecedor->bind_param("dsd",$this->cnpj,$this->nome,$this->id);
         if(!$updFornecedor->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o fornecedor:<p>$updFornecedor->error</p>'}");
         else AJAXReturn("{'type':'success','msg':'Atualização do fornecedor $this->nome, de ID $this->id, finalizada com sucesso!'}");
     }

@@ -50,6 +50,23 @@ function ddMenu(item){
     if($("."+item+" ul").css("display")==="block") $("."+item+" ul").css("display","none");
     else $("."+item+" ul").css("display","block");
 }
+function format(value,type){
+    // default: converter para número
+    var string="",char;
+    value=value.toString();
+    if(/\W/.test(value)){
+        while(/\W/.test(value)) value=value.replace(/\W/,"");
+        string=parseInt(value);
+    }else for(var i=(type=="cpf"||type=="telCel"?11:(type=="cnpj"?12:(type=="telFixo"?10:8)))-1,a=value.length-1;i>=0;i--,a--){
+        char=typeof(value[a])=="undefined"?"0":value[a];
+        string=(type=="cpf"?(i==9?"-"+char:(i==6||i==3?"."+char:char)):
+        (type=="cnpj"?(i==8?"/"+char:(i==5||i==2?"."+char:char)):
+            (type=="telCel"?(i==7?"-"+char:(i==3||i==2?" "+char:(i==1?char+")":(i==0?"("+char:char)))):
+                (type=="telFixo"?(i==6?"-"+char:(i==2?" "+char:(i==1?char+")":(i==0?"("+char:char)))):
+                    (i==5?"-"+char:(i==2?"."+char:char))))))+string;
+    }
+    return string;
+}
 function generateField(obj){
     /* Parâmetros para geração de campos
      * id - classe de identificação da tag <p> (opcional);

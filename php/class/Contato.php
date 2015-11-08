@@ -13,7 +13,7 @@ class Contato extends Endereco {
     public function cadastrarContato(){
         $mysqli=$this->connect();
         $cadContato=$mysqli->prepare('insert into contato(email,telCel,telFixo) values (?,?,?)');
-        $cadContato->bind_param("sss",$this->email,$this->telCel,$this->telFixo);
+        $cadContato->bind_param("sdd",$this->email,$this->telCel,$this->telFixo);
         if(!$cadContato->execute()){
             AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o contato:<p>$cadContato->error</p>'}");
             return false;
@@ -24,13 +24,13 @@ class Contato extends Endereco {
     }
     public function buscarDadosContato(){
         return "'email':'".$this->getValue('email','contato','id',$this->idContato)."',
-                'telCel':'".$this->getValue('telCel','contato','id',$this->idContato)."',
-                'telFixo':'".$this->getValue('telFixo','contato','id',$this->idContato)."'";
+                'telCel':".$this->getValue('telCel','contato','id',$this->idContato).",
+                'telFixo':".$this->getValue('telFixo','contato','id',$this->idContato);
     }
     public function atualizarContato(){
         $mysqli=$this->connect();
         $updContato=$mysqli->prepare("update contato set email=?,telCel=?,telFixo=? where id=?");
-        $updContato->bind_param("sssd",$this->email,$this->telCel,$this->telFixo,$this->idContato);
+        $updContato->bind_param("sddd",$this->email,$this->telCel,$this->telFixo,$this->idContato);
         if(!$updContato->execute()){
             AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o contato:<p>$updContato->error</p>'}");
             return false;

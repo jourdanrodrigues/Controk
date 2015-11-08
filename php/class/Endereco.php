@@ -21,7 +21,7 @@ class Endereco extends Connection {
     public function cadastrarEndereco(){
         $mysqli=$this->connect();
         $cadEndereco=$mysqli->prepare('insert into endereco(rua,numero,complemento,cep,bairro,cidade,estado) values (?,?,?,?,?,?,?)');
-        $cadEndereco->bind_param("sdsssss",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado);
+        $cadEndereco->bind_param("sdsdsss",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado);
         if(!$cadEndereco->execute()){
             AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o endereço:<p>$cadEndereco->error</p>'}");
             return false;
@@ -34,7 +34,7 @@ class Endereco extends Connection {
         return "'rua':'".$this->getValue('rua','endereco','id',$this->idEndereco)."',
                 'numero':".$this->getValue('numero','endereco','id',$this->idEndereco).",
                 'complemento':'".$this->getValue('complemento','endereco','id',$this->idEndereco)."',
-                'cep':'".$this->getValue('cep','endereco','id',$this->idEndereco)."',
+                'cep':".$this->getValue('cep','endereco','id',$this->idEndereco).",
                 'bairro':'".$this->getValue('bairro','endereco','id',$this->idEndereco)."',
                 'cidade':'".$this->getValue('cidade','endereco','id',$this->idEndereco)."',
                 'estado':'".$this->getValue('estado','endereco','id',$this->idEndereco)."'";
@@ -42,7 +42,7 @@ class Endereco extends Connection {
     public function atualizarEndereco(){
         $mysqli=$this->connect();
         $updEndereco=$mysqli->prepare("update endereco set rua=?,numero=?,complemento=?,cep=?,bairro=?,cidade=?,estado=? where id=?");
-        $updEndereco->bind_param("sdsssssd",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado,$this->idEndereco);
+        $updEndereco->bind_param("sdsdsssd",$this->rua,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado,$this->idEndereco);
         if(!$updEndereco->execute()){
             AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o endereço:<p>$updEndereco->error</p>'}");
             return false;

@@ -21,8 +21,8 @@ function manageAJAX(){
         case 'retirar': obj.retirar();
     }
 }
-function successCase(dados, btnText){
-    var obj=JSON.parse(dados);
+function successCase(data,btnText){
+    var obj=JSON.parse(data);
     $(".goBtn").html(btnText);
     swal({
         title:obj.msg,
@@ -30,7 +30,7 @@ function successCase(dados, btnText){
         html:true
     },function(){if(obj.type!=="error") resetFields();});
 }
-function errorCase(textStatus, errorThrown, btnText, thisFunction){
+function errorCase(textStatus,errorThrown,btnText,thisFunction){
     $(".goBtn").html(btnText);
     swal({
         title: "Ocorreu um erro!",

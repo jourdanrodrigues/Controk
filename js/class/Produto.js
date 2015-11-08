@@ -5,14 +5,15 @@ function Produto(){
         $.ajax({
             type: "POST",
             data: {
-                alvo: $("input.alvo").val(),
+                target: $("input.alvo").val(),
+                action: "cadastrar",
                 idRemessa: $(".idRemessa").val(),
                 nome: $(".nome").val(),
                 descricao: $(".descricao").val(),
                 custo: $(".custo").val(),
                 valorVenda: $(".valorVenda").val()
             },
-            url: "php/actions/cadastrar.php",
+            url: "php/manager.php",
             success: function(data){successCase(data, btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
@@ -22,11 +23,12 @@ function Produto(){
         $(".goBtn").html("Aguarde...");
         $.ajax({
             data: {
-                alvo: $("input.alvo").val(),
+                target: $("input.alvo").val(),
+                action: "buscarDados",
                 id: $(".id").val()
             },
             type: "POST",
-            url: "php/actions/buscarDados.php",
+            url: "php/manager.php",
             success: function(data){
                 var obj=JSON.parse(data);
                 if(obj.type==="error"||obj.type==="success") successCase(data,btnText);
@@ -49,7 +51,8 @@ function Produto(){
         $.ajax({
             type: "POST",
             data: {
-                alvo: $("input.alvo").val(),
+                target: $("input.alvo").val(),
+                action: "atualizar",
                 id: $(".id").val(),
                 idRemessa: $(".idRemessa").val(),
                 nome: $(".nome").val(),
@@ -57,7 +60,7 @@ function Produto(){
                 custo: $(".custo").val(),
                 valorVenda: $(".valorVenda").val()
             },
-            url: "php/actions/atualizar.php",
+            url: "php/manager.php",
             success: function(data){successCase(data, btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
         });
