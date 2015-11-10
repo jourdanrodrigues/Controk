@@ -51,41 +51,24 @@ function ddMenu(item){
     else $("."+item+" ul").css("display","block");
 }
 function format(value,type){
-    // default: converter para número
-    var string="",char;
+    var formated="";
     value=value.toString();
-    if(/\W/.test(value)){
-        while(/\W/.test(value)) value=value.replace(/\W/,"");
-        string=parseInt(value);
-    }else for(var i=(type=="cpf"||type=="telCel"?11:(type=="cnpj"?12:(type=="telFixo"?10:8)))-1,a=value.length-1;i>=0;i--,a--){
-        char=typeof(value[a])=="undefined"?"0":value[a];
-        string=(type=="cpf"?(i==9?"-"+char:(i==6||i==3?"."+char:char)):
-        (type=="cnpj"?(i==8?"/"+char:(i==5||i==2?"."+char:char)):
-            (type=="telCel"?(i==7?"-"+char:(i==3||i==2?" "+char:(i==1?char+")":(i==0?"("+char:char)))):
-                (type=="telFixo"?(i==6?"-"+char:(i==2?" "+char:(i==1?char+")":(i==0?"("+char:char)))):
-                    (i==5?"-"+char:(i==2?"."+char:char))))))+string;
-    }
-    return string;
+    if(type!="money"){
+        if(/\W/.test(value)) while(/\W/.test(value)) formated=value=value.replace(/\W/,"");
+        else for(var i=(type=="cpf"||type=="telCel"?11:(type=="cnpj"?14:(type=="telFixo"?10:8)))-1,a=value.length-1;i>=0;i--,a--)
+            formated=(type=="cpf"?(i==9?"-"+value[a]:(i==6||i==3?"."+value[a]:value[a])):
+            (type=="cnpj"?(i==12?"-"+value[a]:(i==8?"/"+value[a]:(i==5||i==2?"."+value[a]:value[a]))):
+                (type=="telCel"?(i==7?"-"+value[a]:(i==3||i==2?" "+value[a]:(i==1?value[a]+")":(i==0?"("+value[a]:value[a])))):
+                    (type=="telFixo"?(i==6?"-"+value[a]:(i==2?" "+value[a]:(i==1?value[a]+")":(i==0?"("+value[a]:value[a])))):
+                        (i==5?"-"+value[a]:(i==2?"."+value[a]:value[a]))))))+formated;
+    }else formated=(/^R/g.test(value))?value.replace(",",".").replace("R$ ",""):"R$ "+value.replace(".",",");
+    return formated;
 }
 function generateField(obj){
-    /* Parâmetros para geração de campos
-     * id - classe de identificação da tag <p> (opcional);
-     * field - classe de identificação do campo;
-     * fieldTag - tipo do campo (default: "input");
-     * readonly - campo somente leitura (opcional);
-     * type - tipo de dado do campo (default: "text");
-     * value - valor inicial de campo input (opcional);
-     * lblContent - Conteúdo da label de identificação do campo;
-     * plcHolder - Conteúdo do placeholder (opcional);
-     * required - Setar campo como requerido (opcional);
-     * rows - Linhas para type "textarea" (opcional);
-     * cols - Colunas para type "textarea" (opcional);
-     */
     var content="<p"+(typeof(obj.id)!="undefined"?" class='campoId"+obj.id+"'":"")+
-        "><label data-for='"+obj.field+"'>"+obj.lblContent+"</label><br>";
-    if(typeof(obj.fieldTag)!="undefined"&&obj.fieldTag==="textarea") content+="<textarea class='";
-    else content+="<input type='"+(typeof(obj.type)!="undefined"?obj.type+"'":"text'")+" class='field ";
-    content+=obj.field;
+        "><label data-for='"+obj.field+"'>"+obj.lblContent+"</label><br>"+
+        (typeof(obj.fieldTag)!="undefined"&&obj.fieldTag=="textarea"?"<textarea class='":
+            "<input type='"+(typeof(obj.type)!="undefined"?obj.type+"'":"text'")+" class='field ")+obj.field;
     if(typeof(obj.classes)!="undefined") for(var i=0;i<obj.classes.length;i++) content+=" "+obj.classes[i];
     //Atributos
     return content+"'"+(typeof(obj.rows)!="undefined"?" row="+obj.rows:"")+

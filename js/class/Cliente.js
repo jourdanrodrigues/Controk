@@ -1,5 +1,5 @@
 function Cliente(){
-    this.dataAJAX=function(action){
+    this.data=function(action){
         switch(action){
             case "cadastrar":
             case "atualizar": var data={
@@ -9,7 +9,7 @@ function Cliente(){
                     nome: $(".nome").val(),
                     cpf: format($(".cpf").val(),"cpf"),
                     obs: $(".obs").val(),
-                    email: $(".email").val(),
+                    email: $(".email").val().toLowerCase(),
                     telCel: format($(".telCel").val(),"telCel"),
                     telFixo: format($(".telFixo").val(),"telFixo"),
                     rua: $(".rua").val(),
@@ -34,7 +34,7 @@ function Cliente(){
         $(".goBtn").html("Aguarde...");
         $.ajax({
             type:"POST",
-            data:this.dataAJAX("cadastrar"),
+            data:this.data("cadastrar"),
             url:"php/manager.php",
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
@@ -44,7 +44,7 @@ function Cliente(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
-            data:this.dataAJAX("buscarDados"),
+            data:this.data("buscarDados"),
             type:"POST",
             url:"php/manager.php",
             success: function(data){
@@ -76,7 +76,7 @@ function Cliente(){
         $(".goBtn").html("Aguarde...");
         $.ajax({
             type:"POST",
-            data:this.dataAJAX("atualizar"),
+            data:this.data("atualizar"),
             url:"php/manager.php",
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
@@ -87,7 +87,7 @@ function Cliente(){
         $(".goBtn").html("Aguarde...");
         $.ajax({
             type:"POST",
-            data:this.dataAJAX("excluir"),
+            data:this.data("excluir"),
             url: "php/manager.php",
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.excluir);}

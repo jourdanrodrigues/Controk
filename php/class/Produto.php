@@ -1,13 +1,14 @@
 <?php
 require_once("Remessa.php");
 class Produto extends Remessa{
+    private $id;
     private $nome;
     private $descricao;
     private $custo;
     private $valorVenda;
-    public function setAttr($var){
+    public function Produto($var){
         $obj=json_decode(fixJSON($var));
-        if(isset($obj->idProduto)) $this->idProduto=$obj->idProduto;
+        if(isset($obj->id)) $this->id=$obj->id;
         if(isset($obj->nome)){
             $this->nome=$obj->nome;
             $this->idRemessa=$obj->idRemessa;
@@ -16,12 +17,7 @@ class Produto extends Remessa{
             $this->valorVenda=$obj->valorVenda;
         }
     }
-    public function handleMonetary($value,$action="goCur"){
-        return $action==="goNum"?str_replace(',','.',str_replace('R$ ','',$value)):"R$ ".str_replace('.',',',$value);
-    }
     public function cadastrar(){
-        $this->custo=$this->handleMonetary($this->custo,"goNum");
-        $this->valorVenda=$this->handleMonetary($this->valorVenda,"goNum");
         $conn=$this->connect();
         $cadProduto=$conn->prepare("insert into produto(remessa,descricao,nome,custo,valorVenda) values (?,?,?,?,?)");
         $cadProduto->bind_param("dssdd",$this->idRemessa,$this->descricao,$this->nome,$this->custo,$this->valorVenda);
@@ -29,21 +25,19 @@ class Produto extends Remessa{
         else AJAXReturn("{'type':'success','msg':'Cadastro do produto $this->nome, de ID $cadProduto->insert_id, finalizado com sucesso!'}");
     }
     public function buscarDados(){
-        if($this->checkExistence("produto","id",$this->idProduto)===false){return;}
-        echo fixJSON("{'id':$this->idProduto,
-            'custo':'".$this->handleMonetary($this->getValue('custo','produto','id',$this->idProduto))."',
-            'valorVenda':'".$this->handleMonetary($this->getValue('valorVenda','produto','id',$this->idProduto))."',
-            'nome':'".$this->getValue('nome','produto','id',$this->idProduto)."',
-            'idRemessa':".$this->getValue('remessa','produto','id',$this->idProduto).",
-            'descricao':'".$this->getValue('descricao','produto','id',$this->idProduto)."'}");
+        if($this->checkExistence("produto","id",$this->id)===false) return;
+        echo fixJSON("{'id':$this->id,
+            'custo':".round($this->getValue('custo','produto','id',$this->id),2).",
+            'valorVenda':".round($this->getValue('valorVenda','produto','id',$this->id),2).",
+            'nome':'".$this->getValue('nome','produto','id',$this->id)."',
+            'idRemessa':".$this->getValue('remessa','produto','id',$this->id).",
+            'descricao':'".$this->getValue('descricao','produto','id',$this->id)."'}");
     }
     public function atualizar(){
         $mysqli=$this->connect();
         $updProduto=$mysqli->prepare("update produto set descricao=?,nome=?,custo=?,valorVenda=? where id=?");
-        $custoProd=$this->handleMonetary($this->custo,"goNum");
-        $valorVenda=$this->handleMonetary($this->valorVenda,"goNum");
-        $updProduto->bind_param("ssddd",$this->descricao,$this->nome,$custoProd,$valorVenda,$this->idProduto);
+        $updProduto->bind_param("ssddd",$this->descricao,$this->nome,$this->custo,$this->valorVenda,$this->id);
         if(!$updProduto->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o produto:<p>$updProduto->error</p>'}");
-        else AJAXReturn("{'type':'success','msg':'Atualização do produto $this->nome, de ID $this->idProduto, finalizada com sucesso!'}");
+        else AJAXReturn("{'type':'success','msg':'Atualização do produto $this->nome, de ID $this->id, finalizada com sucesso!'}");
     }
 }

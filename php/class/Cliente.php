@@ -4,7 +4,7 @@ class Cliente extends Contato{
     protected $nome;
     protected $cpf;
     protected $obs;
-    public function setAttr($var){
+    public function Cliente($var){
         $obj=json_decode(fixJSON($var));
         if(isset($obj->id)) $this->id=$obj->id;
         if(isset($obj->nome)){
@@ -17,7 +17,7 @@ class Cliente extends Contato{
         if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false) return;
         $conn=$this->connect();
         $cadCliente=$conn->prepare("insert into cliente(nome,cpf,obs,endereco,contato) values (?,?,?,?,?)");
-        $cadCliente->bind_param("sdsdd",$this->nome,$this->cpf,$this->obs,$this->idEndereco,$this->idContato);
+        $cadCliente->bind_param("sssdd",$this->nome,$this->cpf,$this->obs,$this->idEndereco,$this->idContato);
         if(!$cadCliente->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o cliente:\n\n$cadCliente->error.'}");
         else AJAXReturn("{'type':'success','msg':'Cadastro do cliente $this->nome, de ID $cadCliente->insert_id, finalizado com sucesso!'}");
     }
@@ -27,7 +27,7 @@ class Cliente extends Contato{
         $this->idContato=$this->getValue('contato','cliente','id',$this->id);
         echo fixJSON("{'id':$this->id,
             'nome':'".$this->getValue('nome','cliente','id',$this->id)."',
-            'cpf':".$this->getValue('cpf','cliente','id',$this->id).",
+            'cpf':'".$this->getValue('cpf','cliente','id',$this->id)."',
             'obs':'".$this->getValue('obs','cliente','id',$this->id)."',".
             $this->buscarDadosEndereco().",".
             $this->buscarDadosContato()."}");
@@ -38,7 +38,7 @@ class Cliente extends Contato{
         $this->idEndereco=$this->getValue("endereco","cliente","id",$this->id);
         if($this->atualizarEndereco()===false||$this->atualizarContato()===false) return;
         $updCliente=$conn->prepare("update cliente set nome=?,cpf=?,obs=? where id=?");
-        $updCliente->bind_param("sdsd",$this->nome,$this->cpf,$this->obs,$this->id);
+        $updCliente->bind_param("sssd",$this->nome,$this->cpf,$this->obs,$this->id);
         if(!$updCliente->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o cliente:<p>$updCliente->error</p>'}");
         else AJAXReturn("{'type':'success','msg':'Atualização do cliente $this->nome, de ID $this->id, finalizada com sucesso!'}");
     }

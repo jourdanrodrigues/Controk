@@ -36,10 +36,10 @@ function Estoque(){
     this.genFields=function(action){
         var container="";
         switch(action){
-            case "Retirar": container+=generateField({id:"FuncEstq",type:"number",field:"idFuncionario",lblContent:"ID do funcionário"});
-            case "Inserir": container+=generateField({field:"idProduto",type:"number",lblContent:"ID do produto"})+
-            generateField({field:"qtdProd",type:"number",lblContent:"Quantidade do produto (un.)"})+
+            case "Retirar": container+=generateField({id:"FuncEstq",type:"number",field:"idFuncionario",lblContent:"ID do funcionário"})+
             generateField({id:"DataSaida",field:"dataSaida",lblContent:"Data Saída"});
+            case "Inserir": container+=generateField({field:"idProduto",type:"number",lblContent:"ID do produto"})+
+            generateField({field:"qtdProd",type:"number",lblContent:"Quantidade do produto (un.)"});
         }
         return container;
     };

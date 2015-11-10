@@ -9,17 +9,9 @@
     });
 });
 function manageAJAX(){
-    var action=$("input.acao").val(),target=$("input.alvo").val(),Target=upperCaseFL(target);
+    var Target=upperCaseFL($("input.alvo").val());
     loadFile("class/"+Target+".js");
-    eval("var obj=new "+Target+"()");
-    switch(action){
-        case 'cadastrar': obj.cadastrar(); break;
-        case 'buscarDados': obj.buscarDados(); break;
-        case 'atualizar': obj.atualizar(); break;
-        case 'excluir': obj.excluir(); break;
-        case 'inserir': obj.inserir(); break;
-        case 'retirar': obj.retirar();
-    }
+    eval("var obj=new "+Target+"(); obj."+$("input.acao").val()+"();");
 }
 function successCase(data,btnText){
     var obj=JSON.parse(data);

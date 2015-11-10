@@ -1,5 +1,5 @@
 function Sessao(){
-    var count=0;
+    this.count=0;
     this.logOut=function(){
         $.ajax({
             url: "php/sessionManager.php",

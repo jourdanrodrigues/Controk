@@ -6,7 +6,7 @@ class Remessa extends Estoque {
     private $dataEntrega;
     private $dataPagamento;
     private $dataPedido;
-    public function setAttrRemessa($var){
+    public function Remessa($var){
         $obj=json_decode(fixJSON($var));
         $this->idProduto=$obj->idProduto;
         $this->idFornecedor=$obj->idFornecedor;
@@ -15,7 +15,7 @@ class Remessa extends Estoque {
         $this->dataPedido=$obj->dataPedido;
         $this->qtdProd=$obj->qtdProd;
     }
-    public function cadastrarRemessa(){
+    public function cadastrar(){
         if($this->checkExistence("fornecedor","id",$this->idFornecedor)===false||$this->checkExistence("produto","id",$this->idProduto)===false) return;
         $mysqli=$this->connect();
         $cadRemessa=$mysqli->prepare("insert into remessa(produto,fornecedor,dataEntrega,dataPagamento,dataPedido,qtdProd) values (?,?,?,?,?,?)");

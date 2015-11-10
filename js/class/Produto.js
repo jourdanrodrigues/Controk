@@ -1,19 +1,32 @@
 function Produto(){
+    this.data=function(action){
+        switch(action){
+            case "cadastrar":
+            case "atualizar": var data={
+                    target: $("input.alvo").val(),
+                    action: action,
+                    id: $(".id").val(),
+                    idRemessa: $(".idRemessa").val(),
+                    nome: $(".nome").val(),
+                    descricao: $(".descricao").val(),
+                    custo: format($(".custo").val(),"money"),
+                    valorVenda: format($(".valorVenda").val(),"money")
+                }; break;
+            case "buscarDados": var data={
+                    target: $("input.alvo").val(),
+                    action: action,
+                    id: $(".id").val()
+                }; break;
+        }
+        return data;
+    };
     this.cadastrar=function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
-            type: "POST",
-            data: {
-                target: $("input.alvo").val(),
-                action: "cadastrar",
-                idRemessa: $(".idRemessa").val(),
-                nome: $(".nome").val(),
-                descricao: $(".descricao").val(),
-                custo: $(".custo").val(),
-                valorVenda: $(".valorVenda").val()
-            },
-            url: "php/manager.php",
+            type:"POST",
+            data:this.data("cadastrar"),
+            url:"php/manager.php",
             success: function(data){successCase(data, btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
@@ -22,11 +35,7 @@ function Produto(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
-            data: {
-                target: $("input.alvo").val(),
-                action: "buscarDados",
-                id: $(".id").val()
-            },
+            data:this.data("buscarDados"),
             type: "POST",
             url: "php/manager.php",
             success: function(data){
@@ -34,12 +43,12 @@ function Produto(){
                 if(obj.type==="error"||obj.type==="success") successCase(data,btnText);
                 else{
                     content("produto","Atualização");
-                    $(".idProduto").val(obj.idProduto);
+                    $(".id").val(obj.id);
                     $(".idRemessa").val(obj.idRemessa);
                     $(".nome").val(obj.nome);
                     $(".descricao").val(obj.descricao);
-                    $(".custo").val(obj.custo);
-                    $(".valorVenda").val(obj.valorVenda);
+                    $(".custo").val(format(obj.custo,"money"));
+                    $(".valorVenda").val(format(obj.valorVenda,"money"));
                 }
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.buscarDados);}
@@ -49,18 +58,9 @@ function Produto(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
-            type: "POST",
-            data: {
-                target: $("input.alvo").val(),
-                action: "atualizar",
-                id: $(".id").val(),
-                idRemessa: $(".idRemessa").val(),
-                nome: $(".nome").val(),
-                descricao: $(".descricao").val(),
-                custo: $(".custo").val(),
-                valorVenda: $(".valorVenda").val()
-            },
-            url: "php/manager.php",
+            type:"POST",
+            data:this.data("atualizar"),
+            url:"php/manager.php",
             success: function(data){successCase(data, btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
         });

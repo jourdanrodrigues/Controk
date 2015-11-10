@@ -20,29 +20,11 @@ function autoload($path,$class){
 function post($var){return filter_input(INPUT_POST,$var);} // Filtro para variáveis $_POST
 function server($var){return filter_input(INPUT_SERVER,$var);} // Filtro para variáveis $_SERVER
 function generateField($var){
-    /* Parâmetros para geração de campos
-     * id - classe de identificação da tag <p> (opcional);
-     * field - classe de identificação do campo;
-     * fieldType - tipo do campo (default: "input");
-     * type - tipo de dado do campo (default: "text");
-     * value - valor inicial de campo input (opcional);
-     * lblContent - Conteúdo da label de identificação do campo;
-     * plcHolder - Conteúdo do placeholder (opcional);
-     * required - Setar campo como requerido (opcional);
-     * rows - Linhas para type "textarea" (opcional);
-     * cols - Colunas para type "textarea" (opcional);
-     */
     $obj=json_decode(fixJSON($var));
-    echo "<p"; echo isset($obj->id)?" class='campoId$obj->id'":"";
-    echo "><label data-for='$obj->field'>$obj->lblContent</label><br>";
+    echo "<p".(isset($obj->id)?" class='campoId$obj->id'":"")."><label data-for='$obj->field'>$obj->lblContent</label><br>";
     //Início do campo
-    if(isset($obj->fieldType)&&$obj->fieldType==="textarea") echo "<textarea class='";
-    else{
-        echo "<input type='";
-        echo isset($obj->type)?"$obj->type'":"text'";
-        echo " class='field ";
-    }
-    echo "$obj->field";
+    echo isset($obj->fieldType)&&$obj->fieldType==="textarea"?"<textarea class='":
+            "<input type='".(isset($obj->type)?"$obj->type'":"text'")." class='field $obj->field";
     if(isset($obj->classes)) foreach($obj->classes as $class) echo " $class";
     echo "'";
     //Atributos
@@ -55,19 +37,14 @@ function generateField($var){
     echo isset($obj->fieldType)&&$obj->fieldType==="textarea"?"></textarea></p>":"></p>";
 }
 function generateItemMenu($var){
-    /*
-     * item => Título do item e define a classe
-     * label => Título do item com caractere espacial
-     * cadastrar, buscarDados, excluir, inserir e retirar => Opções
-     */
     $obj=json_decode(fixJSON($var));
-    echo "<li class='item nav".str_replace("á","a",$obj->item)."'>$obj->item<ul>";
-    if(isset($obj->cadastrar)&&$obj->cadastrar==1) echo "<li class='cadastrar'>Cadastrar</li>";
-    if(isset($obj->buscarDados)&&$obj->buscarDados==1) echo "<li class='buscarDados'>Buscar Dados</li>";
-    if(isset($obj->excluir)&&$obj->excluir==1) echo "<li class='excluir'>Excluir</li>";
-    if(isset($obj->inserir)&&$obj->inserir==1) echo "<li class='inserir'>Inserir itens</li>";
-    if(isset($obj->retirar)&&$obj->retirar==1) echo "<li class='retirar'>Retirar itens</li>";
-    echo "</ul></li>";
+    echo "<li class='item nav".str_replace("á","a",$obj->item)."'>$obj->item<ul>".
+        (isset($obj->cadastrar)&&$obj->cadastrar==1?"<li class='cadastrar'>Cadastrar</li>":"").
+        (isset($obj->buscarDados)&&$obj->buscarDados==1?"<li class='buscarDados'>Buscar Dados</li>":"").
+        (isset($obj->excluir)&&$obj->excluir==1?"<li class='excluir'>Excluir</li>":"").
+        (isset($obj->inserir)&&$obj->inserir==1?"<li class='inserir'>Inserir itens</li>":"").
+        (isset($obj->retirar)&&$obj->retirar==1?"<li class='retirar'>Retirar itens</li>":"").
+        "</ul></li>";
 }
 function loadFiles($var){
     // Carregamento de arquivos CSS e JS

@@ -1,7 +1,7 @@
 <?php
 require_once("Historico.php");
 class Estoque extends Historico{
-    public function setAttr($var){
+    public function Estoque($var){
         $obj=json_decode(fixJSON($var));
         $this->idProduto=$obj->idProduto;
         $this->qtdProd=$obj->qtdProd;
@@ -10,7 +10,7 @@ class Estoque extends Historico{
             $this->dataSaida=$obj->dataSaida;
         }
     }
-    public function inserirProduto(){
+    public function inserir(){
         if($this->checkExistence('produto','id',$this->idProduto)===false) return;
         $mysqli=$this->connect();
         if($this->checkExistence('estoque','produto',$this->idProduto)===false) $insEstoque=$mysqli->prepare("insert into estoque(qtdProd,produto) values (?,?)");
@@ -20,22 +20,18 @@ class Estoque extends Historico{
             $insEstoque=$mysqli->prepare("update estoque set qtdProd=? where produto=?");
         }
         $insEstoque->bind_param("dd",$this->qtdProd,$this->idProduto);
-        $this->nomeProduto=$this->getValue('nome','produto','id',$this->idProduto);
         if(!$insEstoque->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível inserir o produto no estoque:\n\n$insEstoque->error'}");
         else{
-            $msg="Produto inserido no estoque com sucesso<p><br>Produto: $this->nomeProduto;</p><p>Quantidade";
-            if(isset($qtdProdEstq)) $msg.=" anterior: $qtdProdEstq;</p><p>Quantidade atual: $this->qtdProd.</p>";
-            else $msg.=": $this->qtdProd.</p>";
+            $msg="Produto inserido no estoque com sucesso<p><br>Produto: ".$this->getValue('nome','produto','id',$this->idProduto).";</p><p>Quantidade";
+            $msg.=isset($qtdProdEstq)?" anterior: $qtdProdEstq;</p><p>Quantidade atual: $this->qtdProd.</p>":": $this->qtdProd.</p>";
             AJAXReturn("{'type':'success','msg':'$msg'}");
         }
     }
-    public function retirarProduto(){
-        if($this->checkExistence('funcionario','id',$this->idFuncionario)===false||$this->checkExistence('produto','id',$this->idProduto)===false) return;
-        $qtdProdEstq=$this->getValue('qtdProd','estoque','produto',$this->idProduto);
-        $nomeProduto=$this->getValue('nome','produto','id',$this->idProduto);
-        $unidade="unidade";
-        if($qtdProdEstq>1) $unidade.="s";
-        if($this->qtdProd>$qtdProdEstq) AJAXReturn("{'type':'error','msg':'Há somente $qtdProdEstq $unidade desse produto no estoque!'}");
+    public function retirar(){
+        if($this->checkExistence("funcionario","id",$this->idFuncionario)===false||$this->checkExistence("produto","id",$this->idProduto)===false) return;
+        $qtdProdEstq=$this->getValue("qtdProd","estoque","produto",$this->idProduto);
+        $nomeProduto=$this->getValue("nome","produto","id",$this->idProduto);
+        if($this->qtdProd>$qtdProdEstq) AJAXReturn("{'type':'error','msg':'Há somente $qtdProdEstq ".($qtdProdEstq>1?"unidade":"unidades")." desse produto no estoque!'}");
         else{
             $qtdProdEstq-=$this->qtdProd;
             $mysqli=$this->connect();
@@ -44,7 +40,7 @@ class Estoque extends Historico{
             if(!$retQtdEstoque->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível retirar o produto $nomeProduto do estoque:<p><br>$retQtdEstoque->error</p>'}");
             else{
                 $this->cadastrarHistorico();
-                AJAXReturn("{'type':'success','msg':'Retirado do estoque com sucesso<p><br>ID do funcionário: $this->idFuncionario;</p><p>Produto: $nomeProduto;</p><p>Quantidade retirada: $this->qtdProd;</p><p>Quantidade no estoque: $qtdProdEstq</p>'}");
+                AJAXReturn("{'type':'success','msg':'Retirado do estoque com sucesso<p><br>ID do funcionário: $this->idFuncionario;</p><p>Produto: $nomeProduto;</p><p>Quantidade retirada: $this->qtdProd;</p><p>Quantidade no estoque: $qtdProdEstq.</p>'}");
             }
         }
     }

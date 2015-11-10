@@ -2,7 +2,7 @@
 class Funcionario extends Cliente{
     private $id;
     private $cargo;
-    public function setAttr($var){
+    public function Funcionario($var){
         $obj=json_decode(fixJSON($var));
         if(isset($obj->id)) $this->id=$obj->id;
         if(isset($obj->cpf)){
@@ -16,7 +16,7 @@ class Funcionario extends Cliente{
         if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false) return;
         $conn=$this->connect();
         $cadFuncionario=$conn->prepare('insert into funcionario(nome,cpf,obs,cargo,endereco,contato) values (?,?,?,?,?,?)');
-        $cadFuncionario->bind_param("sdssdd",$this->nome,$this->cpf,$this->obs,$this->cargo,$this->idEndereco,$this->idContato);
+        $cadFuncionario->bind_param("ssssdd",$this->nome,$this->cpf,$this->obs,$this->cargo,$this->idEndereco,$this->idContato);
         if(!$cadFuncionario->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o funcionário:<p>$cadFuncionario->error<p>'}");
         else AJAXReturn("{'type':'success','msg':'Cadastro do funcionário $this->nome, de ID $cadFuncionario->insert_id, finalizado com sucesso!'}");
     }
@@ -26,7 +26,7 @@ class Funcionario extends Cliente{
         $this->idContato=$this->getValue('contato','funcionario','id',$this->id);
         echo fixJSON("{'id':$this->id,
             'nome':'".$this->getValue('nome','funcionario','id',$this->id)."',
-            'cpf':".$this->getValue('cpf','funcionario','id',$this->id).",
+            'cpf':'".$this->getValue('cpf','funcionario','id',$this->id)."',
             'cargo':'".$this->getValue('cargo','funcionario','id',$this->id)."',
             'obs':'".$this->getValue('obs','funcionario','id',$this->id)."',".
             $this->buscarDadosEndereco().",".
@@ -38,7 +38,7 @@ class Funcionario extends Cliente{
         if($this->atualizarEndereco()===false||$this->atualizarContato()===false) return;
         $mysqli=$this->connect();
         $updFuncionario=$mysqli->prepare("update funcionario set nome=?,cpf=?,obs=?,cargo=? where id=?");
-        $updFuncionario->bind_param("sdssd",$this->nome,$this->cpf,$this->obs,$this->cargo,$this->id);
+        $updFuncionario->bind_param("ssssd",$this->nome,$this->cpf,$this->obs,$this->cargo,$this->id);
         if(!$updFuncionario->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o funcionário:<p>$updFuncionario->error</p>'}");
         else AJAXReturn("{'type':'success','msg':'Atualização do funcionário $this->nome, de ID $this->id, finalizada com sucesso!'}");
     }
