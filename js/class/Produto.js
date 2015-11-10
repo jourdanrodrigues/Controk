@@ -1,5 +1,7 @@
-function Produto(){
-    this.data=function(action){
+function Produto(){}
+Produto.prototype={
+    constructor: Produto,
+    data:function(action){
         switch(action){
             case "cadastrar":
             case "atualizar": var data={
@@ -19,8 +21,8 @@ function Produto(){
                 }; break;
         }
         return data;
-    };
-    this.cadastrar=function(){
+    },
+    cadastrar:function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
@@ -30,8 +32,8 @@ function Produto(){
             success: function(data){successCase(data, btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
-    };
-    this.buscarDados=function(){
+    },
+    buscarDados:function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
@@ -53,8 +55,8 @@ function Produto(){
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.buscarDados);}
         });
-    };
-    this.atualizar=function(){
+    },
+    atualizar:function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
@@ -64,8 +66,8 @@ function Produto(){
             success: function(data){successCase(data, btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
         });
-    };
-    this.genFields=function(action){
+    },
+    genFields:function(action){
         var container="";
         switch(action){
             case "Atualização": container+=generateField({id:"Produto",type:"number",field:"id",lblContent:"ID do Produto",readonly:1,classes:["readonly"]});
@@ -77,5 +79,5 @@ function Produto(){
             case "Busca de dados": container+=generateField({id:"Produto",type:"number",field:"id",lblContent:"ID do Produto"});
         }
         return container;
-    };
-}
+    }
+};

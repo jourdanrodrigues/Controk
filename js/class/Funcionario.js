@@ -1,5 +1,7 @@
-function Funcionario(){
-    this.data=function(action){
+function Funcionario(){}
+Funcionario.prototype={
+    constructor:Funcionario,
+    data:function(action){
         switch(action){
             case "cadastrar":
             case "atualizar": var data={
@@ -29,8 +31,8 @@ function Funcionario(){
                 }; break;
         }
         return data;
-    };
-    this.cadastrar=function(){
+    },
+    cadastrar:function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
@@ -40,8 +42,8 @@ function Funcionario(){
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
         });
-    };
-    this.buscarDados=function(){
+    },
+    buscarDados:function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
@@ -72,8 +74,8 @@ function Funcionario(){
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.buscarDados);}
         });
-    };
-    this.atualizar=function(){
+    },
+    atualizar:function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
@@ -83,8 +85,8 @@ function Funcionario(){
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
         });
-    };
-    this.excluir=function(){
+    },
+    excluir:function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
@@ -94,8 +96,8 @@ function Funcionario(){
             success: function(data){successCase(data,btnText);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.excluir);}
         });
-    };
-    this.genFields=function(action){
+    },
+    genFields:function(action){
         var container="";
         switch(action){
             case "Atualização": container+=generateField({id:"Funcionario",type:"number",field:"id",lblContent:"ID do Funcionário",readonly:1,classes:["readonly"]});
@@ -107,5 +109,5 @@ function Funcionario(){
             case "Exclusão": container+=generateField({id:"Funcionario",type:"number",field:"id",lblContent:"ID do Funcionário"});
         }
         return container;
-    };
-}
+    }
+};

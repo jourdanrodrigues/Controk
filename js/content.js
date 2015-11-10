@@ -1,18 +1,17 @@
 function content(target,action){
     var Target=upperCaseFL(target);
     loadFile("class/"+Target+".js");
-    eval("var obj=new "+Target+"()");
     $(".estoque,.fornecedor,.endereco,.cliente,.funcionario,.contato,.produto,.remessa").remove();
     $("input.alvo").val(target);
     setButtons(action);
+    eval("var obj=new "+Target+"()");
     var container="<div class='"+target+"'>"+
-    "<h3>"+action+(target!="estoque"?" de ":" itens no ")+(target!="funcionario"?Target:Target.replace("a","á"))+"</h3>";
-    container+=obj.genFields(action);
-    container+="</div>";
+    "<h3>"+action+(target!="estoque"?" de ":" itens no ")+(target!="funcionario"?Target:Target.replace("a","á"))+"</h3>"+
+    obj.genFields(action)+"</div>";
     if((target=="fornecedor"||target=="cliente"||target=="funcionario")&&(action=="Cadastro"||action=="Atualização"))
         container+=contentContato()+contentEndereco();
     $(".mainForm").prepend(container);
-    inputProps();
+    inputProp();
     if($(".direita").css("display")=="none") $(".direita").css("display","block");
 }
 function contentContato(){
@@ -33,7 +32,7 @@ function contentEndereco(){
         generateField({field:"estado",lblContent:"Estado (UF)"})+
         "</div>";
 }
-function inputProps(){
+function inputProp(){
     $("input[class*='cpf']").mask("999.999.999-99");
     $(".cnpj").mask("99.999.999/9999-99");
     $(".telFixo").mask("(99) 9999-9999");

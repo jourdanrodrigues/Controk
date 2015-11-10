@@ -1,6 +1,9 @@
 function Sessao(){
     this.count=0;
-    this.logOut=function(){
+}
+Sessao.prototype={
+    constructor:Sessao,
+    logOut:function(){
         $.ajax({
             url: "php/sessionManager.php",
             type: "POST",
@@ -38,8 +41,8 @@ function Sessao(){
                 });
             }
         });
-    };
-    this.logIn=function(){
+    },
+    logIn:function(){
         var btnText=$(".goBtn").html();
         $(".goBtn").html("Aguarde...");
         $.ajax({
@@ -75,5 +78,5 @@ function Sessao(){
                 });
             }
         });
-    };
-}
+    }
+};
