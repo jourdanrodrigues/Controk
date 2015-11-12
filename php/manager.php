@@ -10,7 +10,7 @@ $idProduto="'idProduto':".post("idProduto");
 $qtdProd="'qtdProd':".post("qtdProd");
 $attr="{";
 switch($action){
-    case "buscarDados":
+    case "mostrarDados":
     case "excluir": $attr.=$id; break;
     case "atualizar": $attr.="$id,";
     case "cadastrar": 
@@ -30,4 +30,4 @@ if(($target!="remessa"&&$target!="produto"&&$target!="estoque")&&($action=="cada
     $$target->setAttrContato("{'email':'".post("email")."','telCel':'".post("telCel")."','telFixo':'".post("telFixo")."'}");
     $$target->setAttrEndereco("{'rua':'".post("rua")."','numero':".post("numero").",'complemento':'".post("complemento")."','cep':'".post("cep")."','bairro':'".post("bairro")."','cidade':'".post("cidade")."','estado':'".post("estado")."'}");
 }
-$$target->$action();
+$$target->$action(($target=="cliente"||$target=="funcionario")&&($action=="excluir"||$action=="mostrarDados")?$target:"");

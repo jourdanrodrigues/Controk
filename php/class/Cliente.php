@@ -1,10 +1,11 @@
 <?php
 class Cliente extends Contato{
-    private $id;
+    protected $id;
     protected $nome;
     protected $cpf;
     protected $obs;
     public function Cliente($var){
+        $this->connect();
         $obj=json_decode(fixJSON($var));
         if(isset($obj->id)) $this->id=$obj->id;
         if(isset($obj->nome)){
@@ -14,44 +15,61 @@ class Cliente extends Contato{
         }
     }
     public function cadastrar(){
-        if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false) return;
-        $conn=$this->connect();
-        $cadCliente=$conn->prepare("insert into cliente(nome,cpf,obs,endereco,contato) values (?,?,?,?,?)");
-        $cadCliente->bind_param("sssdd",$this->nome,$this->cpf,$this->obs,$this->idEndereco,$this->idContato);
-        if(!$cadCliente->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o cliente:\n\n$cadCliente->error.'}");
-        else AJAXReturn("{'type':'success','msg':'Cadastro do cliente $this->nome, de ID $cadCliente->insert_id, finalizado com sucesso!'}");
+        if($this->cadastrarEndereco()!==true||$this->cadastrarContato()!==true) return;
+        $cad=$this->conn->prepare("insert into cliente(nome,cpf,obs,endereco,contato) values (?,?,?,?,?)");
+        $cad->bind_param("sssdd",$this->nome,$this->cpf,$this->obs,$this->idEndereco,$this->idContato);
+        if(!$cad->execute()) AJAXReturn("error","Não foi possível cadastrar o cliente:\n\n$cad->error.");
+        else AJAXReturn("success","Cadastro do cliente $this->nome, de ID $cad->insert_id, finalizado com sucesso!");
     }
-    public function buscarDados(){
-        if($this->checkExistence('cliente','id',$this->id)===false) return;
-        $this->idEndereco=$this->getValue('endereco','cliente','id',$this->id);
-        $this->idContato=$this->getValue('contato','cliente','id',$this->id);
-        echo fixJSON("{'id':$this->id,
-            'nome':'".$this->getValue('nome','cliente','id',$this->id)."',
-            'cpf':'".$this->getValue('cpf','cliente','id',$this->id)."',
-            'obs':'".$this->getValue('obs','cliente','id',$this->id)."',".
-            $this->buscarDadosEndereco().",".
-            $this->buscarDadosContato()."}");
+    public function listar(){
+        $list=$this->conn->prepare("select id,nome,cpf,obs from cliente");
+        if(!$list->execute()) AJAXReturn("error","Não foi possível listar os clientes:<p>($list->errno) $list->error<p>");
+        else{
+            $list->bind_result($id,$nome,$cpf,$obs);
+            $listResult="";
+            while($list->fetch()) $listResult.="{'id':$id,'nome':'$nome','cpf':'$cpf','obs':'$obs'},";
+            echo fixJSON("[".str_replace(",]","]","$listResult]"));
+        }
+    }
+    public function mostrarDados($target){
+        $values=$this->getValue(["endereco","contato","obs"],$target,"id",$this->id);
+        $this->idEndereco=$values->endereco;
+        $this->idContato=$values->contato;
+        echo fixJSON("{'obs':'$values->obs',".$this->mostrarDadosEndereco().",".$this->mostrarDadosContato()."}");
     }
     public function atualizar(){
-        $conn=$this->connect();
-        $this->idContato=$this->getValue("contato","cliente","id",$this->id);
-        $this->idEndereco=$this->getValue("endereco","cliente","id",$this->id);
-        if($this->atualizarEndereco()===false||$this->atualizarContato()===false) return;
-        $updCliente=$conn->prepare("update cliente set nome=?,cpf=?,obs=? where id=?");
-        $updCliente->bind_param("sssd",$this->nome,$this->cpf,$this->obs,$this->id);
-        if(!$updCliente->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o cliente:<p>$updCliente->error</p>'}");
-        else AJAXReturn("{'type':'success','msg':'Atualização do cliente $this->nome, de ID $this->id, finalizada com sucesso!'}");
+        $values=$this->getValue(["contato","endereco"],"cliente","id",$this->id);
+        $this->idContato=$values->contato;
+        $this->idEndereco=$values->endereco;
+        if($this->atualizarEndereco()!==true||$this->atualizarContato()!==true) return;
+        $upd=$this->conn->prepare("update cliente set nome=?,cpf=?,obs=? where id=?");
+        $upd->bind_param("sssd",$this->nome,$this->cpf,$this->obs,$this->id);
+        if(!$upd->execute()) AJAXReturn("error","Não foi possível atualizar o cliente:<p>$upd->error</p>");
+        else AJAXReturn("success","Atualização do cliente $this->nome, de ID $this->id, finalizada com sucesso!");
     }
-    public function excluir(){
-        if($this->checkExistence("cliente","id",$this->id)===false) return;
-        $this->nome=$this->getValue("nome","cliente","id",$this->id);
-        $this->idContato=$this->getValue("contato","cliente","id",$this->id);
-        $this->idEndereco=$this->getValue("endereco","cliente","id",$this->id);
-        if($this->excluirEndereco()===false||$this->excluirContato()===false) return;
-        $conn=$this->connect();
-        $delCliente=$conn->prepare("delete from cliente where id=?");
-        $delCliente->bind_param("d",$this->id);
-        if(!$delCliente->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível excluir o cliente:<p>$delCliente->error</p>'}");
-        else AJAXReturn("{'type':'success','msg':'Exclusão do cliente $this->nome, de ID $this->id, finalizada com sucesso!'}");
+    public function excluir($target){
+        $targetSC=str_replace("a","á",$target);
+        $del=$this->conn->prepare("delete from $target where id=?");
+        $del->bind_param("d",$id);
+        $errors="";
+        foreach($this->id as $id){
+            $values=$this->getValue(["contato","endereco"],$target,"id",$id);
+            $this->idContato=$values->contato;
+            $this->idEndereco=$values->endereco;
+            if($delE=$this->excluirEndereco()!==true||$delC=$this->excluirContato()!==true||!$del->execute()){
+                switch(true){
+                    case $delE:$errorDet=[$delE->errno,$delE->error]; break;
+                    case $delC:$errorDet=[$delC->errno,$delC->error]; $delE->rollback(); break;
+                    case $del:$errorDet=[$del->errno,$del->error]; $delE->rollback(); $delC->rollback();
+                }
+                array_push($errors,[$this->getValue("nome",$target,"id",$id),$errorDet]);
+            }
+        }
+        $s=(is_array($errors)?count($errors):count($this->id))>1?"s":"";
+        if(is_array($errors)){
+            $errorList="";
+            foreach($errors as $error) $errorList.="<p>".$error[0].": erro ".$error[1][0]." (".$error[1][1].");</p>";
+            AJAXReturn("error",count($this->id)-count($errors)." $targetSC$s excluído$s, com o$s erro$s a seguir:$errorList");
+        }else AJAXReturn("success","Exclusão de ".count($this->id)." $targetSC$s finalizada com sucesso!");
     }
 }

@@ -11,40 +11,28 @@ class Contato extends Endereco {
         $this->telFixo=$obj->telFixo;
     }
     public function cadastrarContato(){
-        $mysqli=$this->connect();
-        $cadContato=$mysqli->prepare('insert into contato(email,telCel,telFixo) values (?,?,?)');
-        $cadContato->bind_param("sss",$this->email,$this->telCel,$this->telFixo);
-        if(!$cadContato->execute()){
-            AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o contato:<p>$cadContato->error</p>'}");
-            return false;
-        }else{
-            $this->idContato=$cadContato->insert_id;
-            return true;
-        }
+        $cad=$this->conn->prepare('insert into contato(email,telCel,telFixo) values (?,?,?)');
+        $cad->bind_param("sss",$this->email,$this->telCel,$this->telFixo);
+        return !$cad->execute()?$cad:true;
     }
-    public function buscarDadosContato(){
-        return "'email':'".$this->getValue('email','contato','id',$this->idContato)."',
-                'telCel':'".$this->getValue('telCel','contato','id',$this->idContato)."',
-                'telFixo':'".$this->getValue('telFixo','contato','id',$this->idContato)."'";
+    public function mostrarDadosContato(){
+        $data=$this->conn->prepare("select email,telCel,telFixo from contato where id=?");
+        $data->bind_param("d",$this->idContato);
+        if(!$data->execute()) AJAXReturn("error","Não foi possível obter os dados:<p>($data->errno) $data->error</p>");
+        else{
+            $data->bind_result($email,$telCel,$telFixo);
+            $data->fetch();
+            return "'email':'$email','telCel':'$telCel','telFixo':'$telFixo'";
+        }
     }
     public function atualizarContato(){
-        $mysqli=$this->connect();
-        $updContato=$mysqli->prepare("update contato set email=?,telCel=?,telFixo=? where id=?");
-        $updContato->bind_param("sssd",$this->email,$this->telCel,$this->telFixo,$this->idContato);
-        if(!$updContato->execute()){
-            AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o contato:<p>$updContato->error</p>'}");
-            return false;
-        }
-        return true;
+        $upd=$this->conn->prepare("update contato set email=?,telCel=?,telFixo=? where id=?");
+        $upd->bind_param("sssd",$this->email,$this->telCel,$this->telFixo,$this->idContato);
+        return !$upd->execute()?$upd:true;
     }
     public function excluirContato(){
-        $mysqli=$this->connect();
-        $delContato=$mysqli->prepare("delete from contato where id=?");
-        $delContato->bind_param("d",$this->idContato);
-        if(!$delContato->execute()){
-            AJAXReturn("{'type':'error','msg':'Não foi possível excluir o contato:<p>$delContato->error</p>'}");
-            return false;
-        }
-        return true;
+        $del=$this->conn->prepare("delete from contato where id=?");
+        $del->bind_param("d",$this->idContato);
+        return !$del->execute()?$del:true;
     }
 }

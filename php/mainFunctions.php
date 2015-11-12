@@ -54,19 +54,13 @@ function loadFiles($var){
 }
 function swal($var){
     $obj=json_decode(fixJSON($var));
-    echo "<script>$(document).ready(function(){swal({title:'$obj->title',type:'$obj->type'";
-    if(isset($obj->time)) echo ",time:$obj->time";
-    echo "}";
+    echo "<script>$(document).ready(function(){swal({title:'$obj->title',type:'$obj->type'".
+    (isset($obj->time)?",time:$obj->time":"")."}";
     if(isset($obj->funcScope)){
         if(!isset($obj->funcParam)) $obj->funcParam="";
         echo ",function($obj->funcParam){ $obj->funcScope}";
     }
     echo ");});</script>";
 }
-function AJAXReturn($var){
-    $obj=json_decode(fixJSON($var));
-    echo fixJSON("{'type':'$obj->type','msg':'".str_replace('"',"\'",$obj->msg)."'}");
-}
-function fixJSON($var){
-    return str_replace("'","\"",$var);
-}
+function AJAXReturn($type,$msg){echo fixJSON("{'type':'$type','msg':'".str_replace('"',"\'",$msg)."'}");}
+function fixJSON($var){return str_replace("'","\"",$var);}

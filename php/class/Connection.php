@@ -1,5 +1,6 @@
 <?php
 class Connection {
+    protected $conn;
     protected $host;
     protected $db;
     protected $user;
@@ -16,36 +17,36 @@ class Connection {
             $this->user="u398318873_tj";
             $this->password="Knowledge1";
         }
-        $conn=mysqli_connect($this->host,$this->user,$this->password,$this->db);
-        if(mysqli_connect_errno()) AJAXReturn("{'type':'error','msg':'Falha ao se conectar ao MySQL:<p>($conn->connect_errno)</p><p>$conn->connect_error</p>'}");
-        else return $conn;
+        $conn=$this->conn=mysqli_connect($this->host,$this->user,$this->password,$this->db);
+        if(mysqli_connect_errno()) AJAXReturn("error","Falha ao se conectar ao MySQL:<p>($conn->connect_errno)</p><p>$conn->connect_error</p>");
     }
-    public function getValue($field,$table,$searchField,$search){
-        $mysqli=$this->connect();
-        $query="select $field from $table";
-        if($searchField!=""){
-            $query.=" where $searchField=?";
-            $query=$mysqli->prepare($query);
-            $query->bind_param("s",$search);
-        }else $query=$mysqli->prepare($query);
-        $query->execute();
-        $query->bind_result($value);
-        $query->fetch();
-        return $value;
+    public function getValue($fields,$table,$searchField,$search){
+        if(!is_array($fields)) $fields=[$fields];
+        $values="{";
+        foreach($fields as $i=>$field){
+            $query="select $field from $table";
+            if($searchField!=""){
+                $query.=" where $searchField=?";
+                $query=$this->conn->prepare($query);
+                $query->bind_param("s",$search);
+            }else $query=$this->conn->prepare($query);
+            $query->execute();
+            $query->bind_result($value);
+            $query->fetch();
+            if(count($fields)>1) $values.="'$field':'$value'".($i!=count($fields)-1?",":"");
+        }
+        return count($fields)==1?$value:json_decode(fixJSON("$values}"));
     }
     public function checkExistence($target,$field,$value){
-        $mysqli=$this->connect();
-        $query=$mysqli->prepare("select * from $target where $field=?");
+        $query=$this->conn->prepare("select * from $target where $field=?");
         $query->bind_param("s",$value);
         $query->execute();
         $query->store_result();
         if($query->num_rows==0){
             switch($target){
                 case "estoque":
-                case "usuario": break;
-                default:
-                    if($target=="funcionario") $target=str_replace("a","á",$target);
-                    AJAXReturn("{'type':'error','msg':'O $target de $field $value não existe.'}");
+                case "usuario":break;
+                default:AJAXReturn("error","O ".($target=="funcionario"?str_replace("a","á",$target):$target)." de $field $value não existe.");
             }
             return false;
         }elseif($target=="usuario") return true;

@@ -7,12 +7,12 @@
             session_start();
             if(!empty($_SESSION['usuario'])||isset($_SESSION['usuario'])) header("location:/trabalhos/gti/bda1/");
             require_once("php/mainFunctions.php");
-            loadFiles("{'css':['sweetalert','mainStyle']}");
+            loadFiles("{'css':['sweetalert','oldStyle']}");
             loadFiles("{'js':['libs/jQuery','plugins/sweetalert','js','manager']}");
         ?>
         <script>
             $(document).ready(function (){
-                $('body').css('opacity', '0').fadeTo(600, 1,'swing');
+                $('body').css('opacity','0').fadeTo(600, 1,'swing');
                 $(".logIn").submit(function(){
                     loadFile("class/Sessao.js"); var sessao=new Sessao();
                     sessao.logIn();

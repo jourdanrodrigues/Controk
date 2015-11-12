@@ -1,54 +1,58 @@
-﻿$(document).ready(function(){
-//Sub-itens
-    var target=[
-        ["Funcionario","funcionario"],//0
-        ["Cliente","cliente"],//1
-        ["Fornecedor","fornecedor"],//2
-        ["Remessa","remessa"],//3
-        ["Produto","produto"],//4
-        ["Estoque","estoque"]//5
-    ];
-    var action=[
-        ["cadastrar","Cadastro"],//0
-        ["buscarDados","Busca de dados"],//1
-        ["excluir","Exclusão"],//2
-        ["inserir","Inserir"],//3
-        ["retirar","Retirar"]//4
-    ];
-// Itens principais
-    $(".nav"+target[0][0]).click(function(){ddMenu("nav"+target[0][0]);});
-    $(".nav"+target[1][0]).click(function(){ddMenu("nav"+target[1][0]);});
-    $(".nav"+target[2][0]).click(function(){ddMenu("nav"+target[2][0]);});
-    $(".nav"+target[3][0]).click(function(){ddMenu("nav"+target[3][0]);});
-    $(".nav"+target[4][0]).click(function(){ddMenu("nav"+target[4][0]);});
-    $(".nav"+target[5][0]).click(function(){ddMenu("nav"+target[5][0]);});
-    //Funcionário
-    $(".nav"+target[0][0]+" ."+action[0][0]).click(function(){content(target[0][1],action[0][1]);});
-    $(".nav"+target[0][0]+" ."+action[1][0]).click(function(){content(target[0][1],action[1][1]);});
-    $(".nav"+target[0][0]+" ."+action[2][0]).click(function(){content(target[0][1],action[2][1]);});
-    //Cliente
-    $(".nav"+target[1][0]+" ."+action[0][0]).click(function(){content(target[1][1],action[0][1]);});
-    $(".nav"+target[1][0]+" ."+action[1][0]).click(function(){content(target[1][1],action[1][1]);});
-    $(".nav"+target[1][0]+" ."+action[2][0]).click(function(){content(target[1][1],action[2][1]);});
-    //Fornecedor
-    $(".nav"+target[2][0]+" ."+action[0][0]).click(function(){content(target[2][1],action[0][1]);});
-    $(".nav"+target[2][0]+" ."+action[1][0]).click(function(){content(target[2][1],action[1][1]);});
-    $(".nav"+target[2][0]+" ."+action[2][0]).click(function(){content(target[2][1],action[2][1]);});
-    //Remessa
-    $(".nav"+target[3][0]+" ."+action[0][0]).click(function(){content(target[3][1],action[0][1]);});
-    //Produto
-    $(".nav"+target[4][0]+" ."+action[0][0]).click(function(){content(target[4][1],action[0][1]);});
-    $(".nav"+target[4][0]+" ."+action[1][0]).click(function(){content(target[4][1],action[1][1]);});
-    //Estoque
-    $(".nav"+target[5][0]+" ."+action[3][0]).click(function(){content(target[5][1],action[3][1]);});
-    $(".nav"+target[5][0]+" ."+action[4][0]).click(function(){content(target[5][1],action[4][1]);});
+$(document).ready(function(){
+    $(".navbar-nav li").click(function(){
+        if(window.outerWidth<768) $("button.navbar-toggle").click();
+    });
+    $(".navbar-nav li").click(function(){ // Função LISTAR
+        $(".navbar-nav li.active").removeClass("active");
+        $(this).addClass("active");
+        instance("listar");
+    });
     $("body").fadeTo(600,1,"swing");
-    $(".backToMain").click(function(){location.href="/";});
 });
-function upperCaseFL(string){return string.replace(string[0],string[0].toUpperCase());}
-function ddMenu(item){
-    if($("."+item+" ul").css("display")==="block") $("."+item+" ul").css("display","none");
-    else $("."+item+" ul").css("display","block");
+function showFading(content){
+    $('.row .container').fadeTo(600,0,function(){
+        $(this).html(content).fadeTo(600,1,function(){elementProp();});
+    });
+}
+function instance(action){
+    var Target=$(".navbar-nav li.active a").html().replace("á","a");
+    loadFile("class/"+Target+".js");
+    eval("var obj=new "+Target+"(); obj."+action+"();");
+}
+function elementProp(){ // Propriedades dos elementos depois de carregados
+    if($(".action").length==0){
+        $("body").append("<div class='panel panel-default action' data-toggle='popover' data-trigger='hover' data-placement='top' data-content='Cadastrar'>"+
+        "<div class='panel-body'><span class='glyphicon glyphicon-plus'></span></div></div>");
+        $(document).ready(function(){$(".action").fadeTo(600,1);});
+    }
+    $(".action").click(function(){
+        instance($(this).attr("data-content").toLowerCase().split(" ")[0]);
+    });
+    if(window.outerWidth>768) $("[data-toggle='popover']").popover();
+    $(".maisInfo").click(function(){ // Botão para exibir mais informações sobre o item
+        var Target=$(".navbar-nav li.active a").html();
+        if(Target=="Funcionário") Target=Target.replace("á","a");
+        eval("var obj=new "+Target+"();");
+        obj.mostrarDados(this);
+    });
+    $("input[type='checkbox']").click(function(){ // Muda estado do botão de "Cadastrar" para "Excluir"
+        var checks=$("input:checked").length, classes=(checks!=0?["plus","minus"]:["minus","plus"]),
+            color=checks!=0?"red":"green";
+        $(".action").css("background",color).attr("data-content",(color!="red"?"Cadastrar":"Excluir selecionado"+(checks>1?"s":"")));
+        $(".action .panel-body span").removeClass("glyphicon-"+classes[0]).addClass("glyphicon-"+classes[1]);
+    });
+}
+function listItems(filter,items){
+    var itemLabel=$(".navbar-nav li.active a").html().toLowerCase(),
+    content="<div class='col-lg-2 col-lg-offset-1'><div class='panel panel-primary filter'>"+
+                "<div class='panel-heading'>Filtro</div>"+
+                "<div class='panel-body'>"+filter+"</div>"+
+            "</div></div>"+
+            "<div class='col-lg-6'><div class='panel panel-primary list'>"+
+                "<div class='panel-heading'>Lista de "+itemLabel+(itemLabel=="fornecedor"?"e":"")+"s</div>"+
+                "<div class='panel-body'>"+items+"</div>"+
+            "</div></div>";
+    return content;
 }
 function format(value,type){
     var formated="";
@@ -64,19 +68,19 @@ function format(value,type){
     }else formated=(/^R/g.test(value))?value.replace(",",".").replace("R$ ",""):"R$ "+value.replace(".",",");
     return formated;
 }
-function generateField(obj){
-    var content="<p"+(typeof(obj.id)!="undefined"?" class='campoId"+obj.id+"'":"")+
-        "><label data-for='"+obj.field+"'>"+obj.lblContent+"</label><br>"+
-        (typeof(obj.fieldTag)!="undefined"&&obj.fieldTag=="textarea"?"<textarea class='":
-            "<input type='"+(typeof(obj.type)!="undefined"?obj.type+"'":"text'")+" class='field ")+obj.field;
-    if(typeof(obj.classes)!="undefined") for(var i=0;i<obj.classes.length;i++) content+=" "+obj.classes[i];
-    //Atributos
-    return content+"'"+(typeof(obj.rows)!="undefined"?" row="+obj.rows:"")+
-            (typeof(obj.readonly)!="undefined"?" readonly=true":"")+
-            (typeof(obj.cols)!="undefined"?" cols="+obj.cols:"")+
-            (typeof(obj.value)!="undefined"?" value='"+obj.value+"'":"")+
-            (typeof(obj.plcHolder)!="undefined"?" placeholder='"+obj.plcHolder+"'":"")+
-            " required='required'"+
-            //(typeof(obj.required)!="undefined"&&obj.required===1?" required='required'":"")+
-            (typeof(obj.fieldTag)!="undefined"&&obj.fieldTag==="textarea"?"></textarea></p>":"></p>");
+function successCase(data){
+    var obj=JSON.parse(data);
+    swal({
+        title:obj.msg,
+        type:obj.type,
+        html:true
+    });
+}
+function errorCase(textStatus,errorThrown){
+    swal({
+        title: "Ocorreu um erro!",
+        text: "<p>Descrição do erro: \""+textStatus+" "+errorThrown+"\".</p><p>Gostaria de tentar novamente?</p>",
+        type: "error",
+        html: true
+    });
 }
