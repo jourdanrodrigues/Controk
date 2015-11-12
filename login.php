@@ -8,7 +8,7 @@
             if(!empty($_SESSION['usuario'])||isset($_SESSION['usuario'])) header("location:/trabalhos/gti/bda1/");
             require_once("php/mainFunctions.php");
             loadFiles("{'css':['sweetalert','mainStyle']}");
-            loadFiles("{'js':['jQuery','plugins/sweetalert','js','manager']}");
+            loadFiles("{'js':['libs/jQuery','plugins/sweetalert','js','manager']}");
         ?>
         <script>
             $(document).ready(function (){
