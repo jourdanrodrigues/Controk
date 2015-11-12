@@ -7,7 +7,7 @@
         <?php
             require_once("php/mainFunctions.php");
             loadFiles("{'css':['bootstrap','sweetalert','mainStyle']}");
-            loadFiles("{'js':['jQuery','frameworks/bootstrap','plugins/sweetalert','plugins/inputMasks','js','manager','content']}");
+            loadFiles("{'js':['libs/jQuery','libs/bootstrap','plugins/sweetalert','plugins/sonic','plugins/inputMasks','js','manager','content']}");
             session_start();
             if(empty($_SESSION["usuario"])||!isset($_SESSION["usuario"])) header("location:/trabalhos/gti/bda1/login.php");
             else{
