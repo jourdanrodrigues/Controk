@@ -1,5 +1,4 @@
 <?php
-require_once("Historico.php");
 class Estoque extends Historico{
     public function Estoque($var){
         $obj=json_decode(fixJSON($var));

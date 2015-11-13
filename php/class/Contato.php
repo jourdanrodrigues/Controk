@@ -10,12 +10,12 @@ class Contato extends Endereco {
         $this->telCel=$obj->telCel;
         $this->telFixo=$obj->telFixo;
     }
-    public function cadastrarContato(){
+    protected function cadastrarContato(){
         $cad=$this->conn->prepare('insert into contato(email,telCel,telFixo) values (?,?,?)');
         $cad->bind_param("sss",$this->email,$this->telCel,$this->telFixo);
         return !$cad->execute()?$cad:true;
     }
-    public function mostrarDadosContato(){
+    protected function mostrarDadosContato(){
         $data=$this->conn->prepare("select email,telCel,telFixo from contato where id=?");
         $data->bind_param("d",$this->idContato);
         if(!$data->execute()) AJAXReturn("error","Não foi possível obter os dados:<p>($data->errno) $data->error</p>");
@@ -25,12 +25,12 @@ class Contato extends Endereco {
             return "'email':'$email','telCel':'$telCel','telFixo':'$telFixo'";
         }
     }
-    public function atualizarContato(){
+    protected function atualizarContato(){
         $upd=$this->conn->prepare("update contato set email=?,telCel=?,telFixo=? where id=?");
         $upd->bind_param("sssd",$this->email,$this->telCel,$this->telFixo,$this->idContato);
         return !$upd->execute()?$upd:true;
     }
-    public function excluirContato(){
+    protected function excluirContato(){
         $del=$this->conn->prepare("delete from contato where id=?");
         $del->bind_param("d",$this->idContato);
         return !$del->execute()?$del:true;

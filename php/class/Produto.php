@@ -1,5 +1,4 @@
 <?php
-require_once("Remessa.php");
 class Produto extends Remessa{
     private $id;
     private $nome;
@@ -7,6 +6,7 @@ class Produto extends Remessa{
     private $custo;
     private $valorVenda;
     public function Produto($var){
+        $this->connect();
         $obj=json_decode(fixJSON($var));
         if(isset($obj->id)) $this->id=$obj->id;
         if(isset($obj->nome)){
@@ -23,6 +23,20 @@ class Produto extends Remessa{
         $cadProduto->bind_param("dssdd",$this->idRemessa,$this->descricao,$this->nome,$this->custo,$this->valorVenda);
         if(!$cadProduto->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o produto:<p>($cadProduto->errno) ".str_replace("'","\'",$cadProduto->error).".</p>'}");
         else AJAXReturn("{'type':'success','msg':'Cadastro do produto $this->nome, de ID $cadProduto->insert_id, finalizado com sucesso!'}");
+    }
+    public function listar(){
+        $list=$this->conn->prepare("select id,nome,descricao,remessa from produto");
+        if(!$list->execute()) AJAXReturn("error","Não foi possível listar os produtos:<p>($list->errno) $list->error<p>");
+        else{
+            $list->bind_result($id,$nome,$descricao,$remessa);
+            $listResult="";
+            while($list->fetch()) $listResult.="{'id':$id,'nome':'$nome','descricao':'$descricao','remessa':$remessa},";
+            echo fixJSON("[".str_replace(",]","]","$listResult]"));
+        }
+    }
+    public function mostrarDados(){
+        $values=$this->getValue(["descricao","custo","valorVenda"],"produto","id",$this->id);
+        echo fixJSON("{'descricao':'$values->descricao','custo':$values->custo,'valorVenda':$values->valorVenda}");
     }
     public function buscarDados(){
         if($this->checkExistence("produto","id",$this->id)===false) return;

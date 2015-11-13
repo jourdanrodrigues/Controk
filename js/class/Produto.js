@@ -1,18 +1,19 @@
 function Produto(){}
 Produto.prototype={
     constructor: Produto,
+    target:"produto",
     data:function(action){
         switch(action){
             case "cadastrar":
             case "atualizar": var data={
-                    target: $("input.alvo").val(),
-                    action: action,
-                    id: $(".id").val(),
-                    idRemessa: $(".idRemessa").val(),
-                    nome: $(".nome").val(),
-                    descricao: $(".descricao").val(),
-                    custo: format($(".custo").val(),"money"),
-                    valorVenda: format($(".valorVenda").val(),"money")
+                    target:this.target,
+                    action:action,
+                    id:$(".id").val(),
+                    idRemessa:$(".idRemessa").val(),
+                    nome:$(".nome").val(),
+                    descricao:$(".descricao").val(),
+                    custo:format($(".custo").val(),"money"),
+                    valorVenda:format($(".valorVenda").val(),"money")
                 }; break;
             case "buscarDados": var data={
                     target: $("input.alvo").val(),
@@ -23,26 +24,90 @@ Produto.prototype={
         return data;
     },
     cadastrar:function(){
-        var btnText=$(".goBtn").html();
-        $(".goBtn").html("Aguarde...");
         $.ajax({
-            type:"POST",
+            type:"post",
             data:this.data("cadastrar"),
             url:"php/manager.php",
-            success: function(data){successCase(data, btnText);},
-            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
+            success: function(data){successCase(data);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
+        });
+    },
+    listar:function(){
+        $.ajax({
+            data:{
+                target:this.target,
+                action:"listar"
+            },
+            type:"post",
+            url:"php/manager.php",
+            success: function(data){
+                var obj=JSON.parse(data);
+                if(obj.type=="error"||obj.type=="success") successCase(data);
+                else{
+                    var content="",filter="";
+                    if(obj.length!=0){
+                        content="<table class='table'><thead><tr><th></th><th>Nome</th><th>Descrição</th><th>Remessa</th>"+
+                        "<th><span class='glyphicon glyphicon-plus'></span></th><th></th></tr></thead><tbody>";
+                        $.each(obj,function(i,a){
+                            content+="<tr data-id='"+a.id+"'>"+
+                            "<td class='check'><input type='checkbox'></td>"+
+                            "<td class='nome'>"+a.nome+"</td>"+
+                            "<td class='descricao'>"+a.descricao+"</td>"+
+                            "<td class='remessa'>"+a.remessa+"</td>"+
+                            "<td class='maisInfo'><span class='glyphicon glyphicon-eye-open'></span></td>"+
+                            "<td class='atualizar'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
+                        });
+                        content+="</tbody></table>";
+                        $.each([["nome","Nome"],["remessa","Remessa","number"],["email","E-mail"]],function(i,a){
+                            filter+="<input type='"+(a[2]=="undefined"?"text":a[2])+"' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'>";
+                        });
+                    }else{
+                        content="<span>Não há produtos cadastrados.</span>";
+                        filter="<span>Filtro indisponível.</span>";
+                    }
+                    showFading(listItems(filter,content));
+                }
+            },
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
+        });
+    },
+    mostrarDados:function(trigger){
+        $.ajax({
+            type:"post",
+            data:{
+                id:$(trigger).parent().attr("data-id"),
+                target:this.target,
+                action:"mostrarDados"
+            },
+            url:"php/manager.php",
+            success: function(data){
+                var obj=JSON.parse(data),
+                text="<table class='table info'><tr><th>ID:</th><td>"+$(trigger).parent().attr("data-id")+"</td></tr>"+
+                    "<tr><th>Descrição:</th><td>"+obj.descricao+"</td></tr>"+
+                    "<tr><th>Custo:</th><td>"+format(obj.custo,"money")+"</td></tr>"+
+                    "<tr><th>Valor de venda:</th><td>"+format(obj.valorVenda,"money")+"</td></tr>"+
+                    "<tr><th>Lucro:</th><td>"+((obj.valorVenda/obj.custo-1)*100)+"%</td></tr>";
+                var title="<span style='font-size:12pt'>"+$(".navbar-nav li.active a").html()+":</span><br>"+$(trigger).parent().find("td.nome").html();
+                swal({
+                    title:title,
+                    text:text,
+                    html:1
+                });
+            },
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
     buscarDados:function(){
-        var btnText=$(".goBtn").html();
-        $(".goBtn").html("Aguarde...");
         $.ajax({
-            data:this.data("buscarDados"),
-            type: "POST",
+            data:{
+                target:this.target,
+                action:"buscarDados"
+            },
+            type: "post",
             url: "php/manager.php",
             success: function(data){
                 var obj=JSON.parse(data);
-                if(obj.type==="error"||obj.type==="success") successCase(data,btnText);
+                if(obj.type==="error"||obj.type==="success") successCase(data);
                 else{
                     content("produto","Atualização");
                     $(".id").val(obj.id);
@@ -53,31 +118,16 @@ Produto.prototype={
                     $(".valorVenda").val(format(obj.valorVenda,"money"));
                 }
             },
-            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.buscarDados);}
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
     atualizar:function(){
-        var btnText=$(".goBtn").html();
-        $(".goBtn").html("Aguarde...");
         $.ajax({
-            type:"POST",
+            type:"post",
             data:this.data("atualizar"),
             url:"php/manager.php",
-            success: function(data){successCase(data, btnText);},
-            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.atualizar);}
+            success: function(data){successCase(data);},
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
-    },
-    genFields:function(action){
-        var container="";
-        switch(action){
-            case "Atualização": container+=generateField({id:"Produto",type:"number",field:"id",lblContent:"ID do Produto",readonly:1,classes:["readonly"]});
-            case "Cadastro": container+=generateField({field:"idRemessa",type:"number",lblContent:"ID da remessa"})+
-            generateField({field:"nome",lblContent:"Nome do produto"})+
-            generateField({field:"descricao",fieldTag:"textarea",lblContent:"Descrição do produto"})+
-            generateField({field:"custo",lblContent:"Custo do produto"})+
-            generateField({field:"valorVenda",lblContent:"Valor de venda do produto"}); break;
-            case "Busca de dados": container+=generateField({id:"Produto",type:"number",field:"id",lblContent:"ID do Produto"});
-        }
-        return container;
     }
 };

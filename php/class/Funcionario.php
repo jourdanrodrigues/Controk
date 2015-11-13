@@ -19,16 +19,6 @@ class Funcionario extends Cliente{
         if(!$cad->execute()) AJAXReturn("error","Não foi possível cadastrar o funcionário:<p>$cad->error<p>");
         else AJAXReturn("success","Cadastro do funcionário $this->nome, de ID $cad->insert_id, finalizado com sucesso!");
     }
-    public function listar(){
-        $list=$this->conn->prepare("select id,nome,cpf,obs,cargo from funcionario");
-        if(!$list->execute()) AJAXReturn("error","Não foi possível listar os funcionários:<p>($list->errno) $list->error<p>");
-        else{
-            $list->bind_result($id,$nome,$cpf,$obs,$cargo);
-            $listResult="";
-            while($list->fetch()) $listResult.="{'id':$id,'nome':'$nome','cpf':'$cpf','cargo':'$cargo','obs':'$obs'},";
-            echo fixJSON("[".str_replace(",]","]","$listResult]"));
-        }
-    }
     public function atualizar(){
         $values=$this->getValue(["endereco","contato"],"funcionario","id",$this->id);
         $this->idEndereco=$values->endereco;

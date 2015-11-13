@@ -4,7 +4,7 @@ function __autoload($class){autoload("",$class);}
 $target=post("target");
 $action=post("action");
 $Target=ucfirst($target);
-$id="'id':".post("id");
+$id="'id".($target=="remessa"?"Remessa":"")."':".post("id");
 $nome="'nome':'".post("nome")."'";
 $idProduto="'idProduto':".post("idProduto");
 $qtdProd="'qtdProd':".post("qtdProd");
@@ -30,4 +30,4 @@ if(($target!="remessa"&&$target!="produto"&&$target!="estoque")&&($action=="cada
     $$target->setAttrContato("{'email':'".post("email")."','telCel':'".post("telCel")."','telFixo':'".post("telFixo")."'}");
     $$target->setAttrEndereco("{'rua':'".post("rua")."','numero':".post("numero").",'complemento':'".post("complemento")."','cep':'".post("cep")."','bairro':'".post("bairro")."','cidade':'".post("cidade")."','estado':'".post("estado")."'}");
 }
-$$target->$action(($target=="cliente"||$target=="funcionario")&&($action=="excluir"||$action=="mostrarDados")?$target:"");
+$$target->$action(($target=="cliente"||$target=="funcionario"||$target=="fornecedor")&&($action=="excluir"||$action=="mostrarDados"||$action=="listar")?$target:"");

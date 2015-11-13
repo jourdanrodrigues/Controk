@@ -1,26 +1,17 @@
 <?php
 class Connection {
     protected $conn;
-    protected $host;
-    protected $db;
-    protected $user;
-    protected $password;
     public function connect(){
-        if(server("SERVER_ADDR")=="::1"||server("SERVER_ADDR")=="127.0.0.1"){
-            $this->host="localhost";
-            $this->db="sefuncbd";
-            $this->user="root";
-            $this->password="";
-        }else{
-            $this->host="mysql.hostinger.com.br";
-            $this->db="u398318873_bda";
-            $this->user="u398318873_tj";
-            $this->password="Knowledge1";
-        }
-        $conn=$this->conn=mysqli_connect($this->host,$this->user,$this->password,$this->db);
+        $env=server("SERVER_ADDR")=="::1"||server("SERVER_ADDR")=="127.0.0.1"?true:false;
+        $conn=$this->conn=mysqli_connect(
+            ($env?"localhost":"mysql.hostinger.com.br"),
+            ($env?"root":"u398318873_tj"),
+            ($env?"":"Knowledge1"),
+            ($env?"sefuncbd":"u398318873_bda"));
         if(mysqli_connect_errno()) AJAXReturn("error","Falha ao se conectar ao MySQL:<p>($conn->connect_errno)</p><p>$conn->connect_error</p>");
     }
     public function getValue($fields,$table,$searchField,$search){
+        $this->connect();
         if(!is_array($fields)) $fields=[$fields];
         $values="{";
         foreach($fields as $i=>$field){

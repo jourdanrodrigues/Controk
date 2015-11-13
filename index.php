@@ -8,17 +8,7 @@
             require_once("php/mainFunctions.php");
             loadFiles("{'css':['bootstrap','sweetalert','mainStyle']}");
             loadFiles("{'js':['libs/jQuery','libs/bootstrap','plugins/sweetalert','plugins/sonic','plugins/inputMasks','js','mainFunctions']}");
-            session_start();
-            if(empty($_SESSION["usuario"])||!isset($_SESSION["usuario"])) header("location:/trabalhos/gti/bda1/login.php");
-            else{
-                if($_SESSION['tempo']<(time()-1000)){
-                    session_unset();
-                    swal("{'title':'Sua sessão expirou!','type':'warning','time':1000,'funcScope':'location.href=\'/trabalhos/gti/bda1/login.php\';'}");
-                }else{
-                    $_SESSION["tempo"]=time();
-                    $usuario=$_SESSION["usuario"];
-                }
-            }
+            sessionBegin();
         ?>
     </head><!-- Head -->
     <body>

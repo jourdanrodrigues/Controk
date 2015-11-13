@@ -1,5 +1,4 @@
 <?php
-require_once("Connection.php");
 class Historico extends Connection{
     protected $idProduto;
     protected $idFuncionario;

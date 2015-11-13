@@ -20,11 +20,6 @@ function instance(action){
     eval("var obj=new "+Target+"(); obj."+action+"();");
 }
 function elementProp(){ // Propriedades dos elementos depois de carregados
-    if($(".action").length==0){
-        $("body").append("<div class='panel panel-default action' data-toggle='popover' data-trigger='hover' data-placement='top' data-content='Cadastrar'>"+
-        "<div class='panel-body'><span class='glyphicon glyphicon-plus'></span></div></div>");
-        $(document).ready(function(){$(".action").fadeTo(600,1);});
-    }
     $(".action").click(function(){
         instance($(this).attr("data-content").toLowerCase().split(" ")[0]);
     });
@@ -35,14 +30,22 @@ function elementProp(){ // Propriedades dos elementos depois de carregados
         eval("var obj=new "+Target+"();");
         obj.mostrarDados(this);
     });
-    $("input[type='checkbox']").click(function(){ // Muda estado do botão de "Cadastrar" para "Excluir"
+    $("input[type='checkbox']").click(function(){ // Muda estado do botão: "Cadastrar" <-> "Excluir"
         var checks=$("input:checked").length, classes=(checks!=0?["plus","minus"]:["minus","plus"]),
-            color=checks!=0?"red":"green";
-        $(".action").css("background",color).attr("data-content",(color!="red"?"Cadastrar":"Excluir selecionado"+(checks>1?"s":"")));
+            color=checks!=0?"#A00":"#080";
+        $(".action").css("background",color).attr("data-content",(color!="#A00"?"Cadastrar":"Excluir selecionado"+(checks>1?"s":"")));
         $(".action .panel-body span").removeClass("glyphicon-"+classes[0]).addClass("glyphicon-"+classes[1]);
     });
 }
 function listItems(filter,items){
+    if($(".action").length==0){
+        $("body").append("<div class='panel panel-default action' style='opacity:0' data-toggle='popover' data-trigger='hover' data-placement='top' data-content='Cadastrar'>"+
+        "<div class='panel-body'><span class='glyphicon glyphicon-plus'></span></div></div>");
+        $(".action").fadeTo(600,1);
+    }else{
+        $(".action").css("background","green").attr("data-content","Cadastrar");
+        $(".action .panel-body span").removeClass("glyphicon-minus").addClass("glyphicon-plus");
+    }
     var itemLabel=$(".navbar-nav li.active a").html().toLowerCase(),
     content="<div class='col-lg-2 col-lg-offset-1'><div class='panel panel-primary filter'>"+
                 "<div class='panel-heading'>Filtro</div>"+
@@ -55,6 +58,7 @@ function listItems(filter,items){
     return content;
 }
 function format(value,type){
+    if(value=="") return "-";
     var formated="";
     value=value.toString();
     if(type!="money"){

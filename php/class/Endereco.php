@@ -20,38 +20,28 @@ class Endereco extends Connection {
         $this->cidade=$obj->cidade;
         $this->estado=$obj->estado;
     }
-    public function cadastrarEndereco(){
+    protected function cadastrarEndereco(){
         $cad=$this->conn->prepare('insert into endereco(logradouro,log_nome,numero,complemento,cep,bairro,cidade,estado) values (?,?,?,?,?,?,?)');
         $cad->bind_param("ssdsssss",$this->logradouro,$this->log_nome,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado);
-        if(!$cad->execute()){
-            AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o endereço:<p>$cad->error</p>'}");
-            return false;
-        }else{
-            $this->idEndereco=$cad->insert_id;
-            return true;
-        }
+        return !$cad->execute()?$cad:true;
     }
-    public function mostrarDadosEndereco(){
+    protected function mostrarDadosEndereco(){
         $data=$this->conn->prepare("select log_nome,logradouro,numero,complemento,cep,bairro,cidade,estado from endereco where id=?");
         $data->bind_param("d",$this->idEndereco);
         if(!$data->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível obter os dados:<p>($data->errno) $data->error</p>'}");
         else{
             $data->bind_result($log_nome,$logradouro,$numero,$complemento,$cep,$bairro,$cidade,$estado);
             $data->fetch();
-            return "'log_nome':'$log_nome','logradouro':'$logradouro','numero':$numero,'complemento':'$complemento',
+            return "'log_nome':'$log_nome','logradouro':'$logradouro','numero':'$numero','complemento':'$complemento',
                     'cep':'$cep','bairro':'$bairro','cidade':'$cidade','estado':'$estado'";
         }
     }
-    public function atualizarEndereco(){
+    protected function atualizarEndereco(){
         $upd=$this->conn->prepare("update endereco set logradouro=?,log_nome=?,numero=?,complemento=?,cep=?,bairro=?,cidade=?,estado=? where id=?");
         $upd->bind_param("ssdsssssd",$this->logradouro,$this->log_nome,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado,$this->idEndereco);
-        if(!$upd->execute()){
-            AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o endereço:<p>$upd->error</p>'}");
-            return false;
-        }
-        return true;
+        return !$upd->execute()?$upd:true;
     }
-    public function excluirEndereco(){
+    protected function excluirEndereco(){
         $del=$this->conn->prepare("delete from endereco where id=?");
         $del->bind_param("d",$this->idEndereco);
         return !$del->execute()?$del:true;

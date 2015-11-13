@@ -62,5 +62,18 @@ function swal($var){
     }
     echo ");});</script>";
 }
+function sessionBegin(){
+    session_start();
+    if(empty($_SESSION["usuario"])||!isset($_SESSION["usuario"])) header("location:/trabalhos/gti/bda1/login.php");
+    else{
+        if($_SESSION['tempo']<(time()-1000)){
+            session_unset();
+            swal("{'title':'Sua sessão expirou!','type':'warning','time':1000,'funcScope':'location.href=\'/trabalhos/gti/bda1/login.php\';'}");
+        }else{
+            $_SESSION["tempo"]=time();
+            $usuario=$_SESSION["usuario"];
+        }
+    }
+}
 function AJAXReturn($type,$msg){echo fixJSON("{'type':'$type','msg':'".str_replace('"',"\'",$msg)."'}");}
 function fixJSON($var){return str_replace("'","\"",$var);}
