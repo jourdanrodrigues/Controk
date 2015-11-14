@@ -46,11 +46,10 @@ Produto.prototype={
                 else{
                     var content="",filter="";
                     if(obj.length!=0){
-                        content="<table class='table'><thead><tr><th></th><th>Nome</th><th>Descrição</th><th>Remessa</th>"+
+                        content="<table class='table'><thead><tr><th>Nome</th><th>Descrição</th><th>Remessa</th>"+
                         "<th><span class='glyphicon glyphicon-plus'></span></th><th></th></tr></thead><tbody>";
                         $.each(obj,function(i,a){
                             content+="<tr data-id='"+a.id+"'>"+
-                            "<td class='check'><input type='checkbox'></td>"+
                             "<td class='nome'>"+a.nome+"</td>"+
                             "<td class='descricao'>"+a.descricao+"</td>"+
                             "<td class='remessa'>"+a.remessa+"</td>"+
@@ -58,8 +57,9 @@ Produto.prototype={
                             "<td class='atualizar'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
                         });
                         content+="</tbody></table>";
-                        $.each([["nome","Nome"],["remessa","Remessa","number"],["email","E-mail"]],function(i,a){
-                            filter+="<input type='"+(a[2]=="undefined"?"text":a[2])+"' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'>";
+                        $.each([["nome","Nome"],["remessa","Remessa","number"]],function(i,a){
+                            filter+="<div class='form-group col-md-12 col-xs-6'>"+
+                                "<input type='"+(a[2]=="undefined"?"text":a[2])+"' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'></div>";
                         });
                     }else{
                         content="<span>Não há produtos cadastrados.</span>";

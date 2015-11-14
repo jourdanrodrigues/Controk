@@ -58,7 +58,8 @@ Funcionario.prototype={
                         });
                         content+="</tbody></table>";
                         $.each([["nome","Nome"],["cpf","CPF"],["cargo","Cargo"],["email","E-mail"]],function(i,a){
-                            filter+="<input type='text' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'>";
+                            filter+="<div class='form-group col-md-12 col-xs-6'>"+
+                                "<input type='text' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'></div>";
                         });
                     }else{
                         content="<span>Não há funcionários cadastrados.</span>";

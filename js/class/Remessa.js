@@ -78,7 +78,8 @@ Remessa.prototype={
                         });
                         content+="</tbody></table>";
                         $.each([["id","ID","number"],["produto","Produto"],["fornecedor","Fornecedor"]],function(i,a){
-                            filter+="<input type='"+(a[2]=="undefined"?"text":a[2])+"' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'>";
+                            filter+="<div class='form-group col-md-12 col-sm-4 col-xs-"+(a[0]=="fornecedor"?12:6)+"'>"+
+                                "<input type='"+(a[2]=="undefined"?"text":a[2])+"' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'></div>";
                         });
                     }else{
                         content="<span>Não há remessas cadastradas.</span>";

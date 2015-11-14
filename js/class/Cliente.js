@@ -24,6 +24,9 @@ Cliente.prototype={
         };
     },
     exibirCampos:function(){
+        /*
+         * Tirar "col-lg-12" do ".row .container" e aplicar " col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"
+         */
         var content="<div class='panel panel-primary'>"+
             "<div class='panel-heading'>Cadastrar cliente</div>"+
             "<div class='panel-body'>"+
@@ -164,7 +167,8 @@ Cliente.prototype={
                         });
                         content+="</tbody></table>";
                         $.each([["nome","Nome"],["cpf","CPF"],["email","E-mail"]],function(i,a){
-                            filter+="<input type='text' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'>";
+                            filter+="<div class='form-group col-md-12 col-ms-4 col-xs-"+(a[0]=="email"?12:6)+"'>"+
+                                "<input type='text' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'></div>";
                         });
                     }else{
                         content="<span>Não há clientes cadastrados.</span>";

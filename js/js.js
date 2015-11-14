@@ -45,11 +45,11 @@ function listItems(filter,items){
         $(".action .panel-body span").removeClass("glyphicon-minus").addClass("glyphicon-plus");
     }
     var itemLabel=$(".navbar-nav li.active a").html().toLowerCase(),
-    content="<div class='col-lg-2 col-lg-offset-1'><div class='panel panel-primary filter'>"+
+    content="<div class='col-lg-2 col-lg-offset-1 col-md-3'><div class='panel panel-primary filter'>"+
                 "<div class='panel-heading'>Filtro</div>"+
                 "<div class='panel-body'>"+filter+"</div>"+
             "</div></div>"+
-            "<div class='col-lg-6'><div class='panel panel-primary list'>"+
+            "<div class='col-md-8'><div class='panel panel-primary list'>"+
                 "<div class='panel-heading'>Lista de "+itemLabel+(itemLabel=="fornecedor"?"e":"")+"s</div>"+
                 "<div class='panel-body'>"+items+"</div>"+
             "</div></div>";

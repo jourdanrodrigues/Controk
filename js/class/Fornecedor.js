@@ -56,7 +56,8 @@ Fornecedor.prototype={
                         });
                         content+="</tbody></table>";
                         $.each([["nome","Nome"],["cnpj","CNPJ"],["email","E-mail"]],function(i,a){
-                            filter+="<input type='text' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'>";
+                            filter+="<div class='form-group col-md-12 col-xs-"+(a[0]=="email"?12:6)+"'>"+
+                                "<input type='text' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'></div>";
                         });
                     }else{
                         content="<span>Não há fornecedores cadastrados.</span>";
