@@ -105,7 +105,7 @@ Funcionario.prototype={
             data:this.data("atualizar"),
             url:"php/manager.php",
             success: function(data){successCase(data);},
-            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,this.atualizar);}
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
     excluir:function(){

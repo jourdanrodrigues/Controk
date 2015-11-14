@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
     <head>
         <meta charset="utf-8" />
         <meta name="author" content="Thiago Jourdan" />
@@ -7,7 +7,7 @@
         <?php
             require_once("php/mainFunctions.php");
             loadFiles("{'css':['bootstrap','sweetalert','mainStyle']}");
-            loadFiles("{'js':['libs/jQuery','libs/bootstrap','plugins/sweetalert','plugins/sonic','plugins/inputMasks','js','mainFunctions']}");
+            loadFiles("{'js':['frameworks/angular','libs/jQuery','libs/bootstrap','plugins/sweetalert','plugins/sonic','plugins/inputMasks','js','mainFunctions']}");
             sessionBegin();
         ?>
     </head><!-- Head -->
@@ -42,7 +42,7 @@
                     </div>
                 </nav>
             </div>
-            <div class="row"><div class="container col-lg-12"></div></div>
+            <div class="row"><div class="container col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"></div></div>
         </div>
     </body>
 </html>

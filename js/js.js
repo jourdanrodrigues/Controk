@@ -1,11 +1,9 @@
 $(document).ready(function(){
     $(".navbar-nav li").click(function(){
-        if(window.outerWidth<768) $("button.navbar-toggle").click();
-    });
-    $(".navbar-nav li").click(function(){ // Função LISTAR
+        if(parseInt($("html").css("width").replace("px",""))+17<768) $("button.navbar-toggle").click();
         $(".navbar-nav li.active").removeClass("active");
         $(this).addClass("active");
-        instance("listar");
+        instance("listar"); // Função LISTAR
     });
     $("body").fadeTo(600,1,"swing");
 });

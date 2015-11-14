@@ -23,6 +23,112 @@ Cliente.prototype={
             estado:$(".estado").val()
         };
     },
+    exibirCampos:function(){
+        var content="<div class='panel panel-primary'>"+
+            "<div class='panel-heading'>Cadastrar cliente</div>"+
+            "<div class='panel-body'>"+
+                "<div class='panel panel-default'>"+
+                    "<div class='panel-heading'>Informações gerais</div>"+
+                    "<div class='panel-body'>"+
+                        "<div class='container col-md-6 col-xs-6'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>Nome</span>"+
+                                "<input type='text' class='form-control nome'>"+
+                            "</div>"+
+                        "</div>"+
+                        "<div class='container col-md-6 col-xs-6'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>CPF</span>"+
+                                "<input type='text' class='form-control cpf'>"+
+                            "</div>"+
+                        "</div>"+
+                    "</div>"+
+                "</div> <!-- Informações Gerais -->"+
+                "<div class='panel panel-default'>"+
+                    "<div class='panel-heading'>Contato</div>"+
+                    "<div class='panel-body'>"+
+                        "<div class='container col-lg-6 col-lg-offset-3 col-md-12 col-xs-12'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>E-mail</span>"+
+                                "<input type='email' class='form-control email'>"+
+                            "</div>"+
+                        "</div>"+
+                        "<div class='container col-md-6 col-xs-6'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>Tel. Cel.</span>"+
+                                "<input type='text' class='form-control telCel'>"+
+                            "</div>"+
+                        "</div>"+
+                        "<div class='container col-md-6 col-xs-6'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>Tel. Fixo</span>"+
+                                "<input type='text' class='form-control telFixo'>"+
+                            "</div>"+
+                        "</div>"+
+                    "</div>"+
+                "</div> <!-- Contato -->"+
+                "<div class='panel panel-default'>"+
+                    "<div class='panel-heading'>Endereço</div>"+
+                    "<div class='panel-body'>"+
+                        "<div class='container col-lg-4 col-lg-offset-2 col-md-6 col-xs-6'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>Log.</span>"+
+                                "<select class='form-control logradouro' ng-model='logradouro'>"+
+                                    "<option value='Rua'>Rua</option>"+
+                                    "<option value='Av.'>Avenida</option>"+
+                                    "<option value='Tv.'>Travessa</option>"+
+                                "</select>"+
+                            "</div>"+
+                        "</div>"+
+                        "<div class='container col-lg-5 col-md-6 col-xs-6'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>{{logradouro}}</span>"+
+                                "<input type='text' class='form-control log_nome'>"+
+                            "</div>"+
+                        "</div>"+
+                        "<div class='container col-lg-2 col-xs-4'>"+
+                            "<div class='form-group'>"+
+                                "<input type='number' class='form-control numero' placeholder='Nº'>"+
+                            "</div>"+
+                        "</div>"+
+                        "<div class='container col-lg-5 col-xs-8'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>Compl.</span>"+
+                                "<input type='text' class='form-control complemento' placeholder='Casa, apartamento...'>"+
+                            "</div>"+
+                        "</div>"+
+                        "<div class='container col-lg-5 col-md-4 col-xs-12'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>Bairro</span>"+
+                                "<input type='text' class='form-control bairro'>"+
+                            "</div>"+
+                        "</div>"+
+                        "<div class='container col-lg-4 col-md-4 col-xs-4'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>UF</span>"+
+                                "<select class='form-control estado'>"+
+                                    "<option selected>-</option>"+
+                                    "<option value='CE'>CE</option>"+
+                                    "<option value='MA'>MA</option>"+
+                                "</select>"+
+                            "</div>"+
+                        "</div>"+
+                        "<div class='container col-lg-8 col-md-4 col-xs-8'>"+
+                            "<div class='form-group input-group'>"+
+                                "<span class='input-group-addon'>Cidade</span>"+
+                                "<select class='form-control estado'>"+
+                                    "<option selected>-</option>"+
+                                    "<option value='Fortaleza'>Fortaleza</option>"+
+                                    "<option value='Juazeiro'>Juazeiro</option>"+
+                                "</select>"+
+                            "</div>"+
+                        "</div>"+
+                    "</div>"+
+                "</div> <!-- Endereço -->"+
+            "</div>"+
+        "</div>";
+        return content;
+    },
     cadastrar:function(){
         $.ajax({
             type:"post",

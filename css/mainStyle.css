@@ -7,23 +7,23 @@ body {
 
 .action {
   position: fixed;
-  right: 12.5px;
-  bottom: 25px;
+  right: 5px;
+  bottom: 40px;
   width: 50px;
   height: 50px;
   border-radius: 50px;
   padding: 0;
   color: #EEE;
-  font-size: 12pt;
   background: #080;
   cursor: pointer;
+  overflow: hidden;
   box-shadow: 0 5px 10px #666; }
   .action span {
     margin: 1px 0 0 2px; }
 
-.row .container, .action {
-  display: none; }
-
+/*
+.row .container,.action{display:none}
+*/
 .info tr th {
   text-align: right !important; }
 .info tr td {
@@ -45,12 +45,12 @@ body {
     vertical-align: top; }
 
   .action {
-    right: 50px;
+    right: -15px;
     bottom: 50px;
-    width: 100px;
-    height: 100px;
-    font-size: 18pt; }
+    width: 80px;
+    height: 80px;
+    font-size: 20px; }
     .action span {
-      margin: 20px 0 0 2px; } }
+      margin: 14px 0 0 2px; } }
 
 /*# sourceMappingURL=mainStyle.css.map */
