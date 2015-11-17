@@ -12,8 +12,8 @@ Produto.prototype={
                     idRemessa:$(".idRemessa").val(),
                     nome:$(".nome").val(),
                     descricao:$(".descricao").val(),
-                    custo:format($(".custo").val(),"money"),
-                    valorVenda:format($(".valorVenda").val(),"money")
+                    custo:$(".custo").val().format("money"),
+                    valorVenda:$(".valorVenda").val().format("money")
                 }; break;
             case "buscarDados": var data={
                     target: $("input.alvo").val(),
@@ -47,13 +47,12 @@ Produto.prototype={
                     var content="",filter="";
                     if(obj.length!=0){
                         content="<table class='table'><thead><tr><th>Nome</th><th>Descrição</th><th>Remessa</th>"+
-                        "<th><span class='glyphicon glyphicon-plus'></span></th><th></th></tr></thead><tbody>";
+                        "<th></th></tr></thead><tbody>";
                         $.each(obj,function(i,a){
                             content+="<tr data-id='"+a.id+"'>"+
-                            "<td class='nome'>"+a.nome+"</td>"+
-                            "<td class='descricao'>"+a.descricao+"</td>"+
-                            "<td class='remessa'>"+a.remessa+"</td>"+
-                            "<td class='maisInfo'><span class='glyphicon glyphicon-eye-open'></span></td>"+
+                            "<td class='nome moreInfo'>"+a.nome+"</td>"+
+                            "<td class='descricao moreInfo'>"+a.descricao+"</td>"+
+                            "<td class='remessa moreInfo'>"+a.remessa+"</td>"+
                             "<td class='atualizar'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
                         });
                         content+="</tbody></table>";
@@ -84,9 +83,9 @@ Produto.prototype={
                 var obj=JSON.parse(data),
                 text="<table class='table info'><tr><th>ID:</th><td>"+$(trigger).parent().attr("data-id")+"</td></tr>"+
                     "<tr><th>Descrição:</th><td>"+obj.descricao+"</td></tr>"+
-                    "<tr><th>Custo:</th><td>"+format(obj.custo,"money")+"</td></tr>"+
-                    "<tr><th>Valor de venda:</th><td>"+format(obj.valorVenda,"money")+"</td></tr>"+
-                    "<tr><th>Lucro:</th><td>"+((obj.valorVenda/obj.custo-1)*100)+"%</td></tr>";
+                    "<tr><th>Custo:</th><td>"+obj.custo.toFixed(2).format("money")+"</td></tr>"+
+                    "<tr><th>Valor de venda:</th><td>"+obj.valorVenda.toFixed(2).format("money")+"</td></tr>"+
+                    "<tr><th>Lucro:</th><td>"+((obj.valorVenda/obj.custo-1)*100).toFixed(2)+"%</td></tr>";
                 var title="<span style='font-size:12pt'>"+$(".navbar-nav li.active a").html()+":</span><br>"+$(trigger).parent().find("td.nome").html();
                 swal({
                     title:title,
@@ -114,8 +113,8 @@ Produto.prototype={
                     $(".idRemessa").val(obj.idRemessa);
                     $(".nome").val(obj.nome);
                     $(".descricao").val(obj.descricao);
-                    $(".custo").val(format(obj.custo,"money"));
-                    $(".valorVenda").val(format(obj.valorVenda,"money"));
+                    $(".custo").val(obj.custo.toFixed(2).format("money"));
+                    $(".valorVenda").val(obj.valorVenda.toFixed(2).format("money"));
                 }
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}

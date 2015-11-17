@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html ng-app>
+<html>
     <head>
-        <meta charset="utf-8" />
-        <meta name="author" content="Thiago Jourdan" />
+        <meta charset="utf-8">
+        <meta name="author" content="Thiago Jourdan">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Software teste de banco de dados de estoque</title>
         <?php
             require_once("php/mainFunctions.php");
             loadFiles("{'css':['bootstrap','sweetalert','mainStyle']}");
-            loadFiles("{'js':['frameworks/angular','libs/jQuery','libs/bootstrap','plugins/sweetalert','plugins/sonic','plugins/inputMasks','js','mainFunctions']}");
+            loadFiles("{'js':['libs/jQuery','libs/bootstrap','plugins/sweetalert','plugins/sonic','plugins/inputMasks','mainFunctions','js']}");
             sessionBegin();
         ?>
     </head><!-- Head -->

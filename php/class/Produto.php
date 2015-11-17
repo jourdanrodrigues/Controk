@@ -40,12 +40,13 @@ class Produto extends Remessa{
     }
     public function buscarDados(){
         if($this->checkExistence("produto","id",$this->id)===false) return;
+        $values=$this->getValue(["custo","valorVenda","nome","remessa","descricao"],"produto","id",$this->id);
         echo fixJSON("{'id':$this->id,
-            'custo':".round($this->getValue('custo','produto','id',$this->id),2).",
-            'valorVenda':".round($this->getValue('valorVenda','produto','id',$this->id),2).",
-            'nome':'".$this->getValue('nome','produto','id',$this->id)."',
-            'idRemessa':".$this->getValue('remessa','produto','id',$this->id).",
-            'descricao':'".$this->getValue('descricao','produto','id',$this->id)."'}");
+            'custo':$values->custo,
+            'valorVenda':$values->valorVenda,
+            'nome':'$values->nome',
+            'idRemessa':$values->remessa,
+            'descricao':'$values->descricao'}");
     }
     public function atualizar(){
         $mysqli=$this->connect();

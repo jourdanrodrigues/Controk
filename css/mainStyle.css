@@ -7,8 +7,8 @@ body {
 
 .action {
   position: fixed;
-  right: 5px;
-  bottom: 40px;
+  right: 2px;
+  bottom: 20px;
   width: 50px;
   height: 50px;
   border-radius: 50px;
@@ -21,9 +21,9 @@ body {
   .action span {
     margin: 1px 0 0 2px; }
 
-/*
-.row .container,.action{display:none}
-*/
+.row > .container, .action {
+  display: none; }
+
 .info tr th {
   text-align: right !important; }
 .info tr td {
@@ -35,8 +35,11 @@ body {
 .filter input:not(:last-child) {
   margin-bottom: 6px; }
 
-.maisInfo, .atualizar, .navbar-nav {
+.moreInfo, .atualizar, .navbar-nav {
   cursor: pointer; }
+
+.atualizar:hover {
+  background-color: #FAFAD2; }
 
 @media screen and (min-width: 768px) {
   .navbar .nav, .navbar .nav > li {
@@ -52,5 +55,8 @@ body {
     font-size: 20px; }
     .action span {
       margin: 14px 0 0 2px; } }
+@media screen and (min-width: 850px) {
+  .action {
+    right: 20px; } }
 
 /*# sourceMappingURL=mainStyle.css.map */

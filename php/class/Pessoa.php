@@ -2,8 +2,27 @@
 class Pessoa extends Contato{
     protected $id;
     protected $nome;
+    public function cadastrar($target){
+        $fields="\$nome".($target=="fornecedor"?",\$cnpj":($target=="cliente"?",\$cpf":",\$cpf,\$cargo"));
+        $typeBind="s".($target!="funcionario"?"s":"ss");
+        echo "insert into $target(".str_replace("$","",$fields).") values (?".($target!="funcionario"?",?":",?,?").")";
+        $cad=$this->conn->prepare("insert into $target(".str_replace("$","",$fields).") values (?".($target!="funcionario"?",?":",?,?").")");
+        eval("\$cad->bind_param('$typeBind',$fields);");
+        try{
+            if($cadE=$this->cadastrarEndereco()!==true||$cadC=$this->cadastrarContato()!==true||!$cad->execute()){
+                switch(true){
+                    case $cadE:throw new Exception([$cadE->errno,$cadE->error]);
+                    case $cadC:$cadE->rollback(); throw new Exception([$cadC->errno,$cadC->error]);
+                    case $cad:$cadE->rollback(); $cadC->rollback(); throw new Exception([$cad->errno,$cad->error]);
+                }
+            }
+            AJAXReturn("success","Cadastro do cliente $this->nome, de ID $cad->insert_id, finalizado com sucesso!");
+        } catch (Exception $ex) {
+            AJAXReturn("error","Não foi possível cadastrar o cliente:\n\n(".$ex[0].") ".$ex[1].".");
+        }
+    }
     public function listar($target){
-        $fields='$id,$nome'.($target=="cliente"?',$cpf':($target=="funcionario"?',$cpf,$cargo':($target=="fornecedor"?',$cnpj':"")));
+        $fields='$id,$nome'.($target=="funcionario"?',$cargo':($target=="fornecedor"?',$cnpj':""));
         $list=$this->conn->prepare("select ".str_replace("$","",$fields)." from $target");
         if(!$list->execute()){
             $s=($target=="fornecedor"?"es":"s");
@@ -11,7 +30,7 @@ class Pessoa extends Contato{
         }
         else{
             eval("\$list->bind_result($fields);");
-            $fields="{'id':'\$id','nome':'\$nome'".($target=="cliente"?",'cpf':'\$cpf'":($target=="funcionario"?",'cpf':'\$cpf','cargo':'\$cargo'":($target=="fornecedor"?",'cnpj':'\$cnpj'":"")))."},";
+            $fields="{'id':'\$id','nome':'\$nome'".($target=="funcionario"?",'cargo':'\$cargo'":($target=="fornecedor"?",'cnpj':'\$cnpj'":""))."},";
             $listResult="";
             while($list->fetch()) eval("\$listResult.=\"$fields\";");
             echo fixJSON("[".str_replace(",]","]","$listResult]"));
@@ -19,25 +38,23 @@ class Pessoa extends Contato{
     }
     public function mostrarDados($target){
         $fields=["endereco","contato"];
-        if($target!="fornecedor") array_push($fields,"obs");
+        array_push($fields,$target=="fornecedor"?"cnpj":"cpf");
         $values=$this->getValue($fields,$target,"id",$this->id);
         $this->idEndereco=$values->endereco;
         $this->idContato=$values->contato;
-        echo fixJSON("{".($target!="fornecedor"?"'obs':'$values->obs',":"").$this->mostrarDadosEndereco().",".$this->mostrarDadosContato()."}");
+        echo fixJSON("{".($target=="fornecedor"?"'cnpj':'$values->cnpj',":"'cpf':'$values->cpf',").$this->mostrarDadosEndereco().",".$this->mostrarDadosContato()."}");
     }
     public function buscarDados($target){
-        /* Para implementação
-        $values=$this->getValue(["contato","endereco","nome","cpf","obs"],"cliente","id",$this->id);
+        $fields=["contato","endereco","nome"];
+        if($target=="fornecedor") array_push($fields,"cnpj");
+        else array_push($fields,"cpf");
+        $values=$this->getValue($fields,$target,"id",$this->id);
         $this->idEndereco=$values->endereco;
         $this->idContato=$values->contato;
         echo fixJSON("{'id':$this->id,
-            'nome':'$values->nome',
-            'cpf':'$values->cpf',
-            'obs':'$values->obs',".
-            $this->mostrarDadosEndereco().",".
-            $this->mostrarDadosContato()."}");
-         * 
-         */
+            'nome':'$values->nome',".
+            $this->mostrarDadosEndereco().",".$this->mostrarDadosContato().",".
+            ($target!="fornecedor"?"'cpf':'$values->cpf'":"'cnpj':'$values->cnpj'")."}");
     }
     public function excluir($target){
         $targetSC=str_replace("a","á",$target);

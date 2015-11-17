@@ -6,138 +6,68 @@ Cliente.prototype={
         return {
             target:this.target,
             action:action,
-            id:$(".id").val(),
             nome:$(".nome").val(),
-            cpf:format($(".cpf").val(),"cpf"),
-            obs:$(".obs").val(),
-            cargo:$(".cargo").val(),
+            cpf:$(".cpf").val().format("cpf"),
             email:$(".email").val().toLowerCase(),
-            telCel:format($(".telCel").val(),"telCel"),
-            telFixo:format($(".telFixo").val(),"telFixo"),
-            rua:$(".rua").val(),
+            telCel:$(".telCel").val().format("telCel"),
+            telFixo:$(".telFixo").val().format("telFixo"),
+            log_nome:$(".log_nome").val(),
+            logradouro:$(".logradouro").val(),
             numero:$(".numero").val(),
             complemento:$(".complemento").val(),
-            cep:format($(".cep").val(),"cep"),
+            cep:$(".cep").val().format("cep"),
             bairro:$(".bairro").val(),
             cidade:$(".cidade").val(),
             estado:$(".estado").val()
         };
     },
     exibirCampos:function(){
-        /*
-         * Tirar "col-lg-12" do ".row .container" e aplicar " col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"
-         */
         var content="<div class='panel panel-primary'>"+
             "<div class='panel-heading'>Cadastrar cliente</div>"+
             "<div class='panel-body'>"+
-                "<div class='panel panel-default'>"+
-                    "<div class='panel-heading'>Informações gerais</div>"+
-                    "<div class='panel-body'>"+
-                        "<div class='container col-md-6 col-xs-6'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>Nome</span>"+
-                                "<input type='text' class='form-control nome'>"+
-                            "</div>"+
-                        "</div>"+
-                        "<div class='container col-md-6 col-xs-6'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>CPF</span>"+
-                                "<input type='text' class='form-control cpf'>"+
-                            "</div>"+
+                "<form>"+
+                    "<div class='panel panel-default'>"+
+                        "<div class='panel-heading'>Informações gerais</div>"+
+                        "<div class='panel-body'>"+
+                            generateFields({md:6,xs:6,label:"Nome",field:"nome",required:1})+
+                            generateFields({md:6,xs:6,label:"CPF",field:"cpf",required:1})+
                         "</div>"+
                     "</div>"+
-                "</div> <!-- Informações Gerais -->"+
-                "<div class='panel panel-default'>"+
-                    "<div class='panel-heading'>Contato</div>"+
-                    "<div class='panel-body'>"+
-                        "<div class='container col-lg-6 col-lg-offset-3 col-md-12 col-xs-12'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>E-mail</span>"+
-                                "<input type='email' class='form-control email'>"+
-                            "</div>"+
-                        "</div>"+
-                        "<div class='container col-md-6 col-xs-6'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>Tel. Cel.</span>"+
-                                "<input type='text' class='form-control telCel'>"+
-                            "</div>"+
-                        "</div>"+
-                        "<div class='container col-md-6 col-xs-6'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>Tel. Fixo</span>"+
-                                "<input type='text' class='form-control telFixo'>"+
-                            "</div>"+
+                    "<div class='panel panel-default'>"+
+                        "<div class='panel-heading'>Contato</div>"+
+                        "<div class='panel-body'>"+
+                            generateFields({lg:6,lgOf:3,md:12,xs:12,label:"E-mail",field:"email",type:"email",required:1})+
+                            generateFields({md:6,xs:6,label:"Tel. Cel.",field:"telCel",required:1})+
+                            generateFields({md:6,xs:6,label:"Tel. Fixo.",field:"telFixo",required:1})+
                         "</div>"+
                     "</div>"+
-                "</div> <!-- Contato -->"+
-                "<div class='panel panel-default'>"+
-                    "<div class='panel-heading'>Endereço</div>"+
-                    "<div class='panel-body'>"+
-                        "<div class='container col-lg-4 col-lg-offset-2 col-md-6 col-xs-6'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>Log.</span>"+
-                                "<select class='form-control logradouro' ng-model='logradouro'>"+
-                                    "<option value='Rua'>Rua</option>"+
-                                    "<option value='Av.'>Avenida</option>"+
-                                    "<option value='Tv.'>Travessa</option>"+
-                                "</select>"+
-                            "</div>"+
-                        "</div>"+
-                        "<div class='container col-lg-5 col-md-6 col-xs-6'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>{{logradouro}}</span>"+
-                                "<input type='text' class='form-control log_nome'>"+
-                            "</div>"+
-                        "</div>"+
-                        "<div class='container col-lg-2 col-xs-4'>"+
-                            "<div class='form-group'>"+
-                                "<input type='number' class='form-control numero' placeholder='Nº'>"+
-                            "</div>"+
-                        "</div>"+
-                        "<div class='container col-lg-5 col-xs-8'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>Compl.</span>"+
-                                "<input type='text' class='form-control complemento' placeholder='Casa, apartamento...'>"+
-                            "</div>"+
-                        "</div>"+
-                        "<div class='container col-lg-5 col-md-4 col-xs-12'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>Bairro</span>"+
-                                "<input type='text' class='form-control bairro'>"+
-                            "</div>"+
-                        "</div>"+
-                        "<div class='container col-lg-4 col-md-4 col-xs-4'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>UF</span>"+
-                                "<select class='form-control estado'>"+
-                                    "<option selected>-</option>"+
-                                    "<option value='CE'>CE</option>"+
-                                    "<option value='MA'>MA</option>"+
-                                "</select>"+
-                            "</div>"+
-                        "</div>"+
-                        "<div class='container col-lg-8 col-md-4 col-xs-8'>"+
-                            "<div class='form-group input-group'>"+
-                                "<span class='input-group-addon'>Cidade</span>"+
-                                "<select class='form-control estado'>"+
-                                    "<option selected>-</option>"+
-                                    "<option value='Fortaleza'>Fortaleza</option>"+
-                                    "<option value='Juazeiro'>Juazeiro</option>"+
-                                "</select>"+
-                            "</div>"+
+                    "<div class='panel panel-default'>"+
+                        "<div class='panel-heading'>Endereço</div>"+
+                        "<div class='panel-body'>"+
+                            generateFields({lg:6,lgOf:3,xs:6,label:"CEP",field:"cep",required:1})+
+                            generateFields({lg:4,lgOf:2,md:6,xs:6,label:"Tipo",field:"logradouro",type:"select",
+                            option:[["Rua","Rua"],["Av.","Avenida"],["Tv.","Travessa"]]})+
+                            generateFields({lg:5,md:6,xs:6,label:"Nome",required:1,field:"log_nome"})+
+                            generateFields({lg:2,xs:4,field:"numero",type:"number",placeholder:"Número"})+
+                            generateFields({lg:5,xs:8,label:"Compl.",field:"complemento",placeholder:"Casa, apartamento..."})+
+                            generateFields({lg:5,md:4,xs:12,label:"Bairro",required:1,field:"bairro"})+
+                            generateFields({lg:4,md:4,xs:4,label:"UF",field:"estado",type:"select",required:1,
+                            option:[["selected","-"],["CE","CE"],["MA","MA"]]})+
+                            generateFields({lg:8,md:4,xs:8,label:"Cidade",field:"cidade",required:1,type:"select",
+                            option:[["selected","-"],["Fortaleza","Fortaleza"],["Juazeiro","Juazeiro"]]})+
                         "</div>"+
                     "</div>"+
-                "</div> <!-- Endereço -->"+
+                "</form>"+
             "</div>"+
         "</div>";
-        return content;
+        showFading(showFields(content),'$(".row>.container").removeClass("col-xs-12").addClass("col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1");');
     },
     cadastrar:function(){
         $.ajax({
             type:"post",
             data:this.data("cadastrar"),
             url:"php/manager.php",
-            success: function(data){successCase(data,btnText);},
+            success: function(data){successCase(data);},
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
@@ -155,19 +85,16 @@ Cliente.prototype={
                 else{
                     var content="",filter="";
                     if(obj.length!=0){
-                        content="<table class='table'><thead><tr><th></th><th>Nome</th><th>CPF</th>"+
-                        "<th><span class='glyphicon glyphicon-plus'></span></th><th></th></tr></thead><tbody>";
-                        $.each(obj,function(i,item){
-                            content+="<tr data-id='"+item.id+"'>"+
+                        content="<table class='table'><thead><tr><th></th><th>Nome</th><th></th></tr></thead><tbody>";
+                        $.each(obj,function(i,a){
+                            content+="<tr data-id='"+a.id+"'>"+
                             "<td class='check'><input type='checkbox'></td>"+
-                            "<td class='nome'>"+item.nome+"</td>"+
-                            "<td class='cpf'>"+format(item.cpf,"cpf")+"</td>"+
-                            "<td class='maisInfo'><span class='glyphicon glyphicon-eye-open'></span></td>"+
+                            "<td class='nome moreInfo'>"+a.nome+"</td>"+
                             "<td class='atualizar'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
                         });
                         content+="</tbody></table>";
                         $.each([["nome","Nome"],["cpf","CPF"],["email","E-mail"]],function(i,a){
-                            filter+="<div class='form-group col-md-12 col-ms-4 col-xs-"+(a[0]=="email"?12:6)+"'>"+
+                            filter+="<div class='form-group col-md-12 col-ms-4 col-xs-"+(i==2?12:6)+"'>"+
                                 "<input type='text' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'></div>";
                         });
                     }else{
@@ -192,13 +119,13 @@ Cliente.prototype={
             success: function(data){
                 var obj=JSON.parse(data),
                 text="<table class='table info'><tr><th>ID:</th><td>"+$(trigger).parent().attr("data-id")+"</td></tr>"+
-                    "<tr><th>Obs.:</th><td>"+(obj.obs==""?"-":obj.obs)+"</td></tr>"+
+                    "<tr><th>CPF:</th><td>"+obj.cpf.format("cpf")+"</td></tr>"+
                     "<tr><th>Email:</th><td>"+obj.email+"</td></tr>"+
-                    "<tr><th>Celular:</th><td>"+format(obj.telCel,"telCel")+"</td></tr>"+
-                    "<tr><th>Tel. Fixo:</th><td>"+format(obj.telFixo,"telFixo")+"</td></tr>"+
+                    "<tr><th>Celular:</th><td>"+obj.telCel.format("telCel")+"</td></tr>"+
+                    "<tr><th>Tel. Fixo:</th><td>"+obj.telFixo.format("telFixo")+"</td></tr>"+
                     "<tr><th>Endereço:</th><td>"+obj.logradouro+" "+obj.log_nome+", "+(obj.numero==""?"S/N":obj.numero)+","+(obj.complemento==""?"":" "+obj.complemento)+", bairro "+obj.bairro+"</td></tr>"+
                     "<tr><th>Cidade:</th><td>"+obj.cidade+"/"+obj.estado+"</td></tr>"+
-                    "<tr><th>CEP:</th><td>"+format(obj.cep,"cep")+"</td></tr></table>";
+                    "<tr><th>CEP:</th><td>"+obj.cep.format("cep")+"</td></tr></table>";
                 var title="<span style='font-size:12pt'>"+$(".navbar-nav li.active a").html()+":</span><br>"+$(trigger).parent().find("td.nome").html();
                 swal({
                     title:title,
@@ -214,19 +141,18 @@ Cliente.prototype={
             data:this.data("buscarDados"),
             type:"post",
             url:"php/manager.php",
-            success: function(data){
+            success:function(data){
                 var obj=JSON.parse(data);
-                if(obj.type==="error"||obj.type==="success") successCase(data,btnText);
+                if(obj.type==="error"||obj.type==="success") successCase(data);
                 else{
-                    content(this.target,"Atualização");
+                    content("cliente","Atualização");
                     $(".id").val(obj.id);
                     $(".nome").val(obj.nome);
-                    $(".cpf").val(format(obj.cpf,"cpf",0));
-                    $(".obs").val(obj.obs);
+                    $(".cpf").val(obj.cpf.format("cpf"));
                     $(".email").val(obj.email);
-                    $(".telFixo").val(format(obj.telFixo,"telFixo"));
-                    $(".telCel").val(format(obj.telCel,"telCel"));
-                    $(".cep").val(format(obj.cep,"cep"));
+                    $(".telFixo").val(obj.telFixo.format("telFixo"));
+                    $(".telCel").val(obj.telCel.format("telCel"));
+                    $(".cep").val(obj.cep.format("cep"));
                     $(".rua").val(obj.rua);
                     $(".numero").val(obj.numero);
                     $(".complemento").val(obj.complemento);
@@ -235,7 +161,7 @@ Cliente.prototype={
                     $(".estado").val(obj.estado);
                 }
             },
-            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.buscarDados);}
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
     atualizar:function(){
@@ -273,7 +199,7 @@ Cliente.prototype={
                     url:"php/manager.php",
                     success: function(data){
                         successCase(data);
-                        $(".navbar-nav li.active").click();
+                        relist();
                     },
                     error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
                 });

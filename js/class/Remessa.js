@@ -38,17 +38,17 @@ Remessa.prototype={
                                 qtdProd: $(".qtdProd").val()
                             },
                             url:"php/manager.php",
-                            success: function(data){successCase(data,btnText);},
+                            success: function(data){successCase(data);},
                             error: function(jqXHR,textStatus,errorThrown){
-                                loadFile("Estoque.js");
+                                loadFile("class/Estoque.js");
                                 var estoque=new Estoque();
-                                errorCase(textStatus,errorThrown,btnText,estoque.inserir);
+                                errorCase(textStatus,errorThrown);
                             }
                         });
                     }
                 });
             },
-            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown,btnText,this.cadastrar);}
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
     listar:function(){
@@ -66,14 +66,13 @@ Remessa.prototype={
                     var content="",filter="";
                     if(obj.length!=0){
                         content="<table class='table'><thead><tr><th>ID</th><th>Produto</th><th>Quantidade</th><th>Fornecedor</th>"+
-                        "<th><span class='glyphicon glyphicon-plus'></span></th><th></th></tr></thead><tbody>";
+                        "<th></th></tr></thead><tbody>";
                         $.each(obj,function(i,a){
                             content+="<tr data-id='"+a.id+"'>"+
-                            "<td class='id'>"+a.id+"</td>"+
-                            "<td class='produto'>"+a.produto+"</td>"+
-                            "<td class='qtdProd'>"+a.qtdProd+"</td>"+
-                            "<td class='fornecedor'>"+a.fornecedor+"</td>"+
-                            "<td class='maisInfo'><span class='glyphicon glyphicon-eye-open'></span></td>"+
+                            "<td class='id moreInfo'>"+a.id+"</td>"+
+                            "<td class='produto moreInfo'>"+a.produto+"</td>"+
+                            "<td class='qtdProd moreInfo'>"+a.qtdProd+"</td>"+
+                            "<td class='fornecedor moreInfo'>"+a.fornecedor+"</td>"+
                             "<td class='atualizar'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
                         });
                         content+="</tbody></table>";

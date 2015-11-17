@@ -8,16 +8,15 @@ Funcionario.prototype={
             action:action,
             id:$(".id").val(),
             nome:$(".nome").val(),
-            cpf:format($(".cpf").val(),"cpf"),
-            obs:$(".obs").val(),
+            cpf:$(".cpf").val().format("cpf"),
             cargo:$(".cargo").val(),
             email:$(".email").val().toLowerCase(),
-            telCel:format($(".telCel").val(),"telCel"),
-            telFixo:format($(".telFixo").val(),"telFixo"),
+            telCel:$(".telCel").val().format("telCel"),
+            telFixo:$(".telFixo").val().format("telFixo"),
             rua:$(".rua").val(),
             numero:$(".numero").val(),
             complemento:$(".complemento").val(),
-            cep:format($(".cep").val(),"cep"),
+            cep:$(".cep").val().format("cep"),
             bairro:$(".bairro").val(),
             cidade:$(".cidade").val(),
             estado:$(".estado").val()
@@ -46,19 +45,17 @@ Funcionario.prototype={
                 else{
                     var content="",filter="";
                     if(obj.length!=0){
-                        content="<table class='table'><thead><tr><th></th><th>Nome</th><th>Cargo</th><th>CPF</th>"+
-                        "<th><span class='glyphicon glyphicon-plus'></span></th><th></th></tr></thead><tbody>";
+                        content="<table class='table'><thead><tr><th></th><th>Nome</th><th>Cargo</th><th></th></tr></thead><tbody>";
                         $.each(obj,function(i,a){
                             content+="<tr data-id='"+a.id+"'>"+
                             "<td class='check'><input type='checkbox'></td>"+
-                            "<td class='nome'>"+a.nome+"</td><td class='cargo'>"+a.cargo+"</td>"+
-                            "<td class='cpf'>"+format(a.cpf,"cpf")+"</td>"+
-                            "<td class='maisInfo'><span class='glyphicon glyphicon-eye-open'></span></td>"+
+                            "<td class='nome moreInfo'>"+a.nome+"</td>"+
+                            "<td class='cargo moreInfo'>"+a.cargo+"</td>"+
                             "<td class='atualizar'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
                         });
                         content+="</tbody></table>";
-                        $.each([["nome","Nome"],["cpf","CPF"],["cargo","Cargo"],["email","E-mail"]],function(i,a){
-                            filter+="<div class='form-group col-md-12 col-xs-6'>"+
+                        $.each([["nome","Nome"],["cargo","Cargo"],["email","E-mail"]],function(i,a){
+                            filter+="<div class='form-group col-md-12 col-xs-"+(i==2?12:6)+"'>"+
                                 "<input type='text' class='form-control' data-search='"+a[0]+"' placeholder='"+a[1]+"'></div>";
                         });
                     }else{
@@ -83,7 +80,7 @@ Funcionario.prototype={
             success: function(data){
                 var obj=JSON.parse(data),
                 text="<table class='table info'><tr><th>ID:</th><td>"+$(trigger).parent().attr("data-id")+"</td></tr>"+
-                    "<tr><th>Obs.:</th><td>"+(obj.obs==""?"-":obj.obs)+"</td></tr>"+
+                    "<tr><th>CPF:</th><td>"+format(obj.cpf,"cpf")+"</td></tr>"+
                     "<tr><th>Email:</th><td>"+obj.email+"</td></tr>"+
                     "<tr><th>Celular:</th><td>"+format(obj.telCel,"telCel")+"</td></tr>"+
                     "<tr><th>Tel. Fixo:</th><td>"+format(obj.telFixo,"telFixo")+"</td></tr>"+
@@ -135,7 +132,7 @@ Funcionario.prototype={
                     url:"php/manager.php",
                     success: function(data){
                         successCase(data);
-                        $(".navbar-nav li.active").click();
+                        relist();
                     },
                     error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
                 });

@@ -12,13 +12,6 @@ class Funcionario extends Cliente{
             $this->obs=$obj->obs;
         }
     }
-    public function cadastrar(){
-        if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false) return;
-        $cad=$conn->prepare('insert into funcionario(nome,cpf,obs,cargo,endereco,contato) values (?,?,?,?,?,?)');
-        $cad->bind_param("ssssdd",$this->nome,$this->cpf,$this->obs,$this->cargo,$this->idEndereco,$this->idContato);
-        if(!$cad->execute()) AJAXReturn("error","Não foi possível cadastrar o funcionário:<p>$cad->error<p>");
-        else AJAXReturn("success","Cadastro do funcionário $this->nome, de ID $cad->insert_id, finalizado com sucesso!");
-    }
     public function atualizar(){
         $values=$this->getValue(["endereco","contato"],"funcionario","id",$this->id);
         $this->idEndereco=$values->endereco;

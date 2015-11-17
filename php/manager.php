@@ -28,6 +28,6 @@ switch($action){
 $$target=new $Target("$attr}");
 if(($target!="remessa"&&$target!="produto"&&$target!="estoque")&&($action=="cadastrar"||$action=="atualizar")){
     $$target->setAttrContato("{'email':'".post("email")."','telCel':'".post("telCel")."','telFixo':'".post("telFixo")."'}");
-    $$target->setAttrEndereco("{'rua':'".post("rua")."','numero':".post("numero").",'complemento':'".post("complemento")."','cep':'".post("cep")."','bairro':'".post("bairro")."','cidade':'".post("cidade")."','estado':'".post("estado")."'}");
+    $$target->setAttrEndereco("{'log_nome':'".post("log_nome")."','logradouro':'".post("logradouro")."','numero':".post("numero").",'complemento':'".post("complemento")."','cep':'".post("cep")."','bairro':'".post("bairro")."','cidade':'".post("cidade")."','estado':'".post("estado")."'}");
 }
-$$target->$action(($target=="cliente"||$target=="funcionario"||$target=="fornecedor")&&($action=="excluir"||$action=="mostrarDados"||$action=="listar")?$target:"");
+$$target->$action(($target=="cliente"||$target=="funcionario"||$target=="fornecedor")&&($action!="retirar"||$action!="atualizar"||$action!="inserir")?$target:"");

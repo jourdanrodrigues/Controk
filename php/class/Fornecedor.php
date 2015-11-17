@@ -10,13 +10,6 @@ class Fornecedor extends Pessoa {
             $this->cnpj=$obj->cnpj;
         }
     }
-    public function cadastrar(){
-        if($this->cadastrarEndereco()===false||$this->cadastrarContato()===false) return;
-        $cad=$this->conn->prepare("insert into fornecedor(nome,cnpj,endereco,contato) values (?,?,?,?)");
-        $cad->bind_param("ssdd",$this->nome,$this->cnpj,$this->idEndereco,$this->idContato);
-        if(!$cad->execute()) AJAXReturn("error","Não foi possível cadastrar o fornecedor:<p>$cad->error</p>");
-        else AJAXReturn("success","Cadastro do fornecedor $this->nome, de ID $cad->insert_id, finalizado com sucesso!");
-    }
     public function atualizar(){
         $values=$this->getValue(["endereco","contato"],"fornecedor","id",$this->id);
         $this->idEndereco=$values->endereco;

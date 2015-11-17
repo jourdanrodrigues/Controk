@@ -13,20 +13,25 @@ class Connection {
     public function getValue($fields,$table,$searchField,$search){
         $this->connect();
         if(!is_array($fields)) $fields=[$fields];
-        $values="{";
-        foreach($fields as $i=>$field){
-            $query="select $field from $table";
-            if($searchField!=""){
-                $query.=" where $searchField=?";
-                $query=$this->conn->prepare($query);
-                $query->bind_param("s",$search);
-            }else $query=$this->conn->prepare($query);
-            $query->execute();
-            $query->bind_result($value);
-            $query->fetch();
-            if(count($fields)>1) $values.="'$field':'$value'".($i!=count($fields)-1?",":"");
+        $bind=$f=$json="";
+        foreach($fields as $a){
+            $comma=$fields[count($fields)-1]!=$a?",":"";
+            $f.="$$a$comma";
+            $json.=count($fields)>1?"'$a':'$$a'$comma":"$$a";
+            $bind.="s";
         }
-        return count($fields)==1?$value:json_decode(fixJSON("$values}"));
+        if(count($fields)>1) $json="{ $json}";
+        $query="select ".str_replace("$","",$f)." from $table";
+        if($searchField!=""){
+            $query.=" where $searchField=?";
+            $query=$this->conn->prepare($query);
+            $query->bind_param("s",$search);
+        }else $query=$this->conn->prepare($query);
+        $query->execute();
+        eval("\$query->bind_result($f);");
+        $query->fetch();
+        eval("\$value=\"$json\";");
+        return count($fields)==1?$value:json_decode(fixJSON($value));
     }
     public function checkExistence($target,$field,$value){
         $query=$this->conn->prepare("select * from $target where $field=?");
