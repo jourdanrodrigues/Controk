@@ -4,6 +4,7 @@ $RECYCLE.BIN/
 # Files
 *.cab
 *.css.map
+*.scss
 *.lnk
 *.msi
 *.msm
