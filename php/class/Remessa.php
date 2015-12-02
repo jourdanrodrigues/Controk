@@ -5,7 +5,7 @@ class Remessa extends Estoque {
     private $dataEntrega;
     private $dataPagamento;
     private $dataPedido;
-    public function Remessa($var){
+    function __construct($var){
         $this->connect();
         $obj=json_decode(fixJSON($var));
         if(isset($obj->idRemessa)) $this->idRemessa=$obj->idRemessa;
@@ -22,12 +22,12 @@ class Remessa extends Estoque {
         if($this->checkExistence("fornecedor","id",$this->idFornecedor)===false||$this->checkExistence("produto","id",$this->idProduto)===false) return;
         $cad=$this->conn->prepare("insert into remessa(produto,fornecedor,dataEntrega,dataPagamento,dataPedido,qtdProd) values (?,?,?,?,?,?)");
         $cad->bind_param("ddsssd",$this->idProduto,$this->idFornecedor,$this->dataEntrega,$this->dataPagamento,$this->dataPedido,$this->qtdProd);
-        if(!$cad->execute()) AJAXReturn("error","Não foi possível cadastrar a remessa:<p>$cad->error</p>");
+        if(!$cad->execute()) AJAXReturn("error","Erro ao cadastrar a remessa:<p>($cad->errno) $cad->error</p>");
         else AJAXReturn("success","Cadastro da remessa nº $cad->insert_id finalizado com sucesso!");
     }
     public function listar(){
         $list=$this->conn->prepare("select id,produto,fornecedor,qtdProd from remessa");
-        if(!$list->execute()) AJAXReturn("error","Não foi possível listar as remessas:<p>($list->errno) $list->error<p>");
+        if(!$list->execute()) AJAXReturn("error","Erro ao listar as remessas:<p>($list->errno) $list->error<p>");
         else{
             $list->bind_result($id,$idProduto,$idFornecedor,$qtdProd);
             $listResult="";

@@ -2,48 +2,58 @@ function Remessa(){}
 Remessa.prototype={
     constructor:Remessa,
     target:"remessa",
+    exibirCampos:function(id){
+        var content="<div class='panel panel-default'>"+
+                        "<div class='panel-heading'>Informações da Remessa</div>"+
+                        "<div class='panel-body'>"+
+                            generateFields({md:6,xs:12,label:"ID do Fornecedor",field:"fornecedor",type:"number",required:1})+
+                            generateFields({md:6,xs:12,label:"ID do produto",field:"produto",type:"number",required:1})+
+                            generateFields({md:6,xs:12,label:"Quantidade",field:"qtdProd",type:"number",required:1})+
+                            generateFields({md:6,xs:12,label:"Data da entrega",field:"dataEntrega date",required:1})+
+                            generateFields({md:6,xs:12,label:"Data do pedido",field:"dataPedido date",required:1})+
+                            generateFields({md:6,xs:12,label:"Data do pagamento",field:"dataPagamento date",required:1})+
+                        "</div>"+
+                    "</div>";
+        showFading(showFields(content,typeof(id)=="undefined"?"Cadastrar":"Atualizar"),'$(".row>.container").removeClass("col-xs-12").addClass("col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1");');
+    },
     cadastrar:function(){
-        var btnText=$(".goBtn").html();
-        $(".goBtn").html("Aguarde...");
         $.ajax({
             type:"POST",
             data:{
                 target:this.target,
                 action:"cadastrar",
-                idProduto:$(".idProduto").val(),
+                idProduto:$(".produto").val(),
                 qtdProd:$(".qtdProd").val(),
-                idFornecedor:$(".idFornecedor").val(),
+                idFornecedor:$(".fornecedor").val(),
                 dataPedido:$(".dataPedido").val(),
                 dataPagamento:$(".dataPagamento").val(),
                 dataEntrega:$(".dataEntrega").val()
             },
             url:"php/manager.php",
-            success: function(data){
-                var obj=JSON.parse(data);
-                $(".goBtn").html(btnText);
+            success:function(data){
+                var obj=JSON.parse(data),self=this;
                 swal({
                     title:obj.msg,
                     type:obj.type,
-                    html: true,
-                    closeOnConfirm: false
+                    html:true,
+                    closeOnConfirm:false
                 },function(){
                     if(obj.type=="error") swal.close();
                     else{
                         $.ajax({
                             type:"POST",
                             data:{
-                                target: "estoque",
-                                action: "inserir",
-                                idProduto: $(".idProduto").val(),
-                                qtdProd: $(".qtdProd").val()
+                                target:"estoque",
+                                action:"inserir",
+                                idProduto:$(".produto").val(),
+                                qtdProd:$(".qtdProd").val()
                             },
                             url:"php/manager.php",
-                            success: function(data){successCase(data);},
-                            error: function(jqXHR,textStatus,errorThrown){
-                                loadFile("class/Estoque.js");
-                                var estoque=new Estoque();
-                                errorCase(textStatus,errorThrown);
-                            }
+                            success:function(data){
+                                successCase(data);
+                                self.listar();
+                            },
+                            error:function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
                         });
                     }
                 });
@@ -66,14 +76,13 @@ Remessa.prototype={
                     var content="",filter="";
                     if(obj.length!=0){
                         content="<table class='table'><thead><tr><th>ID</th><th>Produto</th><th>Quantidade</th><th>Fornecedor</th>"+
-                        "<th></th></tr></thead><tbody>";
+                        "</tr></thead><tbody>";
                         $.each(obj,function(i,a){
                             content+="<tr data-id='"+a.id+"'>"+
                             "<td class='id moreInfo'>"+a.id+"</td>"+
                             "<td class='produto moreInfo'>"+a.produto+"</td>"+
                             "<td class='qtdProd moreInfo'>"+a.qtdProd+"</td>"+
-                            "<td class='fornecedor moreInfo'>"+a.fornecedor+"</td>"+
-                            "<td class='atualizar'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
+                            "<td class='fornecedor moreInfo'>"+a.fornecedor+"</td></tr>";
                         });
                         content+="</tbody></table>";
                         $.each([["id","ID","number"],["produto","Produto"],["fornecedor","Fornecedor"]],function(i,a){

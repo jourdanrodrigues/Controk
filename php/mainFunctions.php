@@ -75,5 +75,7 @@ function sessionBegin(){
         }
     }
 }
-function AJAXReturn($type,$msg){echo fixJSON("{'type':'$type','msg':'".str_replace('"',"\'",$msg)."'}");}
+function AJAXReturn($type,$msg){
+    echo fixJSON("{'type':'$type','msg':'".str_replace("'","\'",str_replace('"',"'",$msg))."'}");
+}
 function fixJSON($var){return str_replace("'","\"",$var);}

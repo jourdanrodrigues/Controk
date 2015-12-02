@@ -6,6 +6,7 @@ body {
   text-align: center; }
 
 .action {
+  z-index: 999;
   position: fixed;
   right: 2px;
   bottom: 20px;
@@ -35,10 +36,10 @@ body {
 .filter input:not(:last-child) {
   margin-bottom: 6px; }
 
-.moreInfo, .atualizar, .navbar-nav {
+.moreInfo, .edit, .navbar-nav {
   cursor: pointer; }
 
-.atualizar:hover {
+.edit:hover {
   background-color: #FAFAD2; }
 
 @media screen and (min-width: 768px) {
@@ -58,5 +59,12 @@ body {
 @media screen and (min-width: 850px) {
   .action {
     right: 20px; } }
+.readonly, .readonly:hover, .readonly:focus {
+  background: #CCC;
+  color: #333;
+  box-shadow: 0 0 0px transparent; }
+
+.form-group span, .panel-heading, thead {
+  cursor: default; }
 
 /*# sourceMappingURL=mainStyle.css.map */

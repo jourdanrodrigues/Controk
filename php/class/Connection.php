@@ -1,17 +1,19 @@
 <?php
 class Connection {
     protected $conn;
-    public function connect(){
+    public function connect($i=0){
         $env=server("SERVER_ADDR")=="::1"||server("SERVER_ADDR")=="127.0.0.1"?true:false;
-        $conn=$this->conn=mysqli_connect(
+        $conn=mysqli_connect(
             ($env?"localhost":"mysql.hostinger.com.br"),
             ($env?"root":"u398318873_tj"),
             ($env?"":"Knowledge1"),
-            ($env?"sefuncbd":"u398318873_bda"));
+            ($env?"controk":"u398318873_bda"));
         if(mysqli_connect_errno()) AJAXReturn("error","Falha ao se conectar ao MySQL:<p>($conn->connect_errno)</p><p>$conn->connect_error</p>");
+        elseif($i==0) $this->conn=$conn;
+        elseif($i==1) return $conn;
     }
     public function getValue($fields,$table,$searchField,$search){
-        $this->connect();
+        $conn=$this->connect(1);
         if(!is_array($fields)) $fields=[$fields];
         $bind=$f=$json="";
         foreach($fields as $a){
@@ -24,20 +26,23 @@ class Connection {
         $query="select ".str_replace("$","",$f)." from $table";
         if($searchField!=""){
             $query.=" where $searchField=?";
-            $query=$this->conn->prepare($query);
+            $query=$conn->prepare($query);
             $query->bind_param("s",$search);
-        }else $query=$this->conn->prepare($query);
+        }else $query=$conn->prepare($query);
         $query->execute();
         eval("\$query->bind_result($f);");
         $query->fetch();
         eval("\$value=\"$json\";");
+        $conn->close();
         return count($fields)==1?$value:json_decode(fixJSON($value));
     }
     public function checkExistence($target,$field,$value){
-        $query=$this->conn->prepare("select * from $target where $field=?");
+        $conn=$this->connect(1);
+        $query=$conn->prepare("select * from $target where $field=?");
         $query->bind_param("s",$value);
         $query->execute();
         $query->store_result();
+        $conn->close();
         if($query->num_rows==0){
             switch($target){
                 case "estoque":

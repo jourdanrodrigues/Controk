@@ -5,7 +5,7 @@ class Produto extends Remessa{
     private $descricao;
     private $custo;
     private $valorVenda;
-    public function Produto($var){
+    function __construct($var){
         $this->connect();
         $obj=json_decode(fixJSON($var));
         if(isset($obj->id)) $this->id=$obj->id;
@@ -18,15 +18,14 @@ class Produto extends Remessa{
         }
     }
     public function cadastrar(){
-        $conn=$this->connect();
-        $cadProduto=$conn->prepare("insert into produto(remessa,descricao,nome,custo,valorVenda) values (?,?,?,?,?)");
-        $cadProduto->bind_param("dssdd",$this->idRemessa,$this->descricao,$this->nome,$this->custo,$this->valorVenda);
-        if(!$cadProduto->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível cadastrar o produto:<p>($cadProduto->errno) ".str_replace("'","\'",$cadProduto->error).".</p>'}");
-        else AJAXReturn("{'type':'success','msg':'Cadastro do produto $this->nome, de ID $cadProduto->insert_id, finalizado com sucesso!'}");
+        $cad=$this->conn->prepare("insert into produto(remessa,descricao,nome,custo,valorVenda) values (?,?,?,?,?)");
+        $cad->bind_param("dssdd",$this->idRemessa,$this->descricao,$this->nome,$this->custo,$this->valorVenda);
+        if(!$cad->execute()) AJAXReturn("error","Não foi possível cadastrar o produto:<p>($cad->errno) ".str_replace("'","\'",$cad->error).".</p>");
+        else AJAXReturn("success","Cadastro do produto $this->nome, de ID $cad->insert_id, finalizado com sucesso!");
     }
     public function listar(){
         $list=$this->conn->prepare("select id,nome,descricao,remessa from produto");
-        if(!$list->execute()) AJAXReturn("error","Não foi possível listar os produtos:<p>($list->errno) $list->error<p>");
+        if(!$list->execute()) AJAXReturn("error","Erro ao listar os produtos:<p>($list->errno) $list->error<p>");
         else{
             $list->bind_result($id,$nome,$descricao,$remessa);
             $listResult="";
@@ -49,10 +48,9 @@ class Produto extends Remessa{
             'descricao':'$values->descricao'}");
     }
     public function atualizar(){
-        $mysqli=$this->connect();
-        $updProduto=$mysqli->prepare("update produto set descricao=?,nome=?,custo=?,valorVenda=? where id=?");
-        $updProduto->bind_param("ssddd",$this->descricao,$this->nome,$this->custo,$this->valorVenda,$this->id);
-        if(!$updProduto->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível atualizar o produto:<p>$updProduto->error</p>'}");
-        else AJAXReturn("{'type':'success','msg':'Atualização do produto $this->nome, de ID $this->id, finalizada com sucesso!'}");
+        $upd=$this->conn->prepare("update produto set descricao=?,nome=?,custo=?,valorVenda=? where id=?");
+        $upd->bind_param("ssddd",$this->descricao,$this->nome,$this->custo,$this->valorVenda,$this->id);
+        if(!$upd->execute()) AJAXReturn("error","Não foi possível atualizar o produto:<p>($upd->errno) $upd->error.</p>");
+        else AJAXReturn("success","Atualização do produto $this->nome, de ID $this->id, finalizada com sucesso!");
     }
 }

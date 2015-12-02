@@ -3,32 +3,42 @@ Produto.prototype={
     constructor: Produto,
     target:"produto",
     data:function(action){
-        switch(action){
-            case "cadastrar":
-            case "atualizar": var data={
-                    target:this.target,
-                    action:action,
-                    id:$(".id").val(),
-                    idRemessa:$(".idRemessa").val(),
-                    nome:$(".nome").val(),
-                    descricao:$(".descricao").val(),
-                    custo:$(".custo").val().format("money"),
-                    valorVenda:$(".valorVenda").val().format("money")
-                }; break;
-            case "buscarDados": var data={
-                    target: $("input.alvo").val(),
-                    action: action,
-                    id: $(".id").val()
-                }; break;
-        }
-        return data;
+        return {
+            target:this.target,
+            action:action,
+            id:$(".id").val(),
+            idRemessa:$(".remessa").val(),
+            nome:$(".nome").val(),
+            descricao:$(".descricao").val(),
+            custo:$(".custo").val().format("money"),
+            valorVenda:$(".valorVenda").val().format("money")
+        };
+    },
+    exibirCampos:function(id){
+        var content="<div class='panel panel-default'>"+
+                        "<div class='panel-heading'>Informações do Produto</div>"+
+                        "<div class='panel-body'>"+
+                            (typeof(id)!="undefined"?
+                                generateFields({sm:4,smOf:4,xs:12,label:"ID",field:"id",readonly:1,value:id}):"")+
+                            generateFields({md:6,xs:12,label:"ID da Remessa",field:"remessa",type:"number",required:1})+
+                            generateFields({md:6,xs:12,label:"Nome",field:"nome",required:1})+
+                            generateFields({lg:8,lgOf:2,xs:12,label:"Descrição",field:"descricao",placeholder:"Breve...",required:1})+
+                            generateFields({md:6,xs:12,label:"Custo",field:"custo money",required:1})+
+                            generateFields({md:6,xs:12,label:"Valor p/ venda",field:"valorVenda money",required:1})+
+                        "</div>"+
+                    "</div>";
+        showFading(showFields(content,typeof(id)=="undefined"?"Cadastrar":"Atualizar"),'$(".row>.container").removeClass("col-xs-12").addClass("col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1");');
     },
     cadastrar:function(){
+        var self=this;
         $.ajax({
             type:"post",
             data:this.data("cadastrar"),
             url:"php/manager.php",
-            success: function(data){successCase(data);},
+            success: function(data){
+                successCase(data);
+                self.listar();
+            },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
@@ -53,7 +63,7 @@ Produto.prototype={
                             "<td class='nome moreInfo'>"+a.nome+"</td>"+
                             "<td class='descricao moreInfo'>"+a.descricao+"</td>"+
                             "<td class='remessa moreInfo'>"+a.remessa+"</td>"+
-                            "<td class='atualizar'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
+                            "<td class='edit'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
                         });
                         content+="</tbody></table>";
                         $.each([["nome","Nome"],["remessa","Remessa","number"]],function(i,a){
@@ -96,9 +106,11 @@ Produto.prototype={
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
-    buscarDados:function(){
+    buscarDados:function(id){
+        this.exibirCampos(id);
         $.ajax({
             data:{
+                id:id,
                 target:this.target,
                 action:"buscarDados"
             },
@@ -106,11 +118,9 @@ Produto.prototype={
             url: "php/manager.php",
             success: function(data){
                 var obj=JSON.parse(data);
-                if(obj.type==="error"||obj.type==="success") successCase(data);
+                if(obj.type=="error"||obj.type=="success") successCase(data);
                 else{
-                    content("produto","Atualização");
-                    $(".id").val(obj.id);
-                    $(".idRemessa").val(obj.idRemessa);
+                    $(".remessa").val(obj.idRemessa);
                     $(".nome").val(obj.nome);
                     $(".descricao").val(obj.descricao);
                     $(".custo").val(obj.custo.toFixed(2).format("money"));
@@ -121,11 +131,15 @@ Produto.prototype={
         });
     },
     atualizar:function(){
+        var self=this;
         $.ajax({
             type:"post",
             data:this.data("atualizar"),
             url:"php/manager.php",
-            success: function(data){successCase(data);},
+            success: function(data){
+                successCase(data);
+                self.listar();
+            },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     }

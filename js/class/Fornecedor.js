@@ -8,11 +8,12 @@ Fornecedor.prototype={
             action:action,
             id:$(".id").val(),
             nome:$(".nome").val(),
-            cnpj:$(".cpf").val().format("cpf"),
+            cnpj:$(".cnpj").val().format("cnpj"),
             email:$(".email").val().toLowerCase(),
             telCel:$(".telCel").val().format("telCel"),
             telFixo:$(".telFixo").val().format("telFixo"),
-            rua:$(".rua").val(),
+            log_nome:$(".log_nome").val(),
+            logradouro:$(".logradouro").val(),
             numero:$(".numero").val(),
             complemento:$(".complemento").val(),
             cep:$(".cep").val().format("cep"),
@@ -21,12 +22,36 @@ Fornecedor.prototype={
             estado:$(".estado").val()
         };
     },
+    exibirCampos:function(id){
+        var content="<div class='panel panel-default'>"+
+                        "<div class='panel-heading'>Informações gerais</div>"+
+                        "<div class='panel-body'>"+
+                            (typeof(id)!="undefined"?
+                                generateFields({sm:4,smOf:4,xs:12,label:"ID",field:"id",readonly:1,value:id}):"")+
+                            generateFields({sm:6,xs:12,label:"N. Fantasia",field:"nome",required:1})+
+                            generateFields({sm:6,xs:12,label:"CNPJ",field:"cnpj",required:1})+
+                        "</div>"+
+                    "</div>"+
+                    "<div class='panel panel-default'>"+
+                        "<div class='panel-heading'>Contato</div>"+
+                        "<div class='panel-body'>"+generateFields("contato")+"</div>"+
+                    "</div>"+
+                    "<div class='panel panel-default'>"+
+                        "<div class='panel-heading'>Endereço</div>"+
+                        "<div class='panel-body'>"+generateFields("endereco")+"</div>"+
+                    "</div>";
+        showFading(showFields(content,typeof(id)=="undefined"?"Cadastrar":"Atualizar"),'$(".row>.container").removeClass("col-xs-12").addClass("col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1");');
+    },
     cadastrar:function(){
+        var self=this;
         $.ajax({
             type:"post",
             data:this.data("cadastrar"),
             url:"php/manager.php",
-            success: function(data){successCase(data);},
+            success: function(data){
+                successCase(data);
+                self.listar();
+            },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
@@ -50,7 +75,7 @@ Fornecedor.prototype={
                             "<td class='check'><input type='checkbox'></td>"+
                             "<td class='nome moreInfo'>"+a.nome+"</td>"+
                             "<td class='cnpj moreInfo'>"+a.cnpj.format("cnpj")+"</td>"+
-                            "<td class='atualizar'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
+                            "<td class='edit'><span class='glyphicon glyphicon-pencil'></span></td></tr>";
                         });
                         content+="</tbody></table>";
                         $.each([["nome","Nome"],["cnpj","CNPJ"],["email","E-mail"]],function(i,a){
@@ -96,17 +121,53 @@ Fornecedor.prototype={
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
+    buscarDados:function(id){
+        this.exibirCampos(id);
+        $.ajax({
+            data:{
+                id:id,
+                action:"buscarDados",
+                target:this.target
+            },
+            type:"post",
+            url:"php/manager.php",
+            success:function(data){
+                var obj=JSON.parse(data);
+                if(obj.type=="error"||obj.type=="success") successCase(data);
+                else{
+                    $(".nome").val(obj.nome);
+                    $(".cnpj").val(obj.cnpj.format("cnpj"));
+                    $(".email").val(obj.email);
+                    $(".telCel").val(obj.telCel.format("telCel"));
+                    $(".telFixo").val(obj.telFixo.format("telFixo"));
+                    $(".log_nome").val(obj.log_nome);
+                    $(".logradouro").val(obj.logradouro);
+                    $(".numero").val(obj.numero);
+                    $(".complemento").val(obj.complemento);
+                    $(".cep").val(obj.cep.format("cep"));
+                    $(".bairro").val(obj.bairro);
+                    $(".cidade").val(obj.cidade);
+                    $(".estado").val(obj.estado);
+                }
+            },
+            error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
+        });
+    },
     atualizar:function(){
+        var self=this;
         $.ajax({
             type:"post",
             data:this.data("atualizar"),
             url:"php/manager.php",
-            success: function(data){successCase(data);},
+            success: function(data){
+                successCase(data);
+                self.listar();
+            },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });
     },
     excluir:function(){
-        var num=0;
+        var num=0,self=this;
         $.each($("input:checked"),function(){num++;});
         swal({
             title:"Atenção!",
@@ -131,7 +192,7 @@ Fornecedor.prototype={
                     url:"php/manager.php",
                     success: function(data){
                         successCase(data);
-                        relist();
+                        self.listar();
                     },
                     error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
                 });

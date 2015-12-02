@@ -4,12 +4,13 @@ function __autoload($class){autoload("",$class);}
 $target=post("target");
 $action=post("action");
 $Target=ucfirst($target);
-$id="'id".($target=="remessa"?"Remessa":"")."':".post("id");
+$id="'id".($target=="remessa"?$Target:"")."':".post("id");
 $nome="'nome':'".post("nome")."'";
 $idProduto="'idProduto':".post("idProduto");
 $qtdProd="'qtdProd':".post("qtdProd");
 $attr="{";
 switch($action){
+    case "buscarDados":
     case "mostrarDados":
     case "excluir": $attr.=$id; break;
     case "atualizar": $attr.="$id,";

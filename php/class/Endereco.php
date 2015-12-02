@@ -21,11 +21,12 @@ class Endereco extends Connection {
         $this->estado=$obj->estado;
     }
     protected function cadastrarEndereco(){
-        $cad=$this->conn->prepare('insert into endereco(logradouro,log_nome,numero,complemento,cep,bairro,cidade,estado) values (?,?,?,?,?,?,?)');
+        $cad=$this->conn->prepare('insert into endereco(logradouro,log_nome,numero,complemento,cep,bairro,cidade,estado) values (?,?,?,?,?,?,?,?)');
         $cad->bind_param("ssdsssss",$this->logradouro,$this->log_nome,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado);
-        return !$cad->execute()?$cad:true;
+        if($cad->execute()) $this->idEndereco=$cad->insert_id;
+        else return "{'errno':'$cad->errno','error':'$cad->error'}";
     }
-    protected function mostrarDadosEndereco(){
+    protected function dadosEndereco(){
         $data=$this->conn->prepare("select log_nome,logradouro,numero,complemento,cep,bairro,cidade,estado from endereco where id=?");
         $data->bind_param("d",$this->idEndereco);
         if(!$data->execute()) AJAXReturn("{'type':'error','msg':'Não foi possível obter os dados:<p>($data->errno) $data->error</p>'}");
@@ -39,11 +40,11 @@ class Endereco extends Connection {
     protected function atualizarEndereco(){
         $upd=$this->conn->prepare("update endereco set logradouro=?,log_nome=?,numero=?,complemento=?,cep=?,bairro=?,cidade=?,estado=? where id=?");
         $upd->bind_param("ssdsssssd",$this->logradouro,$this->log_nome,$this->numero,$this->complemento,$this->cep,$this->bairro,$this->cidade,$this->estado,$this->idEndereco);
-        return !$upd->execute()?$upd:true;
+        if(!$upd->execute()) return "{'errno':'$upd->errno','error':'$upd->error'}";
     }
     protected function excluirEndereco(){
         $del=$this->conn->prepare("delete from endereco where id=?");
         $del->bind_param("d",$this->idEndereco);
-        return !$del->execute()?$del:true;
+        if(!$del->execute()) return "{'errno':'$del->errno','error':'$del->error'}";
     }
 }
