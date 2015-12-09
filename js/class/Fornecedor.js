@@ -2,25 +2,23 @@ function Fornecedor(){}
 Fornecedor.prototype={
     constructor:Fornecedor,
     target:"fornecedor",
-    data:function(action){
-        return {
-            target:this.target,
-            action:action,
-            id:$(".id").val(),
-            nome:$(".nome").val(),
-            cnpj:$(".cnpj").val().format("cnpj"),
-            email:$(".email").val().toLowerCase(),
-            telCel:$(".telCel").val().format("telCel"),
-            telFixo:$(".telFixo").val().format("telFixo"),
-            log_nome:$(".log_nome").val(),
-            logradouro:$(".logradouro").val(),
-            numero:$(".numero").val(),
-            complemento:$(".complemento").val(),
-            cep:$(".cep").val().format("cep"),
-            bairro:$(".bairro").val(),
-            cidade:$(".cidade").val(),
-            estado:$(".estado").val()
-        };
+    data:(action)=>{
+        target:target,
+        action:action,
+        id:$(".id").val(),
+        nome:$(".nome").val(),
+        cnpj:$(".cnpj").val().format("cnpj"),
+        email:$(".email").val().toLowerCase(),
+        telCel:$(".telCel").val().format("telCel"),
+        telFixo:$(".telFixo").val().format("telFixo"),
+        log_nome:$(".log_nome").val(),
+        logradouro:$(".logradouro").val(),
+        numero:$(".numero").val(),
+        complemento:$(".complemento").val(),
+        cep:$(".cep").val().format("cep"),
+        bairro:$(".bairro").val(),
+        cidade:$(".cidade").val(),
+        estado:$(".estado").val()
     },
     exibirCampos:function(id){
         var content="<div class='panel panel-default'>"+
@@ -134,7 +132,7 @@ Fornecedor.prototype={
             success:function(data){
                 var obj=JSON.parse(data);
                 if(obj.type=="error"||obj.type=="success") successCase(data);
-                else{
+                else setTimeout(function(){
                     $(".nome").val(obj.nome);
                     $(".cnpj").val(obj.cnpj.format("cnpj"));
                     $(".email").val(obj.email);
@@ -148,7 +146,7 @@ Fornecedor.prototype={
                     $(".bairro").val(obj.bairro);
                     $(".cidade").val(obj.cidade);
                     $(".estado").val(obj.estado);
-                }
+                },601);
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });

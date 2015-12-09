@@ -2,17 +2,15 @@ function Produto(){}
 Produto.prototype={
     constructor: Produto,
     target:"produto",
-    data:function(action){
-        return {
-            target:this.target,
-            action:action,
-            id:$(".id").val(),
-            idRemessa:$(".remessa").val(),
-            nome:$(".nome").val(),
-            descricao:$(".descricao").val(),
-            custo:$(".custo").val().format("money"),
-            valorVenda:$(".valorVenda").val().format("money")
-        };
+    data:(action)=>{
+        target:target,
+        action:action,
+        id:$(".id").val(),
+        idRemessa:$(".remessa").val(),
+        nome:$(".nome").val(),
+        descricao:$(".descricao").val(),
+        custo:$(".custo").val().format("money"),
+        valorVenda:$(".valorVenda").val().format("money")
     },
     exibirCampos:function(id){
         var content="<div class='panel panel-default'>"+
@@ -119,13 +117,13 @@ Produto.prototype={
             success: function(data){
                 var obj=JSON.parse(data);
                 if(obj.type=="error"||obj.type=="success") successCase(data);
-                else{
+                else setTimeout(function(){
                     $(".remessa").val(obj.idRemessa);
                     $(".nome").val(obj.nome);
                     $(".descricao").val(obj.descricao);
                     $(".custo").val(obj.custo.toFixed(2).format("money"));
                     $(".valorVenda").val(obj.valorVenda.toFixed(2).format("money"));
-                }
+                },601);
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
         });

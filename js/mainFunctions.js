@@ -8,7 +8,7 @@ function states(){
 }
 String.prototype.upperCaseFL=function(){this.replace(this[0],this[0].toUpperCase());};
 String.prototype.format=function(type){
-    if(this=="") return "-";
+    if(this=="") return;
     var formated="";
     var value=this;
     if(type!="money"){

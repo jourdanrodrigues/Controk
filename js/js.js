@@ -8,7 +8,7 @@ $(document).ready(function(){
     $("body").fadeTo(600,1,"swing");
 });
 function showFading(content,someCode){
-    $('.row .container').fadeTo(600,0,function(){
+    $(".row .container").fadeTo(600,0,function(){
         $(this).html(content);
         if(typeof(someCode)!="undefined") eval(someCode);
         else $(".row>.container").removeClass("col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1").addClass("col-xs-12");
