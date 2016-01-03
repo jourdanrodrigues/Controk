@@ -1,6 +1,4 @@
-function Sessao(){
-    this.count=0;
-}
+function Sessao(){}
 Sessao.prototype={
     constructor:Sessao,
     logOut:function(){
@@ -16,6 +14,8 @@ Sessao.prototype={
                 },function(){location.href="/trabalhos/gti/bda1/login.php";});
             },
             error:function(jqXHR,textStatus,errorThrown){
+                var self=this;
+                self.count=0;
                 swal({
                     title: "Ocorreu um erro!",
                     text: "<p>Descrição: \""+textStatus+" "+errorThrown+"\".</p><p>Gostaria de tentar novamente?</p><p>"+(this.count+1)+"ª tentativa</p>",
@@ -26,11 +26,10 @@ Sessao.prototype={
                     cancelButtonText: "Não, tudo bem.",
                     closeOnConfirm: false
                 },function(){
-                    if(this.count<5){
-                        this.count++;
+                    if(self.count<5){
+                        self.count++;
                         $(".logOut span").click();
                     }else{
-                        this.count=0;
                         swal({
                             title: "Falha no LogOut!",
                             text: "Recarregaremos a página para tentar resolver o problema.",
@@ -55,7 +54,7 @@ Sessao.prototype={
             },
             success: function(data){
                 var obj=JSON.parse(data);
-                if(obj.type==="redirect")location.href=obj.msg;
+                if(obj.type==="redirect") location.href=obj.msg;
                 else successCase(data,btnText);
             },
             error: function(jqXHR,textStatus,errorThrown){

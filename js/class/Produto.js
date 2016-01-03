@@ -2,15 +2,17 @@ function Produto(){}
 Produto.prototype={
     constructor: Produto,
     target:"produto",
-    data:(action)=>{
-        target:target,
-        action:action,
-        id:$(".id").val(),
-        idRemessa:$(".remessa").val(),
-        nome:$(".nome").val(),
-        descricao:$(".descricao").val(),
-        custo:$(".custo").val().format("money"),
-        valorVenda:$(".valorVenda").val().format("money")
+    data:function(action){
+        return{
+            target:target,
+            action:action,
+            id:$(".id").val(),
+            idRemessa:$(".remessa").val(),
+            nome:$(".nome").val(),
+            descricao:$(".descricao").val(),
+            custo:$(".custo").val().format("money"),
+            valorVenda:$(".valorVenda").val().format("money")
+        };
     },
     exibirCampos:function(id){
         var content="<div class='panel panel-default'>"+

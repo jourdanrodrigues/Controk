@@ -2,24 +2,26 @@ function Funcionario(){}
 Funcionario.prototype={
     constructor:Funcionario,
     target:"funcionario",
-    data:(action)=>{
-        target:target,
-        action:action,
-        id:$(".id").val(),
-        nome:$(".nome").val(),
-        cpf:$(".cpf").val().format("cpf"),
-        cargo:$(".cargo").val(),
-        email:$(".email").val().toLowerCase(),
-        telCel:$(".telCel").val().format("telCel"),
-        telFixo:$(".telFixo").val().format("telFixo"),
-        log_nome:$(".log_nome").val(),
-        logradouro:$(".logradouro").val(),
-        numero:$(".numero").val(),
-        complemento:$(".complemento").val(),
-        cep:$(".cep").val().format("cep"),
-        bairro:$(".bairro").val(),
-        cidade:$(".cidade").val(),
-        estado:$(".estado").val()
+    data:function(action){
+        return {
+            target:target,
+            action:action,
+            id:$(".id").val(),
+            nome:$(".nome").val(),
+            cpf:$(".cpf").val().format("cpf"),
+            cargo:$(".cargo").val(),
+            email:$(".email").val().toLowerCase(),
+            telCel:$(".telCel").val().format("telCel"),
+            telFixo:$(".telFixo").val().format("telFixo"),
+            log_nome:$(".log_nome").val(),
+            logradouro:$(".logradouro").val(),
+            numero:$(".numero").val(),
+            complemento:$(".complemento").val(),
+            cep:$(".cep").val().format("cep"),
+            bairro:$(".bairro").val(),
+            cidade:$(".cidade").val(),
+            estado:$(".estado").val()
+        };
     },
     exibirCampos:function(id){
         var content="<div class='panel panel-default'>"+
