@@ -64,9 +64,10 @@ function swal($var){
 }
 function sessionBegin(){
     session_start();
-    if(empty($_SESSION["usuario"])||!isset($_SESSION["usuario"])) header("location:/trabalhos/gti/bda1/login.php");
+    if(empty($_SESSION["usuario"])||!isset($_SESSION["usuario"]))
+        header("location:/trabalhos/gti/bda1/login.php");
     else{
-        if($_SESSION['tempo']<(time()-1000)){
+        if($_SESSION['tempo']<(time()-180)){
             session_unset();
             swal("{'title':'Sua sessão expirou!','type':'warning','time':1000,'funcScope':'location.href=\'/trabalhos/gti/bda1/login.php\';'}");
         }else{
@@ -76,6 +77,6 @@ function sessionBegin(){
     }
 }
 function AJAXReturn($type,$msg){
-    echo fixJSON("{'type':'$type','msg':'".str_replace("'","\'",str_replace('"',"'",$msg))."'}");
+    echo fixJSON("{'type':'$type','msg':'".str_replace('"',"'",$msg)."'}");
 }
 function fixJSON($var){return str_replace("'","\"",$var);}

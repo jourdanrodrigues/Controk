@@ -8,6 +8,6 @@ else{
     $sessao->setAttrSessao(post("usuario"),post("senha"));
     switch($acao){
         case "login": $sessao->login(); break;
-        case "cadastrar": $sessao->cadastrarUsuario(); break;
+        case "cadastrar": $sessao->cadastrarUsuario();
     }
 }

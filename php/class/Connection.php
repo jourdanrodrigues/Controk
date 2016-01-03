@@ -34,7 +34,8 @@ class Connection {
         $query->fetch();
         eval("\$value=\"$json\";");
         $conn->close();
-        return count($fields)==1?$value:json_decode(fixJSON($value));
+        $return=count($fields)==1?$value:json_decode(fixJSON($value));
+        return $return==""?0:$return;
     }
     public function checkExistence($target,$field,$value){
         $conn=$this->connect(1);
