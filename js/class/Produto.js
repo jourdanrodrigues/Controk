@@ -33,10 +33,11 @@ Produto.prototype={
         var self=this;
         $.ajax({
             type:"post",
+            dataType:"json",
             data:this.data("cadastrar"),
             url:"php/manager.php",
-            success: function(data){
-                successCase(data);
+            success: function(obj){
+                successCase(obj);
                 self.listar();
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
@@ -49,10 +50,10 @@ Produto.prototype={
                 action:"listar"
             },
             type:"post",
+            dataType:"json",
             url:"php/manager.php",
-            success: function(data){
-                var obj=JSON.parse(data);
-                if(obj.type=="error"||obj.type=="success") successCase(data);
+            success: function(obj){
+                if(obj.type=="error"||obj.type=="success") successCase(obj);
                 else{
                     var content="",filter="";
                     if(obj.length!=0){
@@ -83,15 +84,15 @@ Produto.prototype={
     mostrarDados:function(trigger){
         $.ajax({
             type:"post",
+            dataType:"json",
             data:{
                 id:$(trigger).parent().attr("data-id"),
                 target:this.target,
                 action:"mostrarDados"
             },
             url:"php/manager.php",
-            success: function(data){
-                var obj=JSON.parse(data),
-                text="<table class='table info'><tr><th>ID:</th><td>"+$(trigger).parent().attr("data-id")+"</td></tr>"+
+            success: function(obj){
+                var text="<table class='table info'><tr><th>ID:</th><td>"+$(trigger).parent().attr("data-id")+"</td></tr>"+
                     "<tr><th>Descrição:</th><td>"+obj.descricao+"</td></tr>"+
                     "<tr><th>Custo:</th><td>"+obj.custo.toFixed(2).format("money")+"</td></tr>"+
                     "<tr><th>Valor de venda:</th><td>"+obj.valorVenda.toFixed(2).format("money")+"</td></tr>"+
@@ -115,10 +116,10 @@ Produto.prototype={
                 action:"buscarDados"
             },
             type: "post",
+            dataType:"json",
             url: "php/manager.php",
-            success: function(data){
-                var obj=JSON.parse(data);
-                if(obj.type=="error"||obj.type=="success") successCase(data);
+            success: function(obj){
+                if(obj.type=="error"||obj.type=="success") successCase(obj);
                 else setTimeout(function(){
                     $(".remessa").val(obj.idRemessa);
                     $(".nome").val(obj.nome);
@@ -134,10 +135,11 @@ Produto.prototype={
         var self=this;
         $.ajax({
             type:"post",
+            dataType:"json",
             data:this.data("atualizar"),
             url:"php/manager.php",
-            success: function(data){
-                successCase(data);
+            success: function(obj){
+                successCase(obj);
                 self.listar();
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}

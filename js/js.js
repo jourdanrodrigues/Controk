@@ -111,8 +111,7 @@ function showFields(content,actionLbl){
     return "<div class='panel panel-primary'><div class='panel-heading'>"+actionLbl+" "+$(".navbar-nav li.active a").html().toLowerCase()+
             "</div><div class='panel-body'><form class='ajaxForm'>"+content+"<input type='submit' style='display:none'></form></div></div>";
 }
-function successCase(data){
-    var obj=JSON.parse(data);
+function successCase(obj){
     swal({
         title:obj.msg,
         type:obj.type,

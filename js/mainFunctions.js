@@ -11,7 +11,10 @@ String.prototype.format=function(type){
     if(this=="") return;
     var formated="";
     var value=this;
-    if(type!="money"){
+    if(type=="date"){
+        var year=value.getFullYear(),month=value.getMonth(),day=value.getDay();
+        formated=day+"/"+month+"/"+year;
+    }else if(type!="money"){
         if(/\W/.test(value)) while(/\W/.test(value)) formated=value=value.replace(/\W/,"");
         else for(var i=(type=="cpf"||type=="telCel"?11:(type=="cnpj"?14:(type=="telFixo"?10:8)))-1,a=value.length-1;i>=0;i--,a--)
             formated=(type=="cpf"?(i==9?"-"+value[a]:(i==6||i==3?"."+value[a]:value[a])):

@@ -18,7 +18,8 @@ Remessa.prototype={
     },
     cadastrar:function(){
         $.ajax({
-            type:"POST",
+            type:"post",
+            dataType:"json",
             data:{
                 target:this.target,
                 action:"cadastrar",
@@ -30,8 +31,8 @@ Remessa.prototype={
                 dataEntrega:$(".dataEntrega").val()
             },
             url:"php/manager.php",
-            success:function(data){
-                var obj=JSON.parse(data),self=this;
+            success:function(obj){
+                var self=this;
                 swal({
                     title:obj.msg,
                     type:obj.type,
@@ -41,7 +42,8 @@ Remessa.prototype={
                     if(obj.type=="error") swal.close();
                     else{
                         $.ajax({
-                            type:"POST",
+                            type:"post",
+                            dataType:"json",
                             data:{
                                 target:"estoque",
                                 action:"inserir",
@@ -49,8 +51,8 @@ Remessa.prototype={
                                 qtdProd:$(".qtdProd").val()
                             },
                             url:"php/manager.php",
-                            success:function(data){
-                                successCase(data);
+                            success:function(obj){
+                                successCase(obj);
                                 self.listar();
                             },
                             error:function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
@@ -68,10 +70,10 @@ Remessa.prototype={
                 action:"listar"
             },
             type:"post",
+            dataType:"json",
             url:"php/manager.php",
-            success: function(data){
-                var obj=JSON.parse(data);
-                if(obj.type=="error"||obj.type=="success") successCase(data);
+            success: function(obj){
+                if(obj.type=="error"||obj.type=="success") successCase(obj);
                 else{
                     var content="",filter="";
                     if(obj.length!=0){
@@ -102,15 +104,15 @@ Remessa.prototype={
     mostrarDados:function(trigger){
         $.ajax({
             type:"post",
+            dataType:"json",
             data:{
                 id:$(trigger).parent().attr("data-id"),
                 target:this.target,
                 action:"mostrarDados"
             },
             url:"php/manager.php",
-            success: function(data){
-                var obj=JSON.parse(data),
-                text="<table class='table info'><tr><th>Data do Pedido:</th><td>"+obj.dataPedido+"</td></tr>"+
+            success: function(obj){
+                var text="<table class='table info'><tr><th>Data do Pedido:</th><td>"+obj.dataPedido+"</td></tr>"+
                     "<tr><th>Data do Pagamento:</th><td>"+obj.dataPagamento+"</td></tr>"+
                     "<tr><th>Data da Entrega:</th><td>"+obj.dataEntrega+"</td></tr>";
                 var title="<span style='font-size:12pt'>"+$(".navbar-nav li.active a").html()+":</span><br>"+$(trigger).parent().attr("data-id");

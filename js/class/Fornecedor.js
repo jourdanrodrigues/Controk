@@ -46,10 +46,11 @@ Fornecedor.prototype={
         var self=this;
         $.ajax({
             type:"post",
+            dataType:"json",
             data:this.data("cadastrar"),
             url:"php/manager.php",
-            success: function(data){
-                successCase(data);
+            success: function(obj){
+                successCase(obj);
                 self.listar();
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
@@ -62,10 +63,10 @@ Fornecedor.prototype={
                 action:"listar"
             },
             type:"post",
+            dataType:"json",
             url:"php/manager.php",
-            success: function(data){
-                var obj=JSON.parse(data);
-                if(obj.type=="error"||obj.type=="success") successCase(data);
+            success: function(obj){
+                if(obj.type=="error"||obj.type=="success") successCase(obj);
                 else{
                     var content="",filter="";
                     if(obj.length!=0){
@@ -95,14 +96,14 @@ Fornecedor.prototype={
     mostrarDados:function(trigger){
         $.ajax({
             type:"post",
+            dataType:"json",
             data:{
                 id:$(trigger).parent().attr("data-id"),
                 target:this.target,
                 action:"mostrarDados"
             },
             url:"php/manager.php",
-            success: function(data){
-                var obj=JSON.parse(data),
+            success: function(obj){
                 text="<table class='table info'><tr><th>ID:</th><td>"+$(trigger).parent().attr("data-id")+"</td></tr>"+
                     "<tr><th>CNPJ:</th><td>"+obj.cnpj.format("cnpj")+"</td></tr>"+
                     "<tr><th>Email:</th><td>"+obj.email+"</td></tr>"+
@@ -130,10 +131,10 @@ Fornecedor.prototype={
                 target:this.target
             },
             type:"post",
+            dataType:"json",
             url:"php/manager.php",
-            success:function(data){
-                var obj=JSON.parse(data);
-                if(obj.type=="error"||obj.type=="success") successCase(data);
+            success:function(obj){
+                if(obj.type=="error"||obj.type=="success") successCase(obj);
                 else setTimeout(function(){
                     $(".nome").val(obj.nome);
                     $(".cnpj").val(obj.cnpj.format("cnpj"));
@@ -157,10 +158,11 @@ Fornecedor.prototype={
         var self=this;
         $.ajax({
             type:"post",
+            dataType:"json",
             data:this.data("atualizar"),
             url:"php/manager.php",
-            success: function(data){
-                successCase(data);
+            success: function(obj){
+                successCase(obj);
                 self.listar();
             },
             error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}
@@ -184,14 +186,15 @@ Fornecedor.prototype={
                 $.each($("input:checked"),function(){idList.push($(this).parent().parent().attr("data-id"));});
                 $.ajax({
                     type:"post",
+                    dataType:"json",
                     data:{
                         target:"fornecedor",
                         action:"excluir",
                         id:JSON.stringify(idList)
                     },
                     url:"php/manager.php",
-                    success: function(data){
-                        successCase(data);
+                    success: function(obj){
+                        successCase(obj);
                         self.listar();
                     },
                     error: function(jqXHR,textStatus,errorThrown){errorCase(textStatus,errorThrown);}

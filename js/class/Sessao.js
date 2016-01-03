@@ -4,7 +4,7 @@ Sessao.prototype={
     logOut:function(){
         $.ajax({
             url: "php/sessionManager.php",
-            type: "POST",
+            type: "post",
             data: {acaoSessao:"logout"},
             success:function(){
                 swal({
@@ -28,7 +28,7 @@ Sessao.prototype={
                 },function(){
                     if(self.count<5){
                         self.count++;
-                        $(".logOut span").click();
+                        $(".logout").click();
                     }else{
                         swal({
                             title: "Falha no LogOut!",
