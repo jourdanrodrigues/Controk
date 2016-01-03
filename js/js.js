@@ -5,6 +5,10 @@ $(document).ready(function(){
         $(this).addClass("active");
         instance("listar"); // Função LISTAR
     });
+    $(".logout").unbind().click(function(){
+        loadFile("class/Sessao.js"); var sessao=new Sessao();
+        sessao.logOut();
+    });
     $("body").fadeTo(600,1,"swing");
 });
 function showFading(content,someCode){

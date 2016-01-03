@@ -9,7 +9,7 @@
             require_once("php/mainFunctions.php");
             loadFiles("{'css':['bootstrap','sweetalert','mainStyle']}");
             loadFiles("{'js':['libs/jQuery','libs/bootstrap','plugins/sweetalert','plugins/sonic','plugins/inputMasks','mainFunctions','js']}");
-            sessionBegin();
+            $usuario=sessionBegin();
         ?>
     </head><!-- Head -->
     <body>
@@ -38,6 +38,9 @@
                                 <li><a>Remessa</a></li>
                                 <li><a>Produto</a></li>
                                 <li><a>Estoque</a></li>
+                                <li class="logout" title="<?php echo "Desconectar de $usuario" ?>">
+                                    <a>Logout</a>
+                                </li>
                             </ul>
                         </div>
                     </div>

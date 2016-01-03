@@ -4,7 +4,7 @@ Produto.prototype={
     target:"produto",
     data:function(action){
         return{
-            target:target,
+            target:this.target,
             action:action,
             id:$(".id").val(),
             idRemessa:$(".remessa").val(),

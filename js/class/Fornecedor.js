@@ -4,7 +4,7 @@ Fornecedor.prototype={
     target:"fornecedor",
     data:function(action){
         return {
-            target:target,
+            target:this.target,
             action:action,
             id:$(".id").val(),
             nome:$(".nome").val(),

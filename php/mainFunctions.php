@@ -72,7 +72,7 @@ function sessionBegin(){
             swal("{'title':'Sua sessão expirou!','type':'warning','time':1000,'funcScope':'location.href=\'/trabalhos/gti/bda1/login.php\';'}");
         }else{
             $_SESSION["tempo"]=time();
-            $usuario=$_SESSION["usuario"];
+            return $_SESSION["usuario"];
         }
     }
 }

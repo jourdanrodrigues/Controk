@@ -42,6 +42,9 @@ body {
 .edit:hover {
   background-color: #FAFAD2; }
 
+.logout {
+  background-color: #77BEFB; }
+
 @media screen and (min-width: 768px) {
   .navbar .nav, .navbar .nav > li {
     float: none;
