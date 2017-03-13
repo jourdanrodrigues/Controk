@@ -1,4 +1,5 @@
 #<i>Controk</i>
+<p>Refatoração desse sistema (reescrita): https://github.com/jourdanrodrigues/controk-docker;</p>
 <p>Trabalho utilizado para a cadeira de "Banco de Dados I";</p>
 <p>Princípios implementados em "Modelagem de Sistemas";</p>
 <p>Utilizado como App para o programa "S2B".</p>
